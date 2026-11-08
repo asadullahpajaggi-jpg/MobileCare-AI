@@ -473,8 +473,8 @@ RULES = [
     },
     {
         "id": 79,
-        "conditions": ["phone_storage_full", "large_app_cache"],
-        "conclusion": "app_cache_consuming_storage",
+        "conditions": ["phone_storage_full", "system_cache_accumulated"],
+        "conclusion": "cache_consuming_storage",
         "solution": "Review app storage usage and clear unnecessary caches."
     },
     {
