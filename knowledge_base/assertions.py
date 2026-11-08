@@ -560,5 +560,215 @@ ASSERTIONS = [
         "description": "A USB task requires USB debugging",
         "category": "Developer Settings",
         "keywords": ["usb debugging required", "enable usb debugging"]
+    },
+    {
+        "id": 81,
+        "fact": "phone_vibrating_unexpectedly",
+        "description": "Phone vibrates unexpectedly",
+        "category": "Hardware",
+        "keywords": ["unexpected vibration", "phone vibrating randomly"]
+    },
+    {
+        "id": 82,
+        "fact": "notification_alerts_enabled",
+        "description": "Apps have vibration alerts enabled",
+        "category": "Notifications",
+        "keywords": ["notification vibration", "vibration alerts"]
+    },
+    {
+        "id": 83,
+        "fact": "vibration_motor_fault",
+        "description": "Phone vibration motor may be faulty",
+        "category": "Hardware",
+        "keywords": ["vibration motor problem", "vibration hardware fault"]
+    },
+    {
+        "id": 84,
+        "fact": "headphones_no_sound",
+        "description": "Connected headphones produce no sound",
+        "category": "Audio",
+        "keywords": ["headphones no sound", "earphones not working"]
+    },
+    {
+        "id": 85,
+        "fact": "headphone_volume_low",
+        "description": "Headphone media volume is low",
+        "category": "Audio",
+        "keywords": ["headphone volume low", "earphone sound low"]
+    },
+    {
+        "id": 86,
+        "fact": "headphones_not_connected",
+        "description": "Headphones are not properly connected",
+        "category": "Audio",
+        "keywords": ["headphones not connected", "earphones disconnected"]
+    },
+    {
+        "id": 87,
+        "fact": "charging_slow",
+        "description": "Phone charges more slowly than expected",
+        "category": "Charging",
+        "keywords": ["slow charging", "phone charging slowly"]
+    },
+    {
+        "id": 88,
+        "fact": "incompatible_charger",
+        "description": "Charger may not support the phone's charging requirements",
+        "category": "Charging",
+        "keywords": ["incompatible charger", "wrong charger"]
+    },
+    {
+        "id": 89,
+        "fact": "phone_used_during_charging",
+        "description": "Phone is being used heavily while charging",
+        "category": "Charging",
+        "keywords": ["using phone while charging", "gaming while charging"]
+    },
+    {
+        "id": 90,
+        "fact": "battery_swelling",
+        "description": "Battery appears swollen",
+        "category": "Battery Safety",
+        "keywords": ["swollen battery", "battery bulging"]
+    },
+    {
+        "id": 91,
+        "fact": "back_cover_lifting",
+        "description": "Phone back cover is lifting away from the body",
+        "category": "Hardware",
+        "keywords": ["back cover lifting", "phone back opening"]
+    },
+    {
+        "id": 92,
+        "fact": "phone_wet",
+        "description": "Phone has become wet",
+        "category": "Water Damage",
+        "keywords": ["phone wet", "mobile got wet"]
+    },
+    {
+        "id": 93,
+        "fact": "liquid_exposure",
+        "description": "Phone has been exposed to liquid",
+        "category": "Water Damage",
+        "keywords": ["liquid exposure", "water entered phone"]
+    },
+    {
+        "id": 94,
+        "fact": "screen_black",
+        "description": "Phone screen remains black",
+        "category": "Display",
+        "keywords": ["black screen", "screen is black"]
+    },
+    {
+        "id": 95,
+        "fact": "phone_still_ringing",
+        "description": "Phone still rings despite its black screen",
+        "category": "Display",
+        "keywords": ["phone rings but screen black", "black screen with sound"]
+    },
+    {
+        "id": 96,
+        "fact": "screen_cracked",
+        "description": "Phone screen has visible cracks",
+        "category": "Display",
+        "keywords": ["cracked screen", "broken display glass"]
+    },
+    {
+        "id": 97,
+        "fact": "visible_display_damage",
+        "description": "Display shows visible physical damage",
+        "category": "Display",
+        "keywords": ["display damaged", "screen physically damaged"]
+    },
+    {
+        "id": 98,
+        "fact": "battery_connection_loose",
+        "description": "Battery connection may be loose",
+        "category": "Hardware",
+        "keywords": ["loose battery connection", "battery connector problem"]
+    },
+    {
+        "id": 99,
+        "fact": "too_many_home_screen_widgets",
+        "description": "Many widgets are running on the home screen",
+        "category": "Performance",
+        "keywords": ["too many widgets", "home screen widgets"]
+    },
+    {
+        "id": 100,
+        "fact": "app_not_opening",
+        "description": "An application does not open",
+        "category": "Applications",
+        "keywords": ["app not opening", "application won't open"]
+    },
+    {
+        "id": 101,
+        "fact": "app_data_corrupted",
+        "description": "Application data may be corrupted",
+        "category": "Applications",
+        "keywords": ["app data corrupted", "application data problem"]
+    },
+    {
+        "id": 102,
+        "fact": "keyboard_not_working",
+        "description": "Phone keyboard is not responding",
+        "category": "Input",
+        "keywords": ["keyboard not working", "mobile keyboard problem"]
+    },
+    {
+        "id": 103,
+        "fact": "keyboard_app_crashed",
+        "description": "Keyboard application has crashed",
+        "category": "Input",
+        "keywords": ["keyboard app crashed", "keyboard keeps closing"]
+    },
+    {
+        "id": 104,
+        "fact": "phone_language_wrong",
+        "description": "Phone displays an unwanted language",
+        "category": "Settings",
+        "keywords": ["wrong phone language", "mobile language changed"]
+    },
+    {
+        "id": 105,
+        "fact": "system_language_changed",
+        "description": "System language setting has changed",
+        "category": "Settings",
+        "keywords": ["system language changed", "language setting changed"]
+    },
+    {
+        "id": 106,
+        "fact": "data_limit_reached",
+        "description": "Mobile data usage limit has been reached",
+        "category": "Network",
+        "keywords": ["data limit reached", "mobile data limit exceeded"]
+    },
+    {
+        "id": 107,
+        "fact": "wifi_disconnects",
+        "description": "Phone frequently disconnects from Wi-Fi",
+        "category": "Network",
+        "keywords": ["wifi keeps disconnecting", "wifi disconnects repeatedly"]
+    },
+    {
+        "id": 108,
+        "fact": "router_signal_weak",
+        "description": "Router provides a weak Wi-Fi signal",
+        "category": "Network",
+        "keywords": ["router signal weak", "weak router coverage"]
+    },
+    {
+        "id": 109,
+        "fact": "bluetooth_disconnects",
+        "description": "Bluetooth connection disconnects repeatedly",
+        "category": "Connectivity",
+        "keywords": ["bluetooth keeps disconnecting", "bluetooth connection drops"]
+    },
+    {
+        "id": 110,
+        "fact": "bluetooth_device_low_battery",
+        "description": "Connected Bluetooth accessory has low battery",
+        "category": "Connectivity",
+        "keywords": ["bluetooth device low battery", "earbuds battery low"]
 }
 ]
