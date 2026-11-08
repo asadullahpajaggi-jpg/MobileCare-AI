@@ -32,8 +32,12 @@ FACT_LOOKUP = {
 }
 
 
+
+
+
+
 def normalize_tokens(text):
-    """Normalize words to improve keyword matching."""
+    """Normalize text while preserving word order."""
 
     words = re.findall(r"[a-z0-9]+", text.lower())
     normalized = []
@@ -57,14 +61,64 @@ def normalize_tokens(text):
 
         normalized.append(word)
 
-    return set(normalized)
+    return normalized
 
 
-# --------------------------------------------------
-# NATURAL LANGUAGE FACT EXTRACTION
-# --------------------------------------------------
+def phrase_matches(user_words, keyword):
+    """Check phrase meaning without matching isolated words."""
+
+    phrase_words = normalize_tokens(keyword)
+
+    # Ignore single-word keywords to reduce false matches.
+    if len(phrase_words) < 2:
+        return False
+
+    negations = {"not", "no", "never", "without"}
+
+    for start in range(len(user_words)):
+
+        positions = []
+
+        for word in phrase_words:
+
+            found = None
+
+            for index in range(start, min(start + 6, len(user_words))):
+
+                if index not in positions and user_words[index] == word:
+                    found = index
+                    break
+
+            if found is None:
+                break
+
+            positions.append(found)
+
+        if len(positions) != len(phrase_words):
+            continue
+
+        # Keep matched words reasonably close together.
+        if max(positions) - min(positions) > len(phrase_words) + 2:
+            continue
+
+        # Do not match a positive fact when the user negates it.
+        nearby_words = user_words[
+            max(0, min(positions) - 2):max(positions) + 1
+        ]
+
+        if (
+            negations.intersection(nearby_words)
+            and not negations.intersection(phrase_words)
+        ):
+            continue
+
+        return True
+
+    return False
+
 
 def extract_facts(problem):
+    """Extract facts using phrase matching and negation handling."""
 
     user_words = normalize_tokens(problem)
     matched_facts = []
@@ -72,56 +126,53 @@ def extract_facts(problem):
     for assertion in ASSERTIONS:
 
         fact_name = assertion["fact"]
-
         keywords = assertion.get("keywords", [])
 
-        # Also check the fact name itself.
         keywords = keywords + [
             fact_name.replace("_", " ")
         ]
 
         for keyword in keywords:
 
-            keyword_words = normalize_tokens(keyword)
+            if phrase_matches(user_words, keyword):
 
-            if not keyword_words:
-                continue
-
-            # Avoid matching unrelated single words.
-            if len(keyword_words) == 1:
-                if keyword.strip().lower() == problem.strip().lower():
-                    matched_facts.append(fact_name)
-                    break
-
-            elif keyword_words.issubset(user_words):
                 matched_facts.append(fact_name)
                 break
 
     return list(set(matched_facts))
 
 
-# --------------------------------------------------
-# FIND POSSIBLE FOLLOW-UP FACTS
-# --------------------------------------------------
-
 def get_followup_facts(matched_facts):
+    """Find relevant missing conditions without contradictions."""
 
-    possible_facts = set(matched_facts)
+    known_facts = set(matched_facts)
     additional_facts = set()
 
     for rule in RULES:
 
         conditions = set(rule["conditions"])
 
-        # Find rules connected to identified symptoms.
-        if conditions.intersection(possible_facts):
+        if conditions.intersection(known_facts):
 
             for condition in conditions:
 
-                if condition not in possible_facts:
+                if condition not in known_facts:
                     additional_facts.add(condition)
 
+    # Avoid asking contradictory questions.
+    if "phone_not_charging" in known_facts:
+        additional_facts.discard("phone_charging")
+
+    if "phone_charging" in known_facts:
+        additional_facts.discard("phone_not_charging")
+
     return sorted(additional_facts)
+        
+
+
+
+
+
 
 
 # --------------------------------------------------
