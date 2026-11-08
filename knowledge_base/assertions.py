@@ -1190,6 +1190,216 @@ ASSERTIONS = [
         "description": "Mobile network connection repeatedly disconnects.",
         "category": "network",
         "keywords": ["network keeps dropping", "signal disconnects", "mobile network unstable"]
+    },
+    {
+        "id": 171,
+        "fact": "wifi_connected_no_internet",
+        "description": "Phone is connected to Wi-Fi but cannot access the internet.",
+        "category": "network",
+        "keywords": ["wifi connected no internet", "connected without internet", "wifi has no internet"]
+    },
+    {
+        "id": 172,
+        "fact": "wifi_password_incorrect",
+        "description": "The entered Wi-Fi password is incorrect.",
+        "category": "network",
+        "keywords": ["wrong wifi password", "incorrect wifi password", "wifi authentication failed"]
+    },
+    {
+        "id": 173,
+        "fact": "wifi_saved_network_issue",
+        "description": "A saved Wi-Fi network configuration may be incorrect.",
+        "category": "network",
+        "keywords": ["saved wifi problem", "wifi configuration issue", "saved network not connecting"]
+    },
+    {
+        "id": 174,
+        "fact": "mobile_data_apn_incorrect",
+        "description": "Mobile data APN settings may be incorrect.",
+        "category": "network",
+        "keywords": ["wrong apn", "apn settings problem", "mobile data apn"]
+    },
+    {
+        "id": 175,
+        "fact": "network_mode_incompatible",
+        "description": "Selected network mode may not be supported in the current area.",
+        "category": "network",
+        "keywords": ["network mode problem", "4g not working", "preferred network type issue"]
+    },
+    {
+        "id": 176,
+        "fact": "sim_airplane_mode_conflict",
+        "description": "Airplane mode is preventing mobile network connectivity.",
+        "category": "network",
+        "keywords": ["airplane mode network", "sim no signal airplane mode", "mobile signal airplane mode"]
+    },
+    {
+        "id": 177,
+        "fact": "bluetooth_pairing_code_mismatch",
+        "description": "Bluetooth pairing fails because the pairing code does not match.",
+        "category": "connectivity",
+        "keywords": ["bluetooth code mismatch", "pairing code incorrect", "bluetooth pairing rejected"]
+    },
+    {
+        "id": 178,
+        "fact": "bluetooth_visibility_disabled",
+        "description": "Phone is not discoverable to nearby Bluetooth devices.",
+        "category": "connectivity",
+        "keywords": ["bluetooth not discoverable", "device not visible", "bluetooth visibility off"]
+    },
+    {
+        "id": 179,
+        "fact": "bluetooth_cache_problem",
+        "description": "Bluetooth system cache may be causing connection problems.",
+        "category": "connectivity",
+        "keywords": ["bluetooth cache", "bluetooth connection glitch", "bluetooth cache problem"]
+    },
+    {
+        "id": 180,
+        "fact": "gps_accuracy_low",
+        "description": "GPS location accuracy is lower than expected.",
+        "category": "location",
+        "keywords": ["gps inaccurate", "wrong location", "location accuracy low"]
+    },
+    {
+        "id": 181,
+        "fact": "location_accuracy_mode_disabled",
+        "description": "Enhanced location accuracy settings are disabled.",
+        "category": "location",
+        "keywords": ["location accuracy disabled", "improve location accuracy off", "gps accuracy setting"]
+    },
+    {
+        "id": 182,
+        "fact": "gps_signal_blocked",
+        "description": "Buildings or surroundings may be blocking GPS signals.",
+        "category": "location",
+        "keywords": ["gps signal blocked", "gps weak indoors", "location signal blocked"]
+    },
+    {
+        "id": 183,
+        "fact": "usb_file_transfer_permission_missing",
+        "description": "Required USB file transfer access has not been allowed.",
+        "category": "connectivity",
+        "keywords": ["usb permission missing", "file transfer permission", "usb access denied"]
+    },
+    {
+        "id": 184,
+        "fact": "usb_port_dirty",
+        "description": "Dust or debris may be present inside the USB port.",
+        "category": "hardware",
+        "keywords": ["usb port dirty", "dust in charging port", "debris in usb port"]
+    },
+    {
+        "id": 185,
+        "fact": "usb_device_not_supported",
+        "description": "Connected USB accessory may not be supported by the phone.",
+        "category": "connectivity",
+        "keywords": ["usb device unsupported", "accessory not supported", "usb compatibility issue"]
+    },
+    {
+        "id": 186,
+        "fact": "system_update_download_paused",
+        "description": "System update download has been paused.",
+        "category": "software",
+        "keywords": ["update download paused", "system update stopped downloading", "update paused"]
+    },
+    {
+        "id": 187,
+        "fact": "system_update_installation_failed",
+        "description": "Android system update installation has failed.",
+        "category": "software",
+        "keywords": ["update installation failed", "system update error", "update failed to install"]
+    },
+    {
+        "id": 188,
+        "fact": "phone_date_incorrect",
+        "description": "Phone date is incorrect.",
+        "category": "system",
+        "keywords": ["wrong phone date", "incorrect date", "phone date incorrect"]
+    },
+    {
+        "id": 189,
+        "fact": "system_cache_accumulated",
+        "description": "Temporary system files have accumulated.",
+        "category": "system",
+        "keywords": ["system cache", "temporary system files", "system cache accumulated"]
+    },
+    {
+        "id": 190,
+        "fact": "phone_accessibility_feature_enabled",
+        "description": "An accessibility feature may be changing normal phone behavior.",
+        "category": "system",
+        "keywords": ["accessibility feature enabled", "accessibility settings", "unexpected accessibility behavior"]
+    },
+    {
+        "id": 191,
+        "fact": "screen_reader_enabled",
+        "description": "Screen reader is enabled and may affect touch interaction.",
+        "category": "accessibility",
+        "keywords": ["screen reader on", "talkback enabled", "phone reads everything"]
+    },
+    {
+        "id": 192,
+        "fact": "magnification_enabled",
+        "description": "Screen magnification feature is enabled.",
+        "category": "accessibility",
+        "keywords": ["screen magnification", "magnifier enabled", "zoomed phone screen"]
+    },
+    {
+        "id": 193,
+        "fact": "gesture_navigation_conflict",
+        "description": "Navigation gestures may be conflicting with application controls.",
+        "category": "system",
+        "keywords": ["gesture navigation problem", "navigation gesture conflict", "back gesture issue"]
+    },
+    {
+        "id": 194,
+        "fact": "app_compatibility_issue",
+        "description": "An application may not be compatible with the Android version.",
+        "category": "software",
+        "keywords": ["app compatibility issue", "app not compatible", "android version unsupported"]
+    },
+    {
+        "id": 195,
+        "fact": "app_permission_missing",
+        "description": "An application does not have a required permission.",
+        "category": "software",
+        "keywords": ["app permission missing", "permission denied", "application access blocked"]
+    },
+    {
+        "id": 196,
+        "fact": "google_account_sync_disabled",
+        "description": "Google account synchronization is disabled.",
+        "category": "account",
+        "keywords": ["google sync disabled", "account sync off", "sync not working"]
+    },
+    {
+        "id": 197,
+        "fact": "google_account_sign_in_failed",
+        "description": "Phone cannot complete Google account sign-in.",
+        "category": "account",
+        "keywords": ["google sign in failed", "google account login problem", "cannot sign in google"]
+    },
+    {
+        "id": 198,
+        "fact": "play_store_account_issue",
+        "description": "Google Play Store may have an account-related problem.",
+        "category": "account",
+        "keywords": ["play store account problem", "google account play store", "play store sign in issue"]
+    },
+    {
+        "id": 199,
+        "fact": "phone_date_time_mismatch",
+        "description": "Phone date and time settings do not match the network time.",
+        "category": "system",
+        "keywords": ["date time mismatch", "incorrect network time", "phone time mismatch"]
+    },
+    {
+        "id": 200,
+        "fact": "phone_restart_required",
+        "description": "A restart may be required to complete a system or application change.",
+        "category": "system",
+        "keywords": ["restart required", "phone needs restart", "pending restart"]
 }
 
 ]
