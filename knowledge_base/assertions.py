@@ -350,5 +350,215 @@ ASSERTIONS = [
         "description": "Phone produces no ringtone or system sound",
         "category": "Audio",
         "keywords": ["phone no sound", "no ringtone"]
+    },
+    {
+        "id": 51,
+        "fact": "phone_muted",
+        "description": "Phone is in silent or muted mode",
+        "category": "Audio",
+        "keywords": ["phone muted", "silent mode"]
+    },
+    {
+        "id": 52,
+        "fact": "incoming_calls_not_received",
+        "description": "Incoming calls are not being received",
+        "category": "Calls",
+        "keywords": ["incoming calls not received", "cannot receive calls"]
+    },
+    {
+        "id": 53,
+        "fact": "insufficient_balance",
+        "description": "Mobile account has insufficient balance",
+        "category": "Calls",
+        "keywords": ["no balance", "insufficient balance"]
+    },
+    {
+        "id": 54,
+        "fact": "direct_sunlight",
+        "description": "Phone is exposed to direct sunlight",
+        "category": "Temperature",
+        "keywords": ["direct sunlight", "phone in sunlight"]
+    },
+    {
+        "id": 55,
+        "fact": "thick_phone_case",
+        "description": "Phone has a thick protective case",
+        "category": "Device",
+        "keywords": ["thick phone case", "heavy mobile cover"]
+    },
+    {
+        "id": 56,
+        "fact": "screen_flickering",
+        "description": "Phone screen flickers repeatedly",
+        "category": "Display",
+        "keywords": ["screen flickering", "display blinking"]
+    },
+    {
+        "id": 57,
+        "fact": "low_screen_brightness",
+        "description": "Screen brightness is set very low",
+        "category": "Display",
+        "keywords": ["low brightness", "screen too dim"]
+    },
+    {
+        "id": 58,
+        "fact": "screen_not_rotating",
+        "description": "Screen does not rotate automatically",
+        "category": "Display",
+        "keywords": ["screen not rotating", "auto rotation problem"]
+    },
+    {
+        "id": 59,
+        "fact": "auto_rotate_disabled",
+        "description": "Auto Rotate setting is disabled",
+        "category": "Display",
+        "keywords": ["auto rotate off", "rotation disabled"]
+    },
+    {
+        "id": 60,
+        "fact": "fingerprint_not_working",
+        "description": "Fingerprint unlock is not working",
+        "category": "Security",
+        "keywords": ["fingerprint not working", "fingerprint unlock problem"]
+    },
+    {
+        "id": 61,
+        "fact": "fingerprint_sensor_dirty",
+        "description": "Fingerprint sensor is dirty",
+        "category": "Security",
+        "keywords": ["dirty fingerprint sensor", "fingerprint sensor dirty"]
+    },
+    {
+        "id": 62,
+        "fact": "face_unlock_not_working",
+        "description": "Face unlock feature is not working",
+        "category": "Security",
+        "keywords": ["face unlock not working", "face recognition problem"]
+    },
+    {
+        "id": 63,
+        "fact": "front_camera_dirty",
+        "description": "Front camera area is dirty or obstructed",
+        "category": "Camera",
+        "keywords": ["front camera dirty", "selfie camera blocked"]
+    },
+    {
+        "id": 64,
+        "fact": "phone_boot_loop",
+        "description": "Phone repeatedly restarts during startup",
+        "category": "Software",
+        "keywords": ["boot loop", "phone stuck restarting"]
+    },
+    {
+        "id": 65,
+        "fact": "recent_system_update",
+        "description": "A system update was recently installed",
+        "category": "Software",
+        "keywords": ["recent system update", "updated phone recently"]
+    },
+    {
+        "id": 66,
+        "fact": "phone_not_turning_on",
+        "description": "Phone does not turn on",
+        "category": "Power",
+        "keywords": ["phone not turning on", "mobile dead"]
+    },
+    {
+        "id": 67,
+        "fact": "battery_completely_empty",
+        "description": "Battery charge is completely depleted",
+        "category": "Battery",
+        "keywords": ["battery empty", "battery completely dead"]
+    },
+    {
+        "id": 68,
+        "fact": "power_button_damaged",
+        "description": "Power button is damaged",
+        "category": "Hardware",
+        "keywords": ["power button damaged", "broken power button"]
+    },
+    {
+        "id": 69,
+        "fact": "phone_freezing",
+        "description": "Phone frequently freezes or becomes unresponsive",
+        "category": "Performance",
+        "keywords": ["phone freezing", "mobile hangs"]
+    },
+    {
+        "id": 70,
+        "fact": "storage_almost_full",
+        "description": "Phone storage is almost full",
+        "category": "Storage",
+        "keywords": ["storage almost full", "low storage space"]
+    },
+    {
+        "id": 71,
+        "fact": "recent_app_installed",
+        "description": "A new application was recently installed",
+        "category": "Applications",
+        "keywords": ["recent app installed", "new app installed"]
+    },
+    {
+        "id": 72,
+        "fact": "internet_slow",
+        "description": "Internet connection speed is very slow",
+        "category": "Network",
+        "keywords": ["slow internet", "internet speed slow"]
+    },
+    {
+        "id": 73,
+        "fact": "weak_wifi_signal",
+        "description": "Wi-Fi signal strength is weak",
+        "category": "Network",
+        "keywords": ["weak wifi signal", "wifi signal low"]
+    },
+    {
+        "id": 74,
+        "fact": "background_downloads",
+        "description": "Files are downloading in the background",
+        "category": "Network",
+        "keywords": ["background downloads", "downloads running"]
+    },
+    {
+        "id": 75,
+        "fact": "gps_not_working",
+        "description": "GPS location service is not working",
+        "category": "Location",
+        "keywords": ["gps not working", "location not accurate"]
+    },
+    {
+        "id": 76,
+        "fact": "location_disabled",
+        "description": "Location services are disabled",
+        "category": "Location",
+        "keywords": ["location off", "gps disabled"]
+    },
+    {
+        "id": 77,
+        "fact": "location_permission_denied",
+        "description": "Location permission is denied for an app",
+        "category": "Location",
+        "keywords": ["location permission denied", "app location access blocked"]
+    },
+    {
+        "id": 78,
+        "fact": "usb_connection_not_working",
+        "description": "USB connection is not working",
+        "category": "Connectivity",
+        "keywords": ["usb not working", "usb connection problem"]
+    },
+    {
+        "id": 79,
+        "fact": "usb_cable_damaged",
+        "description": "USB cable is damaged",
+        "category": "Connectivity",
+        "keywords": ["damaged usb cable", "broken usb wire"]
+    },
+    {
+        "id": 80,
+        "fact": "usb_debugging_required",
+        "description": "A USB task requires USB debugging",
+        "category": "Developer Settings",
+        "keywords": ["usb debugging required", "enable usb debugging"]
 }
 ]
