@@ -1,6 +1,13 @@
 
 import streamlit as st
 
+from knowledge_base.rules import RULES
+
+from engine.inference_engine import (
+    forward_chaining,
+    backward_chaining
+)
+
 st.set_page_config(
     page_title="MobileCare AI",
     page_icon="📱",
