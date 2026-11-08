@@ -2030,5 +2030,75 @@ ASSERTIONS = [
         "description": "Mobile network service may be temporarily unavailable due to maintenance.",
         "category": "network",
         "keywords": ["network maintenance", "operator service outage", "mobile network temporarily unavailable"]
-    }
+    },
+    {
+        "id": 291,
+        "fact": "phone_manufacturer_service_issue",
+        "description": "A manufacturer-specific service or software component may be causing a problem.",
+        "category": "system",
+        "keywords": ["manufacturer service issue", "brand software problem", "phone manufacturer service"]
+    },
+    {
+        "id": 292,
+        "fact": "system_app_disabled",
+        "description": "An important built-in Android system application has been disabled.",
+        "category": "system",
+        "keywords": ["system app disabled", "built in app disabled", "android system application turned off"]
+    },
+    {
+        "id": 293,
+        "fact": "phone_date_time_auto_sync_failed",
+        "description": "Automatic date and time synchronization has failed.",
+        "category": "system",
+        "keywords": ["automatic time sync failed", "date time sync problem", "network time not syncing"]
+    },
+    {
+        "id": 294,
+        "fact": "phone_storage_permission_restricted",
+        "description": "System settings are restricting storage access.",
+        "category": "storage",
+        "keywords": ["storage access restricted", "file access restricted", "storage permission limitation"]
+    },
+    {
+        "id": 295,
+        "fact": "phone_app_data_usage_high",
+        "description": "An application is consuming unusually high mobile data.",
+        "category": "network",
+        "keywords": ["high app data usage", "application using too much data", "unexpected data consumption"]
+    },
+    {
+        "id": 296,
+        "fact": "phone_wifi_sleep_policy",
+        "description": "Wi-Fi behavior is affected by a power or sleep-related setting.",
+        "category": "network",
+        "keywords": ["wifi sleep policy", "wifi disconnects during sleep", "wifi turns off screen locked"]
+    },
+    {
+        "id": 297,
+        "fact": "phone_system_resource_overload",
+        "description": "Multiple active processes are placing excessive load on system resources.",
+        "category": "performance",
+        "keywords": ["system resource overload", "too many processes", "high system load"]
+    },
+    {
+        "id": 298,
+        "fact": "phone_hardware_diagnostic_needed",
+        "description": "Further hardware testing is required to identify the fault.",
+        "category": "hardware",
+        "keywords": ["hardware diagnostic needed", "hardware test required", "device needs hardware inspection"]
+    },
+    {
+        "id": 299,
+        "fact": "phone_software_diagnostic_needed",
+        "description": "Further software testing is required to identify the problem.",
+        "category": "software",
+        "keywords": ["software diagnostic needed", "software testing required", "system software inspection"]
+    },
+    {
+        "id": 300,
+        "fact": "professional_repair_recommended",
+        "description": "The phone may require inspection or repair by a qualified technician.",
+        "category": "general",
+        "keywords": ["professional repair", "technician required", "mobile repair recommended"]
+}
 ]
