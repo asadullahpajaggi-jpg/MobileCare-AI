@@ -182,5 +182,65 @@ RULES = [
         "conditions": ["apps_crashing", "app_cache_corrupted"],
         "conclusion": "app_cache_problem",
         "solution": "Clear the affected app cache and reopen it."
+    },
+    {
+        "id": 31,
+        "conditions": ["phone_slow", "software_update_pending"],
+        "conclusion": "outdated_system",
+        "solution": "Check for and install available Android system updates."
+    },
+    {
+        "id": 32,
+        "conditions": ["phone_slow", "phone_not_restarted_recently"],
+        "conclusion": "temporary_system_load",
+        "solution": "Restart the phone and check its performance."
+    },
+    {
+        "id": 33,
+        "conditions": ["apps_not_installing", "storage_full"],
+        "conclusion": "insufficient_installation_space",
+        "solution": "Free up storage space before installing the app."
+    },
+    {
+        "id": 34,
+        "conditions": ["apps_not_installing", "internet_unavailable"],
+        "conclusion": "download_connection_problem",
+        "solution": "Connect to a stable internet connection and retry."
+    },
+    {
+        "id": 35,
+        "conditions": ["play_store_not_working", "play_store_cache_corrupted"],
+        "conclusion": "play_store_cache_problem",
+        "solution": "Clear Google Play Store cache and reopen it."
+    },
+    {
+        "id": 36,
+        "conditions": ["notifications_not_received", "do_not_disturb_on"],
+        "conclusion": "notifications_silenced",
+        "solution": "Turn off Do Not Disturb or adjust its exceptions."
+    },
+    {
+        "id": 37,
+        "conditions": ["notifications_not_received", "battery_saver_on"],
+        "conclusion": "battery_saver_restricting_notifications",
+        "solution": "Check battery optimization settings for the affected app."
+    },
+    {
+        "id": 38,
+        "conditions": ["phone_storage_full", "many_unused_apps"],
+        "conclusion": "unused_apps_using_storage",
+        "solution": "Uninstall applications you no longer use."
+    },
+    {
+        "id": 39,
+        "conditions": ["sim_not_detected", "sim_improperly_inserted"],
+        "conclusion": "sim_insertion_problem",
+        "solution": "Power off the phone and carefully reinsert the SIM card."
+    },
+    {
+        "id": 40,
+        "conditions": ["sim_not_detected", "sim_card_damaged"],
+        "conclusion": "sim_card_fault",
+        "solution": "Test the SIM in another compatible phone or contact your network provider."
     }
 ]
