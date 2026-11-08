@@ -117,20 +117,39 @@ def phrase_matches(user_words, keyword):
     return False
 
 
+
+
+
+
 def extract_facts(problem):
-    """Extract facts using phrase matching and negation handling."""
+    """Extract facts using keywords and additional synonyms."""
 
     user_words = normalize_tokens(problem)
     matched_facts = []
 
+    extra_keywords = {
+        "phone_overheating": [
+            "getting hot",
+            "gets hot",
+            "becomes hot",
+            "heating up",
+            "phone is hot",
+            "mobile is hot",
+            "overheating"
+        ]
+    }
+
     for assertion in ASSERTIONS:
 
         fact_name = assertion["fact"]
+
         keywords = assertion.get("keywords", [])
 
         keywords = keywords + [
             fact_name.replace("_", " ")
         ]
+
+        keywords += extra_keywords.get(fact_name, [])
 
         for keyword in keywords:
 
@@ -140,6 +159,9 @@ def extract_facts(problem):
                 break
 
     return list(set(matched_facts))
+    
+
+
 
 
 def get_followup_facts(matched_facts):
