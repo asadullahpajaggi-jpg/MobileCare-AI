@@ -362,5 +362,65 @@ RULES = [
         "conditions": ["usb_connection_not_working", "usb_debugging_required"],
         "conclusion": "usb_debugging_disabled",
         "solution": "If the task requires USB debugging, enable it in Developer Options."
-    }
+    },
+    {
+        "id": 61,
+        "conditions": ["phone_vibrating_unexpectedly", "notification_alerts_enabled"],
+        "conclusion": "notification_vibration",
+        "solution": "Check notification settings and disable unnecessary vibration alerts."
+    },
+    {
+        "id": 62,
+        "conditions": ["phone_vibrating_unexpectedly", "vibration_motor_fault"],
+        "conclusion": "possible_vibration_motor_fault",
+        "solution": "If vibration continues without notifications, seek technician inspection."
+    },
+    {
+        "id": 63,
+        "conditions": ["headphones_no_sound", "headphone_volume_low"],
+        "conclusion": "headphone_volume_problem",
+        "solution": "Increase media volume while headphones are connected."
+    },
+    {
+        "id": 64,
+        "conditions": ["headphones_no_sound", "headphones_not_connected"],
+        "conclusion": "headphone_connection_problem",
+        "solution": "Reconnect the headphones and check the connection."
+    },
+    {
+        "id": 65,
+        "conditions": ["charging_slow", "incompatible_charger"],
+        "conclusion": "charger_power_insufficient",
+        "solution": "Use a compatible charger that supports your phone's charging requirements."
+    },
+    {
+        "id": 66,
+        "conditions": ["charging_slow", "phone_used_during_charging"],
+        "conclusion": "phone_usage_slows_charging",
+        "solution": "Avoid gaming or heavy tasks while charging."
+    },
+    {
+        "id": 67,
+        "conditions": ["battery_swelling", "back_cover_lifting"],
+        "conclusion": "possible_swollen_battery",
+        "solution": "Stop using and charging the phone. Do not press or puncture it. Seek professional battery replacement."
+    },
+    {
+        "id": 68,
+        "conditions": ["phone_wet", "liquid_exposure"],
+        "conclusion": "possible_liquid_damage",
+        "solution": "Power off the phone if safe. Do not charge it or use heat. Seek professional inspection."
+    },
+    {
+        "id": 69,
+        "conditions": ["screen_black", "phone_still_ringing"],
+        "conclusion": "display_problem_possible",
+        "solution": "The phone may be running despite a black screen. Seek display inspection if restarting does not help."
+    },
+    {
+        "id": 70,
+        "conditions": ["screen_cracked", "visible_display_damage"],
+        "conclusion": "physical_screen_damage",
+        "solution": "Protect the damaged screen from moisture and arrange professional screen repair."
+}
 ]
