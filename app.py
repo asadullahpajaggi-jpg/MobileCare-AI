@@ -66,3 +66,61 @@ if report["missing_facts"]:
 
     for fact in report["missing_facts"]:
         st.write(f"- {fact}")
+
+
+# Inference Engine Testing
+
+from knowledge_base.rules import RULES
+from engine.inference_engine import (
+    forward_chaining,
+    backward_chaining
+)
+
+st.divider()
+st.header("🧠 Inference Engine Testing")
+
+test_facts = [
+    "battery_drains_fast",
+    "phone_old"
+]
+
+test_goal = "battery_health_low"
+
+st.subheader("Test Facts")
+st.write(test_facts)
+
+# Forward Chaining Test
+st.subheader("1. Forward Chaining")
+
+forward_result = forward_chaining(test_facts, RULES)
+
+if test_goal in forward_result["diagnoses"]:
+    st.success("PASS: Forward Chaining generated the expected diagnosis.")
+else:
+    st.error("FAIL: Forward Chaining did not generate the expected diagnosis.")
+
+st.write("Generated Diagnoses:")
+st.write(list(forward_result["diagnoses"]))
+
+# Backward Chaining Test
+st.subheader("2. Backward Chaining")
+
+backward_result = backward_chaining(
+    test_goal,
+    test_facts,
+    RULES
+)
+
+if backward_result["success"]:
+    st.success("PASS: Backward Chaining verified the diagnosis.")
+else:
+    st.error("FAIL: Backward Chaining could not verify the diagnosis.")
+
+# Explanation Trace
+st.subheader("3. Rule Explanation")
+
+st.write("Forward Chaining Trace:")
+st.json(forward_result["trace"])
+
+st.write("Backward Chaining Trace:")
+st.json(backward_result["trace"])
