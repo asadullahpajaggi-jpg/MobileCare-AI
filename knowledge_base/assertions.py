@@ -1820,5 +1820,215 @@ ASSERTIONS = [
         "description": "Phone is currently running in Android Safe Mode.",
         "category": "system",
         "keywords": ["safe mode enabled", "phone in safe mode", "android safe mode"]
-}
+    },
+    {
+        "id": 261,
+        "fact": "phone_safe_mode_problem_resolved",
+        "description": "A problem disappears when the phone runs in Safe Mode.",
+        "category": "system",
+        "keywords": ["problem gone in safe mode", "works in safe mode", "safe mode fixes issue"]
+    },
+    {
+        "id": 262,
+        "fact": "third_party_app_causing_issue",
+        "description": "A third-party application may be causing a phone problem.",
+        "category": "software",
+        "keywords": ["third party app issue", "installed app causing problem", "external app conflict"]
+    },
+    {
+        "id": 263,
+        "fact": "recent_app_update",
+        "description": "An application was recently updated before the problem appeared.",
+        "category": "software",
+        "keywords": ["recent app update", "problem after app update", "updated application"]
+    },
+    {
+        "id": 264,
+        "fact": "recent_system_settings_change",
+        "description": "System settings were changed shortly before the problem started.",
+        "category": "system",
+        "keywords": ["recent settings change", "changed phone settings", "problem after settings change"]
+    },
+    {
+        "id": 265,
+        "fact": "factory_reset_recently_performed",
+        "description": "Phone has recently undergone a factory reset.",
+        "category": "system",
+        "keywords": ["recent factory reset", "phone reset recently", "after factory reset"]
+    },
+    {
+        "id": 266,
+        "fact": "phone_data_not_backed_up",
+        "description": "Important phone data has not been backed up.",
+        "category": "backup",
+        "keywords": ["data not backed up", "no phone backup", "important files not backed up"]
+    },
+    {
+        "id": 267,
+        "fact": "screen_touch_delay",
+        "description": "Touchscreen responds with a noticeable delay.",
+        "category": "display",
+        "keywords": ["touch delay", "slow touchscreen response", "delayed touch response"]
+    },
+    {
+        "id": 268,
+        "fact": "ghost_touch_detected",
+        "description": "Screen registers touches that the user did not make.",
+        "category": "display",
+        "keywords": ["ghost touch", "screen touches itself", "random screen touches"]
+    },
+    {
+        "id": 269,
+        "fact": "screen_dead_pixels_visible",
+        "description": "One or more pixels on the display appear permanently defective.",
+        "category": "display",
+        "keywords": ["dead pixels", "black spots on screen", "display pixel defect"]
+    },
+    {
+        "id": 270,
+        "fact": "screen_color_tint_abnormal",
+        "description": "Display has an unusual color tint.",
+        "category": "display",
+        "keywords": ["screen yellow tint", "display color tint", "abnormal screen colors"]
+    },
+    {
+        "id": 271,
+        "fact": "phone_water_damage_suspected",
+        "description": "Phone may have internal damage following water exposure.",
+        "category": "hardware",
+        "keywords": ["water damage suspected", "phone damaged by water", "liquid damage symptoms"]
+    },
+    {
+        "id": 272,
+        "fact": "phone_dropped_recently",
+        "description": "Phone was recently dropped or experienced physical impact.",
+        "category": "hardware",
+        "keywords": ["phone dropped", "mobile fell down", "recent physical impact"]
+    },
+    {
+        "id": 273,
+        "fact": "phone_frame_bent",
+        "description": "Phone frame appears bent or physically deformed.",
+        "category": "hardware",
+        "keywords": ["bent phone frame", "mobile body bent", "phone physically deformed"]
+    },
+    {
+        "id": 274,
+        "fact": "camera_flash_not_working",
+        "description": "Camera flash does not activate when taking photographs.",
+        "category": "camera",
+        "keywords": ["camera flash not working", "flash not turning on", "photo flash problem"]
+    },
+    {
+        "id": 275,
+        "fact": "camera_focus_not_working",
+        "description": "Camera cannot focus properly on nearby or distant objects.",
+        "category": "camera",
+        "keywords": ["camera focus problem", "autofocus not working", "camera cannot focus"]
+    },
+    {
+        "id": 276,
+        "fact": "camera_storage_permission_missing",
+        "description": "Camera application cannot save photographs because storage access is unavailable.",
+        "category": "camera",
+        "keywords": ["camera cannot save photos", "camera storage permission", "photos not saving"]
+    },
+    {
+        "id": 277,
+        "fact": "video_recording_stops",
+        "description": "Video recording stops unexpectedly.",
+        "category": "camera",
+        "keywords": ["video recording stops", "camera stops recording", "video capture interrupted"]
+    },
+    {
+        "id": 278,
+        "fact": "speaker_volume_distortion_high",
+        "description": "Speaker sound becomes distorted at high volume.",
+        "category": "audio",
+        "keywords": ["speaker distortion at high volume", "crackling at high volume", "speaker sounds bad loudly"]
+    },
+    {
+        "id": 279,
+        "fact": "headphone_jack_dirty",
+        "description": "Dust or debris may be blocking the headphone jack.",
+        "category": "audio",
+        "keywords": ["dirty headphone jack", "dust in audio jack", "headphone port blocked"]
+    },
+    {
+        "id": 280,
+        "fact": "audio_balance_changed",
+        "description": "Left and right audio balance settings have been changed.",
+        "category": "audio",
+        "keywords": ["audio balance changed", "left right sound imbalance", "sound balance setting"]
+    },
+    {
+        "id": 281,
+        "fact": "notification_sound_disabled",
+        "description": "Notification sound is disabled in phone settings.",
+        "category": "audio",
+        "keywords": ["notification sound off", "no notification tone", "notification volume disabled"]
+    },
+    {
+        "id": 282,
+        "fact": "ringer_volume_low",
+        "description": "Phone ringtone volume is set too low.",
+        "category": "audio",
+        "keywords": ["ringer volume low", "ringtone too quiet", "incoming call sound low"]
+    },
+    {
+        "id": 283,
+        "fact": "media_audio_output_wrong",
+        "description": "Media sound is routed to an unintended audio output.",
+        "category": "audio",
+        "keywords": ["wrong audio output", "sound playing on wrong device", "audio output selected incorrectly"]
+    },
+    {
+        "id": 284,
+        "fact": "microphone_noise_cancellation_issue",
+        "description": "Microphone noise cancellation may be affecting voice quality.",
+        "category": "audio",
+        "keywords": ["microphone noise cancellation", "voice noise issue", "call audio processing problem"]
+    },
+    {
+        "id": 285,
+        "fact": "call_forwarding_enabled",
+        "description": "Incoming calls are being forwarded to another number.",
+        "category": "calling",
+        "keywords": ["call forwarding enabled", "calls forwarded", "incoming calls going elsewhere"]
+    },
+    {
+        "id": 286,
+        "fact": "call_barring_enabled",
+        "description": "Call barring settings are restricting certain calls.",
+        "category": "calling",
+        "keywords": ["call barring enabled", "outgoing calls barred", "incoming calls barred"]
+    },
+    {
+        "id": 287,
+        "fact": "sim_pin_locked",
+        "description": "SIM card is locked and requires its PIN.",
+        "category": "calling",
+        "keywords": ["sim pin locked", "sim requires pin", "sim card locked"]
+    },
+    {
+        "id": 288,
+        "fact": "sim_registration_failed",
+        "description": "SIM card cannot register with the mobile network.",
+        "category": "network",
+        "keywords": ["sim registration failed", "not registered on network", "sim cannot register"]
+    },
+    {
+        "id": 289,
+        "fact": "phone_carrier_settings_outdated",
+        "description": "Mobile carrier configuration may be outdated.",
+        "category": "network",
+        "keywords": ["carrier settings outdated", "operator configuration old", "carrier configuration problem"]
+    },
+    {
+        "id": 290,
+        "fact": "mobile_network_maintenance",
+        "description": "Mobile network service may be temporarily unavailable due to maintenance.",
+        "category": "network",
+        "keywords": ["network maintenance", "operator service outage", "mobile network temporarily unavailable"]
+    }
 ]
