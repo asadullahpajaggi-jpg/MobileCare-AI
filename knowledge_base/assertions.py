@@ -1400,6 +1400,215 @@ ASSERTIONS = [
         "description": "A restart may be required to complete a system or application change.",
         "category": "system",
         "keywords": ["restart required", "phone needs restart", "pending restart"]
+    },
+    {
+        "id": 201,
+        "fact": "phone_model_information_available",
+        "description": "Phone model information is available for troubleshooting.",
+        "category": "device",
+        "keywords": ["phone model", "device model", "mobile model name"]
+    },
+    {
+        "id": 202,
+        "fact": "android_version_outdated",
+        "description": "The installed Android version is outdated.",
+        "category": "software",
+        "keywords": ["old android version", "outdated android", "android version old"]
+    },
+    {
+        "id": 203,
+        "fact": "phone_security_patch_outdated",
+        "description": "The phone is running an outdated security patch.",
+        "category": "security",
+        "keywords": ["old security patch", "security update outdated", "security patch old"]
+    },
+    {
+        "id": 204,
+        "fact": "developer_options_enabled",
+        "description": "Android developer options are enabled.",
+        "category": "system",
+        "keywords": ["developer options enabled", "developer mode on", "developer settings"]
+    },
+    {
+        "id": 205,
+        "fact": "usb_debugging_enabled",
+        "description": "USB debugging is enabled in developer options.",
+        "category": "system",
+        "keywords": ["usb debugging enabled", "debugging turned on", "android usb debugging"]
+    },
+    {
+        "id": 206,
+        "fact": "battery_saver_restricts_performance",
+        "description": "Battery saver mode is limiting background or device performance.",
+        "category": "battery",
+        "keywords": ["battery saver performance", "power saving restrictions", "battery saver slows phone"]
+    },
+    {
+        "id": 207,
+        "fact": "extreme_power_saving_enabled",
+        "description": "Extreme power saving mode is enabled.",
+        "category": "battery",
+        "keywords": ["extreme power saving", "ultra power saving", "maximum battery saving"]
+    },
+    {
+        "id": 208,
+        "fact": "battery_temperature_high",
+        "description": "Battery temperature is higher than normal.",
+        "category": "battery",
+        "keywords": ["battery temperature high", "hot battery", "battery overheating"]
+    },
+    {
+        "id": 209,
+        "fact": "phone_temperature_normal",
+        "description": "Phone temperature is within its normal operating range.",
+        "category": "hardware",
+        "keywords": ["normal phone temperature", "device temperature normal", "phone not hot"]
+    },
+    {
+        "id": 210,
+        "fact": "charging_port_loose",
+        "description": "Charging cable connection feels loose in the phone port.",
+        "category": "charging",
+        "keywords": ["loose charging port", "charger connection loose", "cable moves in port"]
+    },
+    {
+        "id": 211,
+        "fact": "wireless_charging_not_supported",
+        "description": "Phone model does not support wireless charging.",
+        "category": "charging",
+        "keywords": ["wireless charging unsupported", "phone has no wireless charging", "wireless charging compatibility"]
+    },
+    {
+        "id": 212,
+        "fact": "wireless_charging_not_working",
+        "description": "Wireless charging is not functioning correctly.",
+        "category": "charging",
+        "keywords": ["wireless charging not working", "wireless charger problem", "phone not charging wirelessly"]
+    },
+    {
+        "id": 213,
+        "fact": "fast_charging_not_enabled",
+        "description": "Fast charging option is disabled or unavailable.",
+        "category": "charging",
+        "keywords": ["fast charging disabled", "fast charge not enabled", "fast charging setting"]
+    },
+    {
+        "id": 214,
+        "fact": "charger_overheating",
+        "description": "Charging adapter becomes unusually hot during use.",
+        "category": "charging",
+        "keywords": ["charger getting hot", "adapter overheating", "hot charging adapter"]
+    },
+    {
+        "id": 215,
+        "fact": "screen_auto_lock_disabled",
+        "description": "Automatic screen locking is disabled or incorrectly configured.",
+        "category": "display",
+        "keywords": ["auto lock disabled", "screen not locking automatically", "automatic lock setting"]
+    },
+    {
+        "id": 216,
+        "fact": "screen_burn_in_visible",
+        "description": "A persistent image or shadow is visible on the display.",
+        "category": "display",
+        "keywords": ["screen burn in", "display shadow", "image retention"]
+    },
+    {
+        "id": 217,
+        "fact": "display_color_mode_changed",
+        "description": "Display color mode has been changed from the preferred setting.",
+        "category": "display",
+        "keywords": ["screen colors changed", "display color mode", "wrong screen colors"]
+    },
+    {
+        "id": 218,
+        "fact": "night_light_enabled",
+        "description": "Night light or eye comfort mode is enabled.",
+        "category": "display",
+        "keywords": ["night light enabled", "eye comfort mode", "blue light filter"]
+    },
+    {
+        "id": 219,
+        "fact": "screen_refresh_rate_low",
+        "description": "Display refresh rate is set to a lower option.",
+        "category": "display",
+        "keywords": ["low refresh rate", "screen refresh rate", "display feels less smooth"]
+    },
+    {
+        "id": 220,
+        "fact": "screen_resolution_changed",
+        "description": "Display resolution has been changed from its normal setting.",
+        "category": "display",
+        "keywords": ["screen resolution changed", "wrong display resolution", "display resolution setting"]
+    },
+    {
+        "id": 221,
+        "fact": "proximity_sensor_blocked",
+        "description": "Proximity sensor may be blocked by dirt or an accessory.",
+        "category": "sensors",
+        "keywords": ["proximity sensor blocked", "screen stays on during call", "sensor covered"]
+    },
+    {
+        "id": 222,
+        "fact": "proximity_sensor_not_working",
+        "description": "Proximity sensor does not respond correctly.",
+        "category": "sensors",
+        "keywords": ["proximity sensor not working", "call screen sensor problem", "proximity detection failed"]
+    },
+    {
+        "id": 223,
+        "fact": "accelerometer_not_working",
+        "description": "Accelerometer sensor may not be responding correctly.",
+        "category": "sensors",
+        "keywords": ["accelerometer problem", "motion sensor not working", "phone motion detection failed"]
+    },
+    {
+        "id": 224,
+        "fact": "gyroscope_not_working",
+        "description": "Gyroscope sensor is not providing correct orientation data.",
+        "category": "sensors",
+        "keywords": ["gyroscope not working", "gyro sensor problem", "gyro calibration issue"]
+    },
+    {
+        "id": 225,
+        "fact": "compass_calibration_needed",
+        "description": "Compass sensor may need calibration.",
+        "category": "sensors",
+        "keywords": ["compass inaccurate", "compass calibration", "wrong compass direction"]
+    },
+    {
+        "id": 226,
+        "fact": "fingerprint_enrollment_failed",
+        "description": "Phone cannot register a new fingerprint successfully.",
+        "category": "security",
+        "keywords": ["fingerprint registration failed", "cannot add fingerprint", "fingerprint enrollment problem"]
+    },
+    {
+        "id": 227,
+        "fact": "face_unlock_lighting_poor",
+        "description": "Poor lighting may prevent face unlock from recognizing the user.",
+        "category": "security",
+        "keywords": ["face unlock poor lighting", "face recognition in dark", "face unlock lighting issue"]
+    },
+    {
+        "id": 228,
+        "fact": "screen_lock_password_incorrect",
+        "description": "The entered screen lock password or PIN is incorrect.",
+        "category": "security",
+        "keywords": ["wrong phone pin", "incorrect screen password", "wrong lock password"]
+    },
+    {
+        "id": 229,
+        "fact": "biometric_unlock_temporarily_locked",
+        "description": "Biometric unlock is temporarily unavailable and requires the device PIN or password.",
+        "category": "security",
+        "keywords": ["fingerprint temporarily locked", "biometric locked", "use pin after restart"]
+    },
+    {
+        "id": 230,
+        "fact": "screen_lock_timeout_after_restart",
+        "description": "Phone requires its primary PIN or password after restarting.",
+        "category": "security",
+        "keywords": ["pin required after restart", "password after reboot", "unlock after restart"]
 }
-
 ]
