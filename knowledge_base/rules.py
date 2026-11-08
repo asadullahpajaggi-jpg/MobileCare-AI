@@ -122,5 +122,65 @@ RULES = [
         "conditions": ["touchscreen_not_working", "screen_wet"],
         "conclusion": "moisture_affecting_touchscreen",
         "solution": "Turn off the phone if safe, dry its exterior, and seek service if the issue continues."
+    },
+    {
+        "id": 21,
+        "conditions": ["camera_not_working", "camera_permission_denied"],
+        "conclusion": "camera_permission_problem",
+        "solution": "Allow camera permission in app settings."
+    },
+    {
+        "id": 22,
+        "conditions": ["camera_not_working", "camera_lens_dirty"],
+        "conclusion": "dirty_camera_lens",
+        "solution": "Clean the camera lens gently with a soft microfiber cloth."
+    },
+    {
+        "id": 23,
+        "conditions": ["camera_app_crashing", "camera_cache_corrupted"],
+        "conclusion": "camera_cache_problem",
+        "solution": "Clear the camera app cache and restart the app."
+    },
+    {
+        "id": 24,
+        "conditions": ["speaker_no_sound", "media_volume_low"],
+        "conclusion": "low_media_volume",
+        "solution": "Increase media volume using the volume buttons."
+    },
+    {
+        "id": 25,
+        "conditions": ["speaker_no_sound", "bluetooth_connected"],
+        "conclusion": "audio_routed_to_bluetooth",
+        "solution": "Disconnect Bluetooth and test the phone speaker."
+    },
+    {
+        "id": 26,
+        "conditions": ["microphone_not_working", "microphone_permission_denied"],
+        "conclusion": "microphone_permission_problem",
+        "solution": "Allow microphone permission for the affected app."
+    },
+    {
+        "id": 27,
+        "conditions": ["microphone_not_working", "microphone_blocked"],
+        "conclusion": "microphone_obstruction",
+        "solution": "Check that the microphone opening is not blocked."
+    },
+    {
+        "id": 28,
+        "conditions": ["phone_storage_full", "many_large_videos"],
+        "conclusion": "videos_using_storage",
+        "solution": "Back up and remove unnecessary large videos."
+    },
+    {
+        "id": 29,
+        "conditions": ["apps_crashing", "app_version_outdated"],
+        "conclusion": "outdated_app_problem",
+        "solution": "Update the affected application."
+    },
+    {
+        "id": 30,
+        "conditions": ["apps_crashing", "app_cache_corrupted"],
+        "conclusion": "app_cache_problem",
+        "solution": "Clear the affected app cache and reopen it."
     }
 ]
