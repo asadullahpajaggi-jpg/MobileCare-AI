@@ -1403,10 +1403,10 @@ ASSERTIONS = [
     },
     {
         "id": 201,
-        "fact": "phone_model_information_available",
-        "description": "Phone model information is available for troubleshooting.",
-        "category": "device",
-        "keywords": ["phone model", "device model", "mobile model name"]
+        "fact": "outgoing_calls_failing",
+        "description": "Outgoing calls cannot be completed from the phone.",
+        "category": "calling",
+        "keywords": ["outgoing calls failing", "cannot make calls", "calls not going through"]
     },
     {
         "id": 202,
