@@ -980,6 +980,216 @@ ASSERTIONS = [
         "description": "Unexpected advertisements appear on the phone.",
         "category": "security",
         "keywords": ["apps showing ads", "unexpected ads", "pop up advertisements"]
+    },
+    {
+        "id": 141,
+        "fact": "suspicious_app_installed",
+        "description": "An application from an untrusted source may be installed.",
+        "category": "security",
+        "keywords": ["suspicious app", "unknown application", "untrusted app"]
+    },
+    {
+        "id": 142,
+        "fact": "phone_security_warning",
+        "description": "Phone displays a security warning.",
+        "category": "security",
+        "keywords": ["security warning", "phone security alert", "security notification"]
+    },
+    {
+        "id": 143,
+        "fact": "unknown_app_source",
+        "description": "An application was installed from an unknown source.",
+        "category": "security",
+        "keywords": ["unknown source", "unknown app source", "sideloaded application"]
+    },
+    {
+        "id": 144,
+        "fact": "phone_problem_persists",
+        "description": "The phone problem continues after initial troubleshooting.",
+        "category": "general",
+        "keywords": ["problem persists", "problem continues", "issue still exists"]
+    },
+    {
+        "id": 145,
+        "fact": "basic_troubleshooting_failed",
+        "description": "Basic troubleshooting steps did not resolve the problem.",
+        "category": "general",
+        "keywords": ["basic troubleshooting failed", "restart did not help", "basic fixes failed"]
+    },
+    {
+        "id": 146,
+        "fact": "phone_slow",
+        "description": "Phone responds slowly to user actions.",
+        "category": "performance",
+        "keywords": ["phone slow", "mobile lagging", "slow response"]
+    },
+    {
+        "id": 147,
+        "fact": "storage_full",
+        "description": "Phone storage has no sufficient free space.",
+        "category": "storage",
+        "keywords": ["storage full", "no storage space", "memory full"]
+    },
+    {
+        "id": 148,
+        "fact": "phone_charging",
+        "description": "Phone is currently connected to a charger.",
+        "category": "charging",
+        "keywords": ["phone charging", "connected to charger", "charging now"]
+    },
+    {
+        "id": 149,
+        "fact": "power_button_stuck",
+        "description": "Power button is physically stuck or continuously pressed.",
+        "category": "hardware",
+        "keywords": ["power button stuck", "stuck power key", "power button jammed"]
+    },
+    {
+        "id": 150,
+        "fact": "touchscreen_not_working",
+        "description": "Touchscreen does not respond properly.",
+        "category": "display",
+        "keywords": ["touchscreen not working", "touch not responding", "screen touch problem"]
+    },
+    {
+        "id": 151,
+        "fact": "screen_protector_damaged",
+        "description": "Screen protector is damaged or interfering with touch.",
+        "category": "display",
+        "keywords": ["damaged screen protector", "protector cracked", "screen guard damaged"]
+    },
+    {
+        "id": 152,
+        "fact": "screen_wet",
+        "description": "Water or moisture is present on the screen surface.",
+        "category": "display",
+        "keywords": ["screen wet", "water on screen", "moisture on display"]
+    },
+    {
+        "id": 153,
+        "fact": "phone_battery_not_holding_charge",
+        "description": "Battery loses charge quickly after charging.",
+        "category": "battery",
+        "keywords": ["battery not holding charge", "battery drains quickly", "short battery backup"]
+    },
+    {
+        "id": 154,
+        "fact": "battery_percentage_jumping",
+        "description": "Battery percentage changes unexpectedly.",
+        "category": "battery",
+        "keywords": ["battery percentage jumping", "battery percentage changing", "incorrect battery level"]
+    },
+    {
+        "id": 155,
+        "fact": "phone_charging_disconnects",
+        "description": "Charging repeatedly connects and disconnects.",
+        "category": "charging",
+        "keywords": ["charging disconnects", "charging keeps stopping", "charger connects disconnects"]
+    },
+    {
+        "id": 156,
+        "fact": "charging_icon_not_visible",
+        "description": "Charging icon does not appear when charger is connected.",
+        "category": "charging",
+        "keywords": ["charging icon missing", "no charging symbol", "charging sign not showing"]
+    },
+    {
+        "id": 157,
+        "fact": "phone_power_button_unresponsive",
+        "description": "Power button does not respond when pressed.",
+        "category": "hardware",
+        "keywords": ["power button not working", "power key unresponsive", "power button no response"]
+    },
+    {
+        "id": 158,
+        "fact": "phone_random_shutdown",
+        "description": "Phone shuts down unexpectedly.",
+        "category": "system",
+        "keywords": ["random shutdown", "phone turns off itself", "unexpected shutdown"]
+    },
+    {
+        "id": 159,
+        "fact": "phone_booting_slowly",
+        "description": "Phone takes unusually long to start.",
+        "category": "system",
+        "keywords": ["slow boot", "phone starts slowly", "long startup time"]
+    },
+    {
+        "id": 160,
+        "fact": "system_ui_crashing",
+        "description": "Android system interface repeatedly stops responding.",
+        "category": "software",
+        "keywords": ["system ui crashing", "system interface stopped", "system ui not responding"]
+    },
+    {
+        "id": 161,
+        "fact": "app_freezing",
+        "description": "An application becomes unresponsive during use.",
+        "category": "software",
+        "keywords": ["app freezing", "application not responding", "app hangs"]
+    },
+    {
+        "id": 162,
+        "fact": "phone_ram_usage_high",
+        "description": "A large amount of RAM is being used.",
+        "category": "performance",
+        "keywords": ["high ram usage", "memory usage high", "ram almost full"]
+    },
+    {
+        "id": 163,
+        "fact": "phone_internal_storage_low",
+        "description": "Very little internal storage space is available.",
+        "category": "storage",
+        "keywords": ["low internal storage", "internal memory low", "little free space"]
+    },
+    {
+        "id": 164,
+        "fact": "phone_sd_card_not_detected",
+        "description": "Phone cannot detect the inserted memory card.",
+        "category": "storage",
+        "keywords": ["sd card not detected", "memory card missing", "phone cannot read sd card"]
+    },
+    {
+        "id": 165,
+        "fact": "phone_camera_blurry",
+        "description": "Camera captures blurry or unclear photographs.",
+        "category": "camera",
+        "keywords": ["blurry camera", "photos out of focus", "camera image unclear"]
+    },
+    {
+        "id": 166,
+        "fact": "camera_permission_disabled",
+        "description": "Camera access is disabled for an application.",
+        "category": "camera",
+        "keywords": ["camera access disabled", "camera permission off", "camera access blocked"]
+    },
+    {
+        "id": 167,
+        "fact": "phone_front_camera_not_working",
+        "description": "Front-facing camera does not work correctly.",
+        "category": "camera",
+        "keywords": ["front camera not working", "selfie camera problem", "front camera failed"]
+    },
+    {
+        "id": 168,
+        "fact": "phone_earpiece_no_sound",
+        "description": "No sound comes from the earpiece during calls.",
+        "category": "audio",
+        "keywords": ["earpiece no sound", "call speaker not working", "cannot hear during calls"]
+    },
+    {
+        "id": 169,
+        "fact": "phone_call_microphone_low",
+        "description": "Voice sounds very quiet to the other person during calls.",
+        "category": "audio",
+        "keywords": ["low microphone volume", "voice too quiet on calls", "other person cannot hear clearly"]
+    },
+    {
+        "id": 170,
+        "fact": "phone_network_keeps_dropping",
+        "description": "Mobile network connection repeatedly disconnects.",
+        "category": "network",
+        "keywords": ["network keeps dropping", "signal disconnects", "mobile network unstable"]
 }
 
 ]
