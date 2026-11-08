@@ -542,5 +542,65 @@ RULES = [
         "conditions": ["phone_not_detected_by_pc", "pc_usb_port_fault"],
         "conclusion": "computer_usb_port_problem",
         "solution": "Try another USB port or test the phone with another computer."
+    },
+    {
+        "id": 91,
+        "conditions": ["phone_not_updating", "internet_unavailable"],
+        "conclusion": "update_download_connection_problem",
+        "solution": "Connect to a stable Wi-Fi network and try downloading the update again."
+    },
+    {
+        "id": 92,
+        "conditions": ["phone_not_updating", "insufficient_storage"],
+        "conclusion": "update_storage_insufficient",
+        "solution": "Free up enough storage space before installing the update."
+    },
+    {
+        "id": 93,
+        "conditions": ["app_notifications_delayed", "background_restriction_enabled"],
+        "conclusion": "background_activity_restricted",
+        "solution": "Review battery and background activity restrictions for the affected app."
+    },
+    {
+        "id": 94,
+        "conditions": ["phone_clock_wrong", "automatic_time_disabled"],
+        "conclusion": "incorrect_manual_time_setting",
+        "solution": "Enable automatic date and time in Android settings."
+    },
+    {
+        "id": 95,
+        "conditions": ["phone_storage_full", "recycle_bin_full"],
+        "conclusion": "deleted_files_still_using_space",
+        "solution": "Review and empty the Gallery or Files recycle bin after checking its contents."
+    },
+    {
+        "id": 96,
+        "conditions": ["phone_audio_distorted", "speaker_opening_blocked"],
+        "conclusion": "speaker_obstruction",
+        "solution": "Check the speaker opening and gently remove visible external dust."
+    },
+    {
+        "id": 97,
+        "conditions": ["screen_brightness_not_adjusting", "brightness_slider_fault"],
+        "conclusion": "brightness_control_problem",
+        "solution": "Restart the phone and check Display settings."
+    },
+    {
+        "id": 98,
+        "conditions": ["phone_apps_show_ads", "suspicious_app_installed"],
+        "conclusion": "possible_adware_app",
+        "solution": "Review recently installed apps and uninstall suspicious applications."
+    },
+    {
+        "id": 99,
+        "conditions": ["phone_security_warning", "unknown_app_source"],
+        "conclusion": "unknown_source_security_risk",
+        "solution": "Avoid installing untrusted APK files and review app permissions."
+    },
+    {
+        "id": 100,
+        "conditions": ["phone_problem_persists", "basic_troubleshooting_failed"],
+        "conclusion": "professional_diagnosis_required",
+        "solution": "Back up important data and contact an authorized mobile repair service."
     }
 ]
