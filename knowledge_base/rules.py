@@ -101,7 +101,7 @@ RULES = [
     },
     {
         "id": 17,
-        "conditions": ["phone_restarting", "system_update_pending"],
+        "conditions": ["phone_restarting", "software_update_pending"],
         "conclusion": "software_update_issue",
         "solution": "Install available system updates after backing up important data."
     },
