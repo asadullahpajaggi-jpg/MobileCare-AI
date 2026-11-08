@@ -770,5 +770,216 @@ ASSERTIONS = [
         "description": "Connected Bluetooth accessory has low battery",
         "category": "Connectivity",
         "keywords": ["bluetooth device low battery", "earbuds battery low"]
+    },
+    {
+        "id": 111,
+        "fact": "phone_screen_timeout",
+        "description": "Phone screen turns off too quickly.",
+        "category": "display",
+        "keywords": ["screen timeout", "screen turns off", "screen off quickly"]
+    },
+    {
+        "id": 112,
+        "fact": "screen_timeout_short",
+        "description": "Screen timeout duration is set too short.",
+        "category": "display",
+        "keywords": ["short timeout", "timeout setting", "screen timeout duration"]
+    },
+    {
+        "id": 113,
+        "fact": "phone_not_receiving_sms",
+        "description": "Phone is not receiving text messages.",
+        "category": "network",
+        "keywords": ["not receiving sms", "no text messages", "sms not received"]
+    },
+    {
+        "id": 114,
+        "fact": "sms_service_center_wrong",
+        "description": "SMS service center number may be incorrect.",
+        "category": "network",
+        "keywords": ["sms service center", "message center number", "sms settings"]
+    },
+    {
+        "id": 115,
+        "fact": "sim_network_issue",
+        "description": "SIM card has a possible network-related issue.",
+        "category": "network",
+        "keywords": ["sim network issue", "sim network problem", "sim signal issue"]
+    },
+    {
+        "id": 116,
+        "fact": "hotspot_not_working",
+        "description": "Mobile hotspot is not working correctly.",
+        "category": "network",
+        "keywords": ["hotspot not working", "cannot share internet", "hotspot problem"]
+    },
+    {
+        "id": 117,
+        "fact": "hotspot_disabled",
+        "description": "Mobile hotspot is turned off.",
+        "category": "network",
+        "keywords": ["hotspot disabled", "hotspot off", "portable hotspot off"]
+    },
+    {
+        "id": 118,
+        "fact": "connected_device_limit",
+        "description": "Hotspot has reached its maximum connected device limit.",
+        "category": "network",
+        "keywords": ["device limit", "too many connected devices", "hotspot limit"]
+    },
+    {
+        "id": 119,
+        "fact": "large_download_files",
+        "description": "Large downloaded files are consuming phone storage.",
+        "category": "storage",
+        "keywords": ["large downloads", "downloaded files", "downloads taking space"]
+    },
+    {
+        "id": 120,
+        "fact": "phone_restarts_during_gaming",
+        "description": "Phone restarts while playing games.",
+        "category": "performance",
+        "keywords": ["restarts during gaming", "restart while gaming", "phone restarts in game"]
+    },
+    {
+        "id": 121,
+        "fact": "heavy_game_load",
+        "description": "A demanding game is placing a heavy load on the phone.",
+        "category": "performance",
+        "keywords": ["heavy game", "demanding game", "high game load"]
+    },
+    {
+        "id": 122,
+        "fact": "phone_screen_dim",
+        "description": "Phone screen appears unusually dim.",
+        "category": "display",
+        "keywords": ["screen dim", "display too dark", "screen brightness low"]
+    },
+    {
+        "id": 123,
+        "fact": "adaptive_brightness_enabled",
+        "description": "Adaptive brightness is automatically adjusting screen brightness.",
+        "category": "display",
+        "keywords": ["adaptive brightness", "auto brightness", "automatic brightness"]
+    },
+    {
+        "id": 124,
+        "fact": "flashlight_not_working",
+        "description": "Phone flashlight is not turning on.",
+        "category": "hardware",
+        "keywords": ["flashlight not working", "torch not working", "torch won't turn on"]
+    },
+    {
+        "id": 125,
+        "fact": "camera_in_use",
+        "description": "Another application is currently using the camera.",
+        "category": "camera",
+        "keywords": ["camera in use", "camera occupied", "another app using camera"]
+    },
+    {
+        "id": 126,
+        "fact": "phone_not_detected_by_pc",
+        "description": "Computer does not detect the connected phone.",
+        "category": "connectivity",
+        "keywords": ["phone not detected by pc", "computer cannot detect phone", "usb phone connection"]
+    },
+    {
+        "id": 127,
+        "fact": "usb_connection_mode_wrong",
+        "description": "USB connection mode is not set to the required option.",
+        "category": "connectivity",
+        "keywords": ["usb mode wrong", "file transfer mode", "usb connection mode"]
+    },
+    {
+        "id": 128,
+        "fact": "pc_usb_port_fault",
+        "description": "Computer USB port may be faulty.",
+        "category": "connectivity",
+        "keywords": ["pc usb port", "computer usb port faulty", "usb port problem"]
+    },
+    {
+        "id": 129,
+        "fact": "phone_not_updating",
+        "description": "Phone cannot complete a system update.",
+        "category": "software",
+        "keywords": ["phone not updating", "system update failed", "update not installing"]
+    },
+    {
+        "id": 130,
+        "fact": "insufficient_storage",
+        "description": "Available storage is insufficient for an operation.",
+        "category": "storage",
+        "keywords": ["insufficient storage", "not enough space", "storage required"]
+    },
+    {
+        "id": 131,
+        "fact": "app_notifications_delayed",
+        "description": "Notifications from an application arrive late.",
+        "category": "software",
+        "keywords": ["delayed notifications", "notifications arrive late", "late app alerts"]
+    },
+    {
+        "id": 132,
+        "fact": "background_restriction_enabled",
+        "description": "Background activity is restricted for an application.",
+        "category": "software",
+        "keywords": ["background restriction", "background activity restricted", "app background limit"]
+    },
+    {
+        "id": 133,
+        "fact": "phone_clock_wrong",
+        "description": "Phone displays an incorrect date or time.",
+        "category": "system",
+        "keywords": ["wrong phone time", "incorrect clock", "wrong date and time"]
+    },
+    {
+        "id": 134,
+        "fact": "automatic_time_disabled",
+        "description": "Automatic date and time setting is disabled.",
+        "category": "system",
+        "keywords": ["automatic time disabled", "auto date time off", "manual time setting"]
+    },
+    {
+        "id": 135,
+        "fact": "recycle_bin_full",
+        "description": "Deleted files remain in the recycle bin and consume storage.",
+        "category": "storage",
+        "keywords": ["recycle bin full", "trash folder full", "deleted files taking space"]
+    },
+    {
+        "id": 136,
+        "fact": "phone_audio_distorted",
+        "description": "Phone speaker audio sounds distorted or unclear.",
+        "category": "audio",
+        "keywords": ["distorted audio", "crackling sound", "unclear speaker sound"]
+    },
+    {
+        "id": 137,
+        "fact": "speaker_opening_blocked",
+        "description": "Dust or debris may be blocking the speaker opening.",
+        "category": "audio",
+        "keywords": ["speaker blocked", "speaker opening dirty", "dust in speaker"]
+    },
+    {
+        "id": 138,
+        "fact": "screen_brightness_not_adjusting",
+        "description": "Screen brightness does not change when adjusted.",
+        "category": "display",
+        "keywords": ["brightness not adjusting", "brightness not changing", "screen brightness stuck"]
+    },
+    {
+        "id": 139,
+        "fact": "brightness_slider_fault",
+        "description": "Brightness slider or its control may not be responding.",
+        "category": "display",
+        "keywords": ["brightness slider problem", "slider not working", "brightness control stuck"]
+    },
+    {
+        "id": 140,
+        "fact": "phone_apps_show_ads",
+        "description": "Unexpected advertisements appear on the phone.",
+        "category": "security",
+        "keywords": ["apps showing ads", "unexpected ads", "pop up advertisements"]
 }
+
 ]
