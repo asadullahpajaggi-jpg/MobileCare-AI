@@ -62,5 +62,65 @@ RULES = [
         "conditions": ["phone_slow", "many_apps_running"],
         "conclusion": "memory_overload",
         "solution": "Close unused applications and restart the phone."
+    },
+    {
+        "id": 11,
+        "conditions": ["wifi_not_working", "airplane_mode_on"],
+        "conclusion": "airplane_mode_blocks_wifi",
+        "solution": "Turn off Airplane Mode and check Wi-Fi again."
+    },
+    {
+        "id": 12,
+        "conditions": ["wifi_not_working", "router_not_working"],
+        "conclusion": "router_connection_problem",
+        "solution": "Restart the Wi-Fi router and reconnect."
+    },
+    {
+        "id": 13,
+        "conditions": ["mobile_data_not_working", "mobile_data_disabled"],
+        "conclusion": "mobile_data_is_off",
+        "solution": "Enable mobile data in phone settings."
+    },
+    {
+        "id": 14,
+        "conditions": ["mobile_data_not_working", "no_network_signal"],
+        "conclusion": "network_coverage_problem",
+        "solution": "Move to an area with better network coverage."
+    },
+    {
+        "id": 15,
+        "conditions": ["bluetooth_not_working", "bluetooth_disabled"],
+        "conclusion": "bluetooth_is_off",
+        "solution": "Enable Bluetooth and try connecting again."
+    },
+    {
+        "id": 16,
+        "conditions": ["bluetooth_not_working", "device_not_paired"],
+        "conclusion": "bluetooth_pairing_problem",
+        "solution": "Pair the Bluetooth device again."
+    },
+    {
+        "id": 17,
+        "conditions": ["phone_restarting", "system_update_pending"],
+        "conclusion": "software_update_issue",
+        "solution": "Install available system updates after backing up important data."
+    },
+    {
+        "id": 18,
+        "conditions": ["phone_restarting", "power_button_stuck"],
+        "conclusion": "power_button_problem",
+        "solution": "Check whether the power button is stuck or damaged."
+    },
+    {
+        "id": 19,
+        "conditions": ["touchscreen_not_working", "screen_protector_damaged"],
+        "conclusion": "screen_protector_interference",
+        "solution": "Inspect the screen protector and replace it if damaged."
+    },
+    {
+        "id": 20,
+        "conditions": ["touchscreen_not_working", "screen_wet"],
+        "conclusion": "moisture_affecting_touchscreen",
+        "solution": "Turn off the phone if safe, dry its exterior, and seek service if the issue continues."
     }
 ]
