@@ -662,6 +662,108 @@ with st.expander("🧪 Developer Tools — Inference Engine Tests"):
         )
 
 
+
+
+# --------------------------------------------------
+# AUTOMATIC 100 RULES TESTING
+# --------------------------------------------------
+
+with st.expander("🔬 Developer Tools — Automatic 100 Rules Testing"):
+
+    st.write(
+        "Test every knowledge base rule using "
+        "Forward Chaining and Backward Chaining."
+    )
+
+    if st.button(
+        "🚀 Run All Rule Tests",
+        use_container_width=True
+    ):
+
+        test_report = run_rule_tests(RULES)
+
+        st.divider()
+
+        st.subheader("Automatic Testing Results")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Total Rules",
+                test_report["total"]
+            )
+
+        with col2:
+            st.metric(
+                "Passed",
+                test_report["passed"]
+            )
+
+        with col3:
+            st.metric(
+                "Failed",
+                test_report["failed"]
+            )
+
+        if (
+            test_report["passed"] == test_report["total"]
+            and test_report["total"] == 100
+        ):
+
+            st.success(
+                "Excellent! All 100 rules passed "
+                "Forward and Backward Chaining tests."
+            )
+
+        else:
+
+            st.warning(
+                "Some rules failed or the rule count "
+                "is different from 100."
+            )
+
+        st.subheader("Individual Rule Results")
+
+        with st.expander("View All Rule Test Results"):
+
+            for result in test_report["results"]:
+
+                status = (
+                    "PASS" if result["passed"] else "FAIL"
+                )
+
+                st.write(
+                    f"Rule {result['rule_id']} — "
+                    f"{result['conclusion']} — {status}"
+                )
+
+                st.caption(
+                    f"Forward: "
+                    f"{'PASS' if result['forward'] else 'FAIL'}"
+                    f" | Backward: "
+                    f"{'PASS' if result['backward'] else 'FAIL'}"
+                )
+
+        failed_rules = [
+            result
+            for result in test_report["results"]
+            if not result["passed"]
+        ]
+
+        if failed_rules:
+
+            st.subheader("Rules Requiring Investigation")
+
+            for result in failed_rules:
+                st.error(
+                    f"Rule {result['rule_id']}: "
+                    f"{result['conclusion']}"
+        )
+                
+
+
+
 # --------------------------------------------------
 # FOOTER
 # --------------------------------------------------
