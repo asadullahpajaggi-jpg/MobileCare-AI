@@ -1610,5 +1610,215 @@ ASSERTIONS = [
         "description": "Phone requires its primary PIN or password after restarting.",
         "category": "security",
         "keywords": ["pin required after restart", "password after reboot", "unlock after restart"]
+    },
+    {
+        "id": 231,
+        "fact": "app_auto_start_disabled",
+        "description": "An application is prevented from starting automatically.",
+        "category": "software",
+        "keywords": ["app auto start disabled", "automatic startup blocked", "app does not start automatically"]
+    },
+    {
+        "id": 232,
+        "fact": "app_background_data_disabled",
+        "description": "Background mobile data usage is disabled for an application.",
+        "category": "network",
+        "keywords": ["background data disabled", "app background internet blocked", "background data restriction"]
+    },
+    {
+        "id": 233,
+        "fact": "app_mobile_data_restricted",
+        "description": "Mobile data access is restricted for an application.",
+        "category": "network",
+        "keywords": ["app mobile data blocked", "mobile data restricted", "application cannot use mobile data"]
+    },
+    {
+        "id": 234,
+        "fact": "app_storage_permission_denied",
+        "description": "An application does not have permission to access storage.",
+        "category": "software",
+        "keywords": ["storage permission denied", "app cannot access files", "file access permission"]
+    },
+    {
+        "id": 235,
+        "fact": "app_camera_permission_denied",
+        "description": "Camera permission is denied for a specific application.",
+        "category": "camera",
+        "keywords": ["app camera permission denied", "camera access not allowed", "application camera permission"]
+    },
+    {
+        "id": 236,
+        "fact": "app_microphone_permission_denied",
+        "description": "Microphone permission is denied for a specific application.",
+        "category": "audio",
+        "keywords": ["app microphone permission", "microphone access denied", "app cannot use microphone"]
+    },
+    {
+        "id": 237,
+        "fact": "app_location_permission_denied",
+        "description": "An application does not have permission to access location.",
+        "category": "location",
+        "keywords": ["app location permission denied", "location access blocked", "application cannot access location"]
+    },
+    {
+        "id": 238,
+        "fact": "app_notification_permission_denied",
+        "description": "An application is not allowed to send notifications.",
+        "category": "software",
+        "keywords": ["app notification permission denied", "notifications permission off", "app alerts blocked"]
+    },
+    {
+        "id": 239,
+        "fact": "app_disabled_by_user",
+        "description": "An application has been disabled in phone settings.",
+        "category": "software",
+        "keywords": ["app disabled", "application turned off", "disabled app"]
+    },
+    {
+        "id": 240,
+        "fact": "app_updates_pending",
+        "description": "Updates are available for installed applications.",
+        "category": "software",
+        "keywords": ["app updates pending", "applications need updates", "apps outdated"]
+    },
+    {
+        "id": 241,
+        "fact": "app_installation_from_unknown_source_blocked",
+        "description": "Android security settings block installation from an unknown source.",
+        "category": "security",
+        "keywords": ["unknown app installation blocked", "install unknown apps disabled", "apk installation blocked"]
+    },
+    {
+        "id": 242,
+        "fact": "google_play_protect_warning",
+        "description": "Google Play Protect has displayed a security warning.",
+        "category": "security",
+        "keywords": ["play protect warning", "google security warning", "play protect detected app"]
+    },
+    {
+        "id": 243,
+        "fact": "phone_storage_usage_high",
+        "description": "A large proportion of phone storage is currently occupied.",
+        "category": "storage",
+        "keywords": ["storage usage high", "phone memory almost full", "storage nearly full"]
+    },
+    {
+        "id": 244,
+        "fact": "duplicate_photos_present",
+        "description": "Duplicate photographs are consuming additional storage.",
+        "category": "storage",
+        "keywords": ["duplicate photos", "same pictures repeated", "duplicate images"]
+    },
+    {
+        "id": 245,
+        "fact": "large_video_files_present",
+        "description": "Large video files are occupying substantial storage.",
+        "category": "storage",
+        "keywords": ["large video files", "videos taking space", "big videos in storage"]
+    },
+    {
+        "id": 246,
+        "fact": "cloud_backup_disabled",
+        "description": "Cloud backup is disabled for phone data.",
+        "category": "backup",
+        "keywords": ["cloud backup disabled", "phone backup off", "online backup turned off"]
+    },
+    {
+        "id": 247,
+        "fact": "backup_storage_insufficient",
+        "description": "There is insufficient cloud storage to complete a backup.",
+        "category": "backup",
+        "keywords": ["backup storage full", "not enough cloud storage", "backup space insufficient"]
+    },
+    {
+        "id": 248,
+        "fact": "photo_backup_sync_paused",
+        "description": "Photo backup or synchronization is paused.",
+        "category": "backup",
+        "keywords": ["photo backup paused", "photos not syncing", "gallery backup stopped"]
+    },
+    {
+        "id": 249,
+        "fact": "phone_backup_not_completed",
+        "description": "The latest phone backup did not complete successfully.",
+        "category": "backup",
+        "keywords": ["backup failed", "phone backup incomplete", "backup not completed"]
+    },
+    {
+        "id": 250,
+        "fact": "cloud_account_storage_full",
+        "description": "Cloud account storage has reached its available limit.",
+        "category": "backup",
+        "keywords": ["cloud storage full", "google storage full", "online storage limit reached"]
+    },
+    {
+        "id": 251,
+        "fact": "private_dns_misconfigured",
+        "description": "Private DNS settings may be incorrectly configured.",
+        "category": "network",
+        "keywords": ["private dns problem", "private dns not connecting", "dns configuration error"]
+    },
+    {
+        "id": 252,
+        "fact": "vpn_connection_active",
+        "description": "A VPN connection is active on the phone.",
+        "category": "network",
+        "keywords": ["vpn enabled", "vpn connected", "active vpn connection"]
+    },
+    {
+        "id": 253,
+        "fact": "vpn_server_unreachable",
+        "description": "The configured VPN server cannot be reached.",
+        "category": "network",
+        "keywords": ["vpn server unreachable", "vpn connection failed", "vpn server offline"]
+    },
+    {
+        "id": 254,
+        "fact": "data_roaming_disabled",
+        "description": "Data roaming is disabled while roaming data access is needed.",
+        "category": "network",
+        "keywords": ["data roaming disabled", "roaming data off", "mobile data while roaming"]
+    },
+    {
+        "id": 255,
+        "fact": "network_settings_changed",
+        "description": "Network configuration was recently changed.",
+        "category": "network",
+        "keywords": ["network settings changed", "recent network configuration", "changed mobile network settings"]
+    },
+    {
+        "id": 256,
+        "fact": "wifi_frequency_incompatible",
+        "description": "Phone may not support the Wi-Fi frequency used by the router.",
+        "category": "network",
+        "keywords": ["wifi frequency incompatible", "5ghz wifi unsupported", "wifi band compatibility"]
+    },
+    {
+        "id": 257,
+        "fact": "wifi_mac_randomization_enabled",
+        "description": "Wi-Fi MAC randomization is enabled for the connected network.",
+        "category": "network",
+        "keywords": ["random mac address", "mac randomization", "wifi mac settings"]
+    },
+    {
+        "id": 258,
+        "fact": "router_access_control_blocking_phone",
+        "description": "Router access control may be blocking the phone.",
+        "category": "network",
+        "keywords": ["router blocking phone", "mac filtering", "wifi access control blocked"]
+    },
+    {
+        "id": 259,
+        "fact": "phone_network_settings_corrupted",
+        "description": "Saved network settings may be corrupted.",
+        "category": "network",
+        "keywords": ["network settings corrupted", "network configuration damaged", "saved network settings problem"]
+    },
+    {
+        "id": 260,
+        "fact": "phone_safe_mode_enabled",
+        "description": "Phone is currently running in Android Safe Mode.",
+        "category": "system",
+        "keywords": ["safe mode enabled", "phone in safe mode", "android safe mode"]
 }
 ]
