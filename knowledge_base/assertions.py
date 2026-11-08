@@ -70,5 +70,75 @@ ASSERTIONS = [
         "description": "User plays demanding mobile games",
         "category": "Usage",
         "keywords": ["heavy gaming", "playing games"]
-    }
+    },
+    {
+        "id": 11,
+        "fact": "wifi_not_working",
+        "description": "Phone cannot connect to Wi-Fi",
+        "category": "Network",
+        "keywords": ["wifi not working", "cannot connect to wifi"]
+    },
+    {
+        "id": 12,
+        "fact": "airplane_mode_on",
+        "description": "Airplane mode is enabled",
+        "category": "Network",
+        "keywords": ["airplane mode on", "flight mode enabled"]
+    },
+    {
+        "id": 13,
+        "fact": "router_not_working",
+        "description": "Wi-Fi router is not working properly",
+        "category": "Network",
+        "keywords": ["router not working", "wifi router problem"]
+    },
+    {
+        "id": 14,
+        "fact": "mobile_data_not_working",
+        "description": "Mobile internet data is not working",
+        "category": "Network",
+        "keywords": ["mobile data not working", "mobile internet problem"]
+    },
+    {
+        "id": 15,
+        "fact": "mobile_data_disabled",
+        "description": "Mobile data is turned off",
+        "category": "Network",
+        "keywords": ["mobile data off", "data disabled"]
+    },
+    {
+        "id": 16,
+        "fact": "no_network_signal",
+        "description": "Phone has no cellular network signal",
+        "category": "Network",
+        "keywords": ["no signal", "no network"]
+    },
+    {
+        "id": 17,
+        "fact": "bluetooth_not_working",
+        "description": "Bluetooth connection is not working",
+        "category": "Connectivity",
+        "keywords": ["bluetooth not working", "bluetooth problem"]
+    },
+    {
+        "id": 18,
+        "fact": "bluetooth_disabled",
+        "description": "Bluetooth is turned off",
+        "category": "Connectivity",
+        "keywords": ["bluetooth off", "bluetooth disabled"]
+    },
+    {
+        "id": 19,
+        "fact": "device_not_paired",
+        "description": "Bluetooth device has not been paired",
+        "category": "Connectivity",
+        "keywords": ["device not paired", "not paired"]
+    },
+    {
+        "id": 20,
+        "fact": "phone_restarting",
+        "description": "Phone restarts unexpectedly",
+        "category": "Performance",
+        "keywords": ["phone keeps restarting", "mobile restarts automatically"]
+}
 ]
