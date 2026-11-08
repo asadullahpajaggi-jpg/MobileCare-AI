@@ -34,3 +34,35 @@ if st.button("Diagnose Problem"):
 st.divider()
 
 st.caption("MobileCare AI | BS Artificial Intelligence Major Project")
+
+
+# Knowledge Base Validation
+
+from validate_data import validate_knowledge_base
+
+st.divider()
+st.header("Knowledge Base Verification")
+
+report = validate_knowledge_base()
+
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric("Knowledge Base Rules", report["rule_count"])
+
+with col2:
+    st.metric("Assertions / Facts", report["fact_count"])
+
+st.subheader("Validation Results")
+
+for name, passed, details in report["checks"]:
+    if passed:
+        st.success(f"PASS: {name} — {details}")
+    else:
+        st.error(f"FAIL: {name} — {details}")
+
+if report["missing_facts"]:
+    st.warning("These rule conditions do not have matching assertion facts:")
+
+    for fact in report["missing_facts"]:
+        st.write(f"- {fact}")
