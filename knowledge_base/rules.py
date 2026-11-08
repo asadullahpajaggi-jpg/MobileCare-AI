@@ -242,5 +242,65 @@ RULES = [
         "conditions": ["sim_not_detected", "sim_card_damaged"],
         "conclusion": "sim_card_fault",
         "solution": "Test the SIM in another compatible phone or contact your network provider."
+    },
+    {
+        "id": 41,
+        "conditions": ["phone_no_sound", "phone_muted"],
+        "conclusion": "phone_is_muted",
+        "solution": "Turn off Silent Mode and increase the ringtone volume."
+    },
+    {
+        "id": 42,
+        "conditions": ["incoming_calls_not_received", "do_not_disturb_on"],
+        "conclusion": "calls_silenced_by_dnd",
+        "solution": "Check Do Not Disturb settings and allowed callers."
+    },
+    {
+        "id": 43,
+        "conditions": ["outgoing_calls_failing", "insufficient_balance"],
+        "conclusion": "insufficient_call_balance",
+        "solution": "Check your mobile balance or active calling package."
+    },
+    {
+        "id": 44,
+        "conditions": ["phone_overheating", "direct_sunlight"],
+        "conclusion": "sunlight_causes_overheating",
+        "solution": "Move the phone away from direct sunlight and let it cool."
+    },
+    {
+        "id": 45,
+        "conditions": ["phone_overheating", "thick_phone_case"],
+        "conclusion": "case_restricts_heat_dissipation",
+        "solution": "Remove the case temporarily and check whether the phone cools down."
+    },
+    {
+        "id": 46,
+        "conditions": ["screen_flickering", "low_screen_brightness"],
+        "conclusion": "low_brightness_flickering",
+        "solution": "Increase brightness and check whether flickering continues."
+    },
+    {
+        "id": 47,
+        "conditions": ["screen_not_rotating", "auto_rotate_disabled"],
+        "conclusion": "auto_rotate_is_off",
+        "solution": "Enable Auto Rotate from Quick Settings."
+    },
+    {
+        "id": 48,
+        "conditions": ["fingerprint_not_working", "fingerprint_sensor_dirty"],
+        "conclusion": "dirty_fingerprint_sensor",
+        "solution": "Gently clean the fingerprint sensor and try again."
+    },
+    {
+        "id": 49,
+        "conditions": ["face_unlock_not_working", "front_camera_dirty"],
+        "conclusion": "front_camera_obstructed",
+        "solution": "Clean the front camera area and try face unlock again."
+    },
+    {
+        "id": 50,
+        "conditions": ["phone_boot_loop", "recent_system_update"],
+        "conclusion": "possible_update_boot_problem",
+        "solution": "Allow the phone time to restart. If the boot loop continues, seek authorized service support."
     }
 ]
