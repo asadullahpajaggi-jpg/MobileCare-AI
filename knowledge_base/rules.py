@@ -302,5 +302,65 @@ RULES = [
         "conditions": ["phone_boot_loop", "recent_system_update"],
         "conclusion": "possible_update_boot_problem",
         "solution": "Allow the phone time to restart. If the boot loop continues, seek authorized service support."
+    },
+    {
+        "id": 51,
+        "conditions": ["phone_not_turning_on", "battery_completely_empty"],
+        "conclusion": "battery_depleted",
+        "solution": "Charge the phone with a compatible charger and wait before turning it on."
+    },
+    {
+        "id": 52,
+        "conditions": ["phone_not_turning_on", "power_button_damaged"],
+        "conclusion": "power_button_fault",
+        "solution": "Have the power button inspected by a qualified technician."
+    },
+    {
+        "id": 53,
+        "conditions": ["phone_freezing", "storage_almost_full"],
+        "conclusion": "storage_pressure",
+        "solution": "Free up storage space and restart the phone."
+    },
+    {
+        "id": 54,
+        "conditions": ["phone_freezing", "recent_app_installed"],
+        "conclusion": "possible_app_conflict",
+        "solution": "Uninstall the recently installed app and check whether freezing stops."
+    },
+    {
+        "id": 55,
+        "conditions": ["internet_slow", "weak_wifi_signal"],
+        "conclusion": "weak_wifi_connection",
+        "solution": "Move closer to the router and check the connection."
+    },
+    {
+        "id": 56,
+        "conditions": ["internet_slow", "background_downloads"],
+        "conclusion": "bandwidth_used_by_downloads",
+        "solution": "Pause unnecessary downloads and test internet speed again."
+    },
+    {
+        "id": 57,
+        "conditions": ["gps_not_working", "location_disabled"],
+        "conclusion": "location_service_is_off",
+        "solution": "Enable Location services in Android settings."
+    },
+    {
+        "id": 58,
+        "conditions": ["gps_not_working", "location_permission_denied"],
+        "conclusion": "gps_permission_problem",
+        "solution": "Allow location permission for the affected app."
+    },
+    {
+        "id": 59,
+        "conditions": ["usb_connection_not_working", "usb_cable_damaged"],
+        "conclusion": "usb_cable_fault",
+        "solution": "Try a compatible USB cable that is known to work."
+    },
+    {
+        "id": 60,
+        "conditions": ["usb_connection_not_working", "usb_debugging_required"],
+        "conclusion": "usb_debugging_disabled",
+        "solution": "If the task requires USB debugging, enable it in Developer Options."
     }
 ]
