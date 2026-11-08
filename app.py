@@ -2,6 +2,11 @@
 import re
 import streamlit as st
 
+
+from engine.rule_tester import run_rule_tests
+
+
+
 from knowledge_base.rules import RULES
 from knowledge_base.assertions import ASSERTIONS
 
