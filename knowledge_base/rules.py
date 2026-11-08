@@ -482,5 +482,65 @@ RULES = [
         "conditions": ["phone_screen_timeout", "screen_timeout_short"],
         "conclusion": "short_screen_timeout_setting",
         "solution": "Increase the screen timeout duration in Display settings."
-}
+    },
+    {
+        "id": 81,
+        "conditions": ["phone_not_receiving_sms", "sms_service_center_wrong"],
+        "conclusion": "sms_service_center_problem",
+        "solution": "Contact your network provider to verify the SMS service center settings."
+    },
+    {
+        "id": 82,
+        "conditions": ["phone_not_receiving_sms", "sim_network_issue"],
+        "conclusion": "sim_sms_network_problem",
+        "solution": "Restart the phone and contact your network provider if SMS still fails."
+    },
+    {
+        "id": 83,
+        "conditions": ["hotspot_not_working", "hotspot_disabled"],
+        "conclusion": "hotspot_is_off",
+        "solution": "Enable Mobile Hotspot in your phone settings."
+    },
+    {
+        "id": 84,
+        "conditions": ["hotspot_not_working", "connected_device_limit"],
+        "conclusion": "hotspot_device_limit_reached",
+        "solution": "Disconnect an unused device or increase the allowed device limit."
+    },
+    {
+        "id": 85,
+        "conditions": ["phone_storage_full", "large_download_files"],
+        "conclusion": "downloads_using_storage",
+        "solution": "Review your Downloads folder and remove files you no longer need."
+    },
+    {
+        "id": 86,
+        "conditions": ["phone_restarts_during_gaming", "heavy_game_load"],
+        "conclusion": "gaming_overloads_device",
+        "solution": "Reduce game graphics settings and allow the phone to cool."
+    },
+    {
+        "id": 87,
+        "conditions": ["phone_screen_dim", "adaptive_brightness_enabled"],
+        "conclusion": "adaptive_brightness_adjustment",
+        "solution": "Check adaptive brightness settings and adjust brightness manually."
+    },
+    {
+        "id": 88,
+        "conditions": ["flashlight_not_working", "camera_in_use"],
+        "conclusion": "camera_uses_flash_module",
+        "solution": "Close the camera app and try turning on the flashlight again."
+    },
+    {
+        "id": 89,
+        "conditions": ["phone_not_detected_by_pc", "usb_connection_mode_wrong"],
+        "conclusion": "usb_file_transfer_not_selected",
+        "solution": "Unlock the phone and select File Transfer mode from the USB notification."
+    },
+    {
+        "id": 90,
+        "conditions": ["phone_not_detected_by_pc", "pc_usb_port_fault"],
+        "conclusion": "computer_usb_port_problem",
+        "solution": "Try another USB port or test the phone with another computer."
+    }
 ]
