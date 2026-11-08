@@ -422,5 +422,65 @@ RULES = [
         "conditions": ["screen_cracked", "visible_display_damage"],
         "conclusion": "physical_screen_damage",
         "solution": "Protect the damaged screen from moisture and arrange professional screen repair."
+    },
+    {
+        "id": 71,
+        "conditions": ["phone_restarting", "battery_connection_loose"],
+        "conclusion": "possible_battery_connection_fault",
+        "solution": "Have the battery connection inspected by a qualified technician."
+    },
+    {
+        "id": 72,
+        "conditions": ["phone_slow", "too_many_home_screen_widgets"],
+        "conclusion": "excessive_widget_load",
+        "solution": "Remove unnecessary widgets and check phone performance."
+    },
+    {
+        "id": 73,
+        "conditions": ["app_not_opening", "app_data_corrupted"],
+        "conclusion": "app_data_problem",
+        "solution": "Back up important app data if possible, then clear app data or reinstall the app."
+    },
+    {
+        "id": 74,
+        "conditions": ["keyboard_not_working", "keyboard_app_crashed"],
+        "conclusion": "keyboard_app_problem",
+        "solution": "Restart the phone and update the keyboard application."
+    },
+    {
+        "id": 75,
+        "conditions": ["phone_language_wrong", "system_language_changed"],
+        "conclusion": "system_language_setting",
+        "solution": "Open Language settings and select your preferred language."
+    },
+    {
+        "id": 76,
+        "conditions": ["mobile_data_not_working", "data_limit_reached"],
+        "conclusion": "mobile_data_limit_reached",
+        "solution": "Check your data package and usage limit with your network provider."
+    },
+    {
+        "id": 77,
+        "conditions": ["wifi_disconnects", "router_signal_weak"],
+        "conclusion": "weak_router_signal",
+        "solution": "Move closer to the router or improve router placement."
+    },
+    {
+        "id": 78,
+        "conditions": ["bluetooth_disconnects", "bluetooth_device_low_battery"],
+        "conclusion": "bluetooth_accessory_low_battery",
+        "solution": "Charge the Bluetooth accessory and reconnect it."
+    },
+    {
+        "id": 79,
+        "conditions": ["phone_storage_full", "large_app_cache"],
+        "conclusion": "app_cache_consuming_storage",
+        "solution": "Review app storage usage and clear unnecessary caches."
+    },
+    {
+        "id": 80,
+        "conditions": ["phone_screen_timeout", "screen_timeout_short"],
+        "conclusion": "short_screen_timeout_setting",
+        "solution": "Increase the screen timeout duration in Display settings."
 }
 ]
