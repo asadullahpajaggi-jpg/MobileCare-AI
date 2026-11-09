@@ -2,11 +2,6 @@
 import re
 import streamlit as st
 
-
-from engine.rule_tester import run_rule_tests
-
-
-
 from knowledge_base.rules import RULES
 from knowledge_base.assertions import ASSERTIONS
 
@@ -14,6 +9,8 @@ from engine.inference_engine import (
     forward_chaining,
     backward_chaining
 )
+
+from engine.rule_tester import run_rule_tests
 
 
 # --------------------------------------------------
@@ -23,8 +20,203 @@ from engine.inference_engine import (
 st.set_page_config(
     page_title="MobileCare AI",
     page_icon="📱",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
+
+
+# --------------------------------------------------
+# PROFESSIONAL UI DESIGN
+# --------------------------------------------------
+
+st.markdown("""
+<style>
+
+/* Main application */
+
+.stApp {
+    background: #081321;
+    color: #E8F1FA;
+}
+
+.block-container {
+    max-width: 1100px;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Headings */
+
+h1, h2, h3 {
+    color: #F1F7FF !important;
+}
+
+p, label, .stMarkdown {
+    color: #C5D3E3;
+}
+
+/* Main header */
+
+.hero {
+    background: linear-gradient(135deg, #102B49, #0B1D32);
+    border: 1px solid #1C4567;
+    border-radius: 20px;
+    padding: 30px 25px;
+    margin-bottom: 25px;
+}
+
+.hero-title {
+    font-size: 34px;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin-bottom: 8px;
+}
+
+.hero-subtitle {
+    font-size: 16px;
+    color: #A9C7E5;
+    line-height: 1.6;
+}
+
+.hero-tag {
+    display: inline-block;
+    background: #123B54;
+    color: #5DE1E6;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+/* Section headings */
+
+.section-label {
+    color: #54DDE6;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+/* Cards */
+
+div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: #102034;
+    border: 1px solid #203B55;
+    border-radius: 15px;
+}
+
+/* Buttons */
+
+.stButton > button,
+.stFormSubmitButton > button {
+    background: linear-gradient(90deg, #087E9B, #11A9B5);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    min-height: 45px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.stButton > button:hover,
+.stFormSubmitButton > button:hover {
+    background: linear-gradient(90deg, #0B9BB5, #20C5CA);
+    color: white;
+    border: none;
+}
+
+/* Text area */
+
+.stTextArea textarea {
+    background: #0D1C2D;
+    color: #FFFFFF;
+    border: 1px solid #31516E;
+    border-radius: 12px;
+}
+
+/* Multiselect */
+
+.stMultiSelect [data-baseweb="select"] {
+    background: #0D1C2D;
+    border-radius: 10px;
+}
+
+/* Metrics */
+
+div[data-testid="stMetric"] {
+    background: #10263B;
+    border: 1px solid #23435E;
+    padding: 15px;
+    border-radius: 12px;
+}
+
+/* Alerts */
+
+div[data-testid="stAlert"] {
+    border-radius: 12px;
+}
+
+/* Expanders */
+
+.streamlit-expanderHeader {
+    background: #10263B;
+    border-radius: 10px;
+    color: #DCEBFA;
+    font-weight: 600;
+}
+
+/* Divider */
+
+hr {
+    border-color: #243B53;
+}
+
+/* Footer */
+
+.footer {
+    text-align: center;
+    color: #7891AA;
+    font-size: 13px;
+    padding: 20px 5px;
+    border-top: 1px solid #20364D;
+    margin-top: 30px;
+}
+
+/* Mobile responsive design */
+
+@media (max-width: 640px) {
+
+    .block-container {
+        padding: 1rem 0.8rem 2rem 0.8rem;
+    }
+
+    .hero {
+        padding: 22px 17px;
+        border-radius: 15px;
+    }
+
+    .hero-title {
+        font-size: 27px;
+    }
+
+    .hero-subtitle {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 27px !important;
+    }
+
+    h2 {
+        font-size: 22px !important;
+    }
+
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 
 # --------------------------------------------------
@@ -37,12 +229,11 @@ FACT_LOOKUP = {
 }
 
 
-
-
-
+# --------------------------------------------------
+# NATURAL LANGUAGE PROCESSING
+# --------------------------------------------------
 
 def normalize_tokens(text):
-    """Normalize text while preserving word order."""
 
     words = re.findall(r"[a-z0-9]+", text.lower())
     normalized = []
@@ -70,11 +261,9 @@ def normalize_tokens(text):
 
 
 def phrase_matches(user_words, keyword):
-    """Check phrase meaning without matching isolated words."""
 
     phrase_words = normalize_tokens(keyword)
 
-    # Ignore single-word keywords to reduce false matches.
     if len(phrase_words) < 2:
         return False
 
@@ -88,9 +277,15 @@ def phrase_matches(user_words, keyword):
 
             found = None
 
-            for index in range(start, min(start + 6, len(user_words))):
+            for index in range(
+                start,
+                min(start + 6, len(user_words))
+            ):
 
-                if index not in positions and user_words[index] == word:
+                if (
+                    index not in positions
+                    and user_words[index] == word
+                ):
                     found = index
                     break
 
@@ -102,13 +297,15 @@ def phrase_matches(user_words, keyword):
         if len(positions) != len(phrase_words):
             continue
 
-        # Keep matched words reasonably close together.
-        if max(positions) - min(positions) > len(phrase_words) + 2:
+        if (
+            max(positions) - min(positions)
+            > len(phrase_words) + 2
+        ):
             continue
 
-        # Do not match a positive fact when the user negates it.
         nearby_words = user_words[
-            max(0, min(positions) - 2):max(positions) + 1
+            max(0, min(positions) - 2):
+            max(positions) + 1
         ]
 
         if (
@@ -122,12 +319,7 @@ def phrase_matches(user_words, keyword):
     return False
 
 
-
-
-
-
 def extract_facts(problem):
-    """Extract facts using keywords and additional synonyms."""
 
     user_words = normalize_tokens(problem)
     matched_facts = []
@@ -154,7 +346,10 @@ def extract_facts(problem):
             fact_name.replace("_", " ")
         ]
 
-        keywords += extra_keywords.get(fact_name, [])
+        keywords += extra_keywords.get(
+            fact_name,
+            []
+        )
 
         for keyword in keywords:
 
@@ -163,14 +358,10 @@ def extract_facts(problem):
                 matched_facts.append(fact_name)
                 break
 
-    return list(set(matched_facts))
-    
-
-
+    return sorted(set(matched_facts))
 
 
 def get_followup_facts(matched_facts):
-    """Find relevant missing conditions without contradictions."""
 
     known_facts = set(matched_facts)
     additional_facts = set()
@@ -186,7 +377,6 @@ def get_followup_facts(matched_facts):
                 if condition not in known_facts:
                     additional_facts.add(condition)
 
-    # Avoid asking contradictory questions.
     if "phone_not_charging" in known_facts:
         additional_facts.discard("phone_charging")
 
@@ -194,51 +384,92 @@ def get_followup_facts(matched_facts):
         additional_facts.discard("phone_not_charging")
 
     return sorted(additional_facts)
-        
 
 
+def get_fact_description(fact):
 
+    assertion = FACT_LOOKUP.get(fact, {})
 
-
+    return assertion.get(
+        "description",
+        fact.replace("_", " ").title()
+    )
 
 
 # --------------------------------------------------
-# APPLICATION HEADER
+# HERO HEADER
 # --------------------------------------------------
 
-st.title("📱 MobileCare AI")
+st.markdown("""
+<div class="hero">
 
-st.subheader(
-    "Android Mobile Troubleshooting Expert System"
-)
+    <div class="hero-tag">
+        AI POWERED TROUBLESHOOTING
+    </div>
 
-st.write(
-    "Welcome to MobileCare AI. "
-    "Describe your Android mobile problem in simple English "
-    "to receive an intelligent troubleshooting diagnosis."
-)
+    <div class="hero-title">
+        📱 MobileCare AI
+    </div>
+
+    <div class="hero-subtitle">
+        Your intelligent Android mobile troubleshooting
+        assistant. Describe your mobile problem and get
+        rule-based diagnosis with recommended solutions.
+    </div>
+
+</div>
+""", unsafe_allow_html=True)
+
+
+# --------------------------------------------------
+# PROJECT OVERVIEW
+# --------------------------------------------------
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.metric("Knowledge Base Rules", "100")
+
+with col2:
+    st.metric("Assertions / Facts", "300")
+
+with col3:
+    st.metric("Inference Methods", "2")
+
 
 st.divider()
 
 
 # --------------------------------------------------
-# NATURAL LANGUAGE INTERFACE
+# PROBLEM INPUT
 # --------------------------------------------------
 
+st.markdown(
+    '<div class="section-label">STEP 01</div>',
+    unsafe_allow_html=True
+)
+
 st.header("🔍 Describe Your Mobile Problem")
+
+st.write(
+    "Explain your Android mobile issue in simple English. "
+    "The system will analyze your description and identify "
+    "relevant facts."
+)
 
 with st.form("problem_form"):
 
     problem = st.text_area(
         "What problem are you experiencing?",
         placeholder=(
-            "Example: My phone battery drains very fast..."
+            "Example: My phone battery drains very fast "
+            "and my phone is getting hot..."
         ),
         height=120
     )
 
     submitted = st.form_submit_button(
-        "Identify My Problem",
+        "🔎 Analyze My Problem",
         type="primary",
         use_container_width=True
     )
@@ -258,11 +489,13 @@ if submitted:
 
     else:
 
-        st.warning("Please describe your mobile problem.")
+        st.warning(
+            "Please describe your mobile problem first."
+        )
 
 
 # --------------------------------------------------
-# DISPLAY IDENTIFIED FACTS
+# PROBLEM ANALYSIS
 # --------------------------------------------------
 
 if st.session_state.get("diagnosis_ready", False):
@@ -271,66 +504,65 @@ if st.session_state.get("diagnosis_ready", False):
 
     st.divider()
 
+    st.markdown(
+        '<div class="section-label">STEP 02</div>',
+        unsafe_allow_html=True
+    )
+
     st.header("🧠 Problem Analysis")
 
     if not matched_facts:
 
         st.warning(
-            "The system could not identify a matching fact. "
-            "Please describe your problem using different or "
-            "more specific words."
+            "No matching fact was identified. "
+            "Please describe your issue using more specific "
+            "words."
         )
 
     else:
 
         st.success(
-            f"Successfully identified {len(matched_facts)} "
-            "relevant fact(s)."
+            f"{len(matched_facts)} relevant fact(s) identified."
         )
 
-        st.subheader("Identified Facts")
+        with st.container(border=True):
 
-        for fact in matched_facts:
+            st.subheader("Identified Facts")
 
-            assertion = FACT_LOOKUP.get(fact, {})
+            for fact in matched_facts:
 
-            description = assertion.get(
-                "description",
-                fact.replace("_", " ").title()
-            )
-
-            st.write(f"✓ {description}")
+                st.markdown(
+                    f"✓ {get_fact_description(fact)}"
+                )
 
 
         # --------------------------------------------------
-        # ASK FOLLOW-UP QUESTIONS
+        # FOLLOW-UP QUESTIONS
         # --------------------------------------------------
 
-        followup_facts = get_followup_facts(matched_facts)
+        followup_facts = get_followup_facts(
+            matched_facts
+        )
 
         st.divider()
+
+        st.markdown(
+            '<div class="section-label">STEP 03</div>',
+            unsafe_allow_html=True
+        )
 
         st.header("📋 Additional Information")
 
         st.write(
-            "The system may need some additional information "
-            "to improve its diagnosis. Select the statements "
-            "that are also true for your phone."
+            "Select any additional statements that are true "
+            "for your phone. These answers can help improve "
+            "the diagnosis."
         )
 
-        followup_labels = {}
-
-        for fact in followup_facts:
-
-            assertion = FACT_LOOKUP.get(fact, {})
-
-            description = assertion.get(
-                "description",
-                fact.replace("_", " ").title()
-            )
-
-            followup_labels[fact] = description
-
+        followup_labels = {
+            fact: get_fact_description(fact)
+            for fact in followup_facts
+        }
 
         with st.form("followup_form"):
 
@@ -340,7 +572,8 @@ if st.session_state.get("diagnosis_ready", False):
                 format_func=lambda fact: followup_labels.get(
                     fact,
                     fact.replace("_", " ").title()
-                )
+                ),
+                placeholder="Choose applicable statements..."
             )
 
             diagnose = st.form_submit_button(
@@ -351,12 +584,12 @@ if st.session_state.get("diagnosis_ready", False):
 
 
         # --------------------------------------------------
-        # FORWARD AND BACKWARD CHAINING
+        # INFERENCE ENGINE
         # --------------------------------------------------
 
         if diagnose:
 
-            all_facts = list(
+            all_facts = sorted(
                 set(matched_facts + selected_facts)
             )
 
@@ -365,20 +598,27 @@ if st.session_state.get("diagnosis_ready", False):
                 RULES
             )
 
+            diagnosis_trace = forward_result["trace"]
+
             st.divider()
 
-            st.header("🩺 Diagnosis Results")
+            st.markdown(
+                '<div class="section-label">STEP 04</div>',
+                unsafe_allow_html=True
+            )
 
-            diagnosis_trace = forward_result["trace"]
+            st.header("🩺 Diagnosis Results")
 
             if diagnosis_trace:
 
                 st.success(
-                    "The expert system successfully identified "
-                    "possible causes of your mobile problem."
+                    "The expert system identified possible "
+                    "causes and generated recommended solutions."
                 )
 
-                st.subheader("Detected Problems and Solutions")
+                st.subheader(
+                    "Detected Problems and Solutions"
+                )
 
                 shown_conclusions = set()
 
@@ -391,18 +631,25 @@ if st.session_state.get("diagnosis_ready", False):
 
                     shown_conclusions.add(conclusion)
 
-                    st.markdown(
-                        f"### 🔴 "
-                        f"{conclusion.replace('_', ' ').title()}"
-                    )
+                    with st.container(border=True):
 
-                    st.write("**Recommended Solution:**")
+                        st.markdown(
+                            "### 🔴 "
+                            + conclusion.replace(
+                                "_", " "
+                            ).title()
+                        )
 
-                    st.info(step["solution"])
+                        st.write(
+                            "**Recommended Solution**"
+                        )
 
-                    st.caption(
-                        f"Applied Rule: {step['rule_id']}"
-                    )
+                        st.info(step["solution"])
+
+                        st.caption(
+                            f"Applied Knowledge Base Rule: "
+                            f"{step['rule_id']}"
+                        )
 
 
                 # --------------------------------------------------
@@ -411,7 +658,9 @@ if st.session_state.get("diagnosis_ready", False):
 
                 st.divider()
 
-                st.subheader("🔎 Diagnosis Verification")
+                st.subheader(
+                    "🔎 Diagnosis Verification"
+                )
 
                 verified_count = 0
 
@@ -426,11 +675,24 @@ if st.session_state.get("diagnosis_ready", False):
                     if backward_result["success"]:
                         verified_count += 1
 
-                st.success(
-                    f"Backward Chaining verified "
-                    f"{verified_count}/{len(shown_conclusions)} "
-                    "diagnosis conclusion(s)."
+                st.metric(
+                    "Backward Chaining Verification",
+                    f"{verified_count}/{len(shown_conclusions)}"
                 )
+
+                if verified_count == len(shown_conclusions):
+
+                    st.success(
+                        "All generated diagnosis conclusions "
+                        "were verified by Backward Chaining."
+                    )
+
+                else:
+
+                    st.warning(
+                        "Some diagnosis conclusions could not "
+                        "be verified."
+                    )
 
 
                 # --------------------------------------------------
@@ -438,18 +700,23 @@ if st.session_state.get("diagnosis_ready", False):
                 # --------------------------------------------------
 
                 with st.expander(
-                    "View Expert System Explanation Trace"
+                    "📖 View Expert System Explanation Trace"
                 ):
+
+                    st.write(
+                        "The following rules were activated "
+                        "during Forward Chaining."
+                    )
 
                     for step in diagnosis_trace:
 
-                        st.write(
+                        st.markdown(
                             f"**Rule ID:** {step['rule_id']}"
                         )
 
                         st.write(
                             "**Conditions:**",
-                            step["conditions"]
+                            ", ".join(step["conditions"])
                         )
 
                         st.write(
@@ -483,10 +750,30 @@ if st.session_state.get("diagnosis_ready", False):
 
 
 # --------------------------------------------------
-# DEVELOPER: KNOWLEDGE BASE VALIDATION
+# DEVELOPER TOOLS
 # --------------------------------------------------
 
-with st.expander("🛠️ Developer Tools — Knowledge Base Verification"):
+st.divider()
+
+st.markdown(
+    '<div class="section-label">SYSTEM MANAGEMENT</div>',
+    unsafe_allow_html=True
+)
+
+st.header("🛠️ Developer Tools")
+
+st.caption(
+    "Technical verification and testing tools for project evaluation."
+)
+
+
+# --------------------------------------------------
+# KNOWLEDGE BASE VALIDATION
+# --------------------------------------------------
+
+with st.expander(
+    "📚 Knowledge Base Verification"
+):
 
     from validate_data import validate_knowledge_base
 
@@ -511,10 +798,14 @@ with st.expander("🛠️ Developer Tools — Knowledge Base Verification"):
     for name, passed, details in report["checks"]:
 
         if passed:
-            st.success(f"PASS: {name} — {details}")
+            st.success(
+                f"PASS: {name} — {details}"
+            )
 
         else:
-            st.error(f"FAIL: {name} — {details}")
+            st.error(
+                f"FAIL: {name} — {details}"
+            )
 
     if report["missing_facts"]:
 
@@ -525,28 +816,39 @@ with st.expander("🛠️ Developer Tools — Knowledge Base Verification"):
 
 
 # --------------------------------------------------
-# DEVELOPER: INFERENCE ENGINE TESTING
+# INFERENCE ENGINE TESTING
 # --------------------------------------------------
 
-with st.expander("🧪 Developer Tools — Inference Engine Tests"):
+with st.expander(
+    "🧪 Inference Engine Tests"
+):
 
     test_cases = [
 
         {
             "name": "Battery Problem",
-            "facts": ["battery_drains_fast", "phone_old"],
+            "facts": [
+                "battery_drains_fast",
+                "phone_old"
+            ],
             "expected": "battery_health_low"
         },
 
         {
             "name": "Charging Problem",
-            "facts": ["phone_not_charging", "charger_damaged"],
+            "facts": [
+                "phone_not_charging",
+                "charger_damaged"
+            ],
             "expected": "charger_fault"
         },
 
         {
             "name": "Wi-Fi Problem",
-            "facts": ["wifi_not_working", "airplane_mode_on"],
+            "facts": [
+                "wifi_not_working",
+                "airplane_mode_on"
+            ],
             "expected": "airplane_mode_blocks_wifi"
         },
 
@@ -662,16 +964,16 @@ with st.expander("🧪 Developer Tools — Inference Engine Tests"):
         )
 
 
-
-
 # --------------------------------------------------
 # AUTOMATIC 100 RULES TESTING
 # --------------------------------------------------
 
-with st.expander("🔬 Developer Tools — Automatic 100 Rules Testing"):
+with st.expander(
+    "🔬 Automatic 100 Rules Testing"
+):
 
     st.write(
-        "Test every knowledge base rule using "
+        "Test all knowledge base rules using "
         "Forward Chaining and Backward Chaining."
     )
 
@@ -712,8 +1014,8 @@ with st.expander("🔬 Developer Tools — Automatic 100 Rules Testing"):
         ):
 
             st.success(
-                "Excellent! All 100 rules passed "
-                "Forward and Backward Chaining tests."
+                "All 100 rules passed Forward and "
+                "Backward Chaining tests."
             )
 
         else:
@@ -725,12 +1027,16 @@ with st.expander("🔬 Developer Tools — Automatic 100 Rules Testing"):
 
         st.subheader("Individual Rule Results")
 
-        with st.expander("View All Rule Test Results"):
+        with st.expander(
+            "View All Rule Test Results"
+        ):
 
             for result in test_report["results"]:
 
                 status = (
-                    "PASS" if result["passed"] else "FAIL"
+                    "PASS"
+                    if result["passed"]
+                    else "FAIL"
                 )
 
                 st.write(
@@ -753,23 +1059,30 @@ with st.expander("🔬 Developer Tools — Automatic 100 Rules Testing"):
 
         if failed_rules:
 
-            st.subheader("Rules Requiring Investigation")
+            st.subheader(
+                "Rules Requiring Investigation"
+            )
 
             for result in failed_rules:
+
                 st.error(
                     f"Rule {result['rule_id']}: "
                     f"{result['conclusion']}"
-        )
-                
-
+                )
 
 
 # --------------------------------------------------
 # FOOTER
 # --------------------------------------------------
 
-st.divider()
+st.markdown("""
+<div class="footer">
 
-st.caption(
-    "MobileCare AI | BS Artificial Intelligence Major Project"
-)
+    <strong>MobileCare AI</strong><br>
+
+    Android Mobile Troubleshooting Expert System<br>
+
+    BS Artificial Intelligence Major Project
+
+</div>
+""", unsafe_allow_html=True)
