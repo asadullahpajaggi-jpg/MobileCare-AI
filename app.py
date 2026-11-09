@@ -919,7 +919,7 @@ with st.expander(
         )
 
         with st.expander("View Test Explanation"):
-            st.json(forward["trace"])
+            st.write(forward["trace"])
 
 
     negative_result = backward_chaining(
