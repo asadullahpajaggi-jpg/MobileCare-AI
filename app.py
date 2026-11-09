@@ -393,6 +393,45 @@ elif page == "🩺 Troubleshooting":
 
     st.divider()
 
+
+
+
+
+
+
+
+
+    # NEW DIAGNOSIS / RESET BUTTON
+
+if st.button("🔄 New Diagnosis", key="reset_diagnosis"):
+
+    st.session_state["diagnosis_ready"] = False
+    st.session_state["diagnosis_result"] = None
+
+    for key in [
+        "problem_text",
+        "matched_facts",
+        "followup_facts",
+        "selected_facts"
+    ]:
+        st.session_state.pop(key, None)
+
+    st.rerun()
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     with st.form("problem_form"):
 
         problem = st.text_area(
