@@ -403,20 +403,20 @@ elif page == "🩺 Troubleshooting":
 
     # NEW DIAGNOSIS / RESET BUTTON
 
-if st.button("🔄 New Diagnosis", key="reset_diagnosis"):
+   if st.button("🔄 New Diagnosis", key="reset_diagnosis"):
 
-    st.session_state["diagnosis_ready"] = False
-    st.session_state["diagnosis_result"] = None
+       st.session_state["diagnosis_ready"] = False
+       st.session_state["diagnosis_result"] = None
 
-    for key in [
-        "problem_text",
-        "matched_facts",
-        "followup_facts",
-        "selected_facts"
-    ]:
-        st.session_state.pop(key, None)
+       for key in [
+           "problem_text",
+           "matched_facts",
+           "followup_facts",
+           "selected_facts"
+       ]:
+           st.session_state.pop(key, None)
 
-    st.rerun()
+       st.rerun()
     
 
 
