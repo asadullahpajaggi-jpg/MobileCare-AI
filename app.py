@@ -378,6 +378,9 @@ if page == "🏠 Home":
     )
 
 
+
+
+
 # ==================================================
 # PAGE 2 — TROUBLESHOOTING
 # ==================================================
@@ -393,45 +396,23 @@ elif page == "🩺 Troubleshooting":
 
     st.divider()
 
-
-
-
-
-
-
-
-
     # NEW DIAGNOSIS / RESET BUTTON
 
-   if st.button("🔄 New Diagnosis", key="reset_diagnosis"):
+    if st.button("🔄 New Diagnosis", key="reset_diagnosis"):
 
-       st.session_state["diagnosis_ready"] = False
-       st.session_state["diagnosis_result"] = None
+        st.session_state["diagnosis_ready"] = False
+        st.session_state["diagnosis_result"] = None
 
-       for key in [
-           "problem_text",
-           "matched_facts",
-           "followup_facts",
-           "selected_facts"
-       ]:
-           st.session_state.pop(key, None)
+        st.session_state["problem_input"] = ""
+        st.session_state["selected_facts_input"] = []
 
-       st.rerun()
-    
+        st.session_state["problem_text"] = ""
+        st.session_state["matched_facts"] = []
 
+        st.rerun()
 
+    # PROBLEM INPUT FORM
 
-
-
-
-
-
-
-
-
-
-
-    
     with st.form("problem_form"):
 
         problem = st.text_area(
@@ -440,7 +421,8 @@ elif page == "🩺 Troubleshooting":
                 "Example: My phone battery drains very fast "
                 "and my phone is getting hot..."
             ),
-            height=120
+            height=120,
+            key="problem_input"
         )
 
         submitted = st.form_submit_button(
@@ -463,11 +445,15 @@ elif page == "🩺 Troubleshooting":
 
             st.session_state["diagnosis_result"] = None
 
+            st.session_state["selected_facts_input"] = []
+
         else:
 
             st.warning(
                 "Please describe your mobile problem first."
             )
+
+    # DISPLAY PROBLEM ANALYSIS
 
     if st.session_state["diagnosis_ready"]:
 
@@ -493,6 +479,7 @@ elif page == "🩺 Troubleshooting":
             st.subheader("Identified Facts")
 
             for fact in matched_facts:
+
                 st.write(
                     "✓ " + get_fact_description(fact)
                 )
@@ -524,7 +511,8 @@ elif page == "🩺 Troubleshooting":
                         fact,
                         fact.replace("_", " ").title()
                     ),
-                    placeholder="Choose applicable statements..."
+                    placeholder="Choose applicable statements...",
+                    key="selected_facts_input"
                 )
 
                 diagnose = st.form_submit_button(
@@ -677,7 +665,12 @@ elif page == "🩺 Troubleshooting":
                     "MobileCare AI provides rule-based suggestions. "
                     "For hardware damage or serious safety issues, "
                     "consult a qualified mobile technician."
-                )
+        )
+                
+
+
+
+
 
 
 # ==================================================
