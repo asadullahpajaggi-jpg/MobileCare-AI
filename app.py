@@ -973,6 +973,154 @@ elif page == "🛠️ Developer Dashboard":
                 "Some tests need further investigation."
             )
 
+
+
+
+
+    # SEMANTIC NLP TESTING
+
+    with st.expander(
+        "🧠 Semantic NLP Testing",
+        expanded=True
+    ):
+
+        st.write(
+            "Test whether the semantic engine can identify "
+            "mobile problems from different natural-language sentences."
+        )
+
+        st.info(
+            "The multilingual embedding model compares sentence "
+            "meaning with the 300 knowledge-base assertions."
+        )
+
+        sample_questions = [
+            "My phone becomes very hot when I play games.",
+            "My mobile battery loses power very quickly.",
+            "I cannot connect my phone to the wireless network.",
+            "My device takes too long to charge.",
+            "My phone keeps restarting automatically."
+        ]
+
+        selected_sample = st.selectbox(
+            "Choose a sample question:",
+            ["Write my own question"] + sample_questions,
+            key="semantic_sample"
+        )
+
+        default_question = (
+            ""
+            if selected_sample == "Write my own question"
+            else selected_sample
+        )
+
+        question = st.text_area(
+            "Enter a mobile problem in natural language:",
+            value=default_question,
+            placeholder=(
+                "Example: My mobile gets extremely warm "
+                "whenever I play games."
+            ),
+            height=100,
+            key="semantic_question"
+        )
+
+        if st.button(
+            "🔍 Find Similar Facts",
+            key="run_semantic_test",
+            use_container_width=True
+        ):
+
+            if not question.strip():
+
+                st.warning(
+                    "Please enter a mobile problem first."
+                )
+
+            else:
+
+                try:
+
+                    from engine.semantic_matcher import (
+                        search_similar_facts
+                    )
+
+                    with st.spinner(
+                        "Understanding your question and "
+                        "searching the knowledge base..."
+                    ):
+
+                        semantic_results = search_similar_facts(
+                            question,
+                            ASSERTIONS,
+                            top_k=10,
+                            min_score=0.35
+                        )
+
+                    st.divider()
+
+                    st.subheader(
+                        "Semantic Matching Results"
+                    )
+
+                    if semantic_results:
+
+                        st.success(
+                            f"{len(semantic_results)} similar "
+                            "fact(s) found."
+                        )
+
+                        for index, item in enumerate(
+                            semantic_results,
+                            start=1
+                        ):
+
+                            st.markdown(
+                                f"**{index}. "
+                                f"{item['fact'].replace('_', ' ').title()}**"
+                            )
+
+                            st.write(
+                                item["description"]
+                            )
+
+                            st.caption(
+                                f"Similarity Score: "
+                                f"{item['score']:.4f}"
+                            )
+
+                            st.divider()
+
+                    else:
+
+                        st.warning(
+                            "No sufficiently similar facts found. "
+                            "Try explaining the problem differently."
+                        )
+
+                    st.caption(
+                        "Note: Similarity scores measure semantic "
+                        "closeness. They are not diagnosis confidence "
+                        "or proof that a fact is true."
+                    )
+
+                except Exception as error:
+
+                    st.error(
+                        "Semantic NLP testing failed."
+                    )
+
+                    st.code(
+                        str(error)
+                    )
+
+                    st.info(
+                        "Check the Streamlit deployment logs "
+                        "and model installation."
+                    )
+
+    
+
     # AUTOMATIC 100 RULE TESTING
 
     with st.expander(
