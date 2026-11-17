@@ -385,33 +385,52 @@ if page == "🏠 Home":
 # PAGE 2 — TROUBLESHOOTING
 # ==================================================
 
+
+
 elif page == "🩺 Troubleshooting":
+
+    # --------------------------------------------------
+    # SESSION STATE
+    # --------------------------------------------------
+
+    st.session_state.setdefault("diagnosis_ready", False)
+    st.session_state.setdefault("diagnosis_result", None)
+    st.session_state.setdefault("problem_text", "")
+    st.session_state.setdefault("semantic_candidates", [])
+    st.session_state.setdefault("confirmed_facts", [])
 
     st.title("🩺 Mobile Troubleshooting")
 
     st.write(
-        "Describe your Android mobile problem to begin "
-        "the intelligent diagnosis process."
+        "Describe your Android mobile problem in your own words. "
+        "The AI system will find relevant facts and verify them "
+        "before running the expert diagnosis."
     )
 
     st.divider()
 
-    # NEW DIAGNOSIS / RESET BUTTON
+    # --------------------------------------------------
+    # NEW DIAGNOSIS / RESET
+    # --------------------------------------------------
 
     if st.button("🔄 New Diagnosis", key="reset_diagnosis"):
 
         st.session_state["diagnosis_ready"] = False
         st.session_state["diagnosis_result"] = None
+        st.session_state["problem_text"] = ""
+
+        st.session_state["semantic_candidates"] = []
+        st.session_state["confirmed_facts"] = []
 
         st.session_state["problem_input"] = ""
+        st.session_state["semantic_candidate_selection"] = []
         st.session_state["selected_facts_input"] = []
-
-        st.session_state["problem_text"] = ""
-        st.session_state["matched_facts"] = []
 
         st.rerun()
 
-    # PROBLEM INPUT FORM
+    # --------------------------------------------------
+    # NATURAL LANGUAGE PROBLEM INPUT
+    # --------------------------------------------------
 
     with st.form("problem_form"):
 
@@ -419,7 +438,7 @@ elif page == "🩺 Troubleshooting":
             "What problem are you experiencing?",
             placeholder=(
                 "Example: My phone battery drains very fast "
-                "and my phone is getting hot..."
+                "and my phone gets hot while gaming..."
             ),
             height=120,
             key="problem_input"
@@ -435,17 +454,40 @@ elif page == "🩺 Troubleshooting":
 
         if problem.strip():
 
-            st.session_state["problem_text"] = problem
+            try:
 
-            st.session_state["matched_facts"] = extract_facts(
-                problem
-            )
+                from engine.semantic_matcher import (
+                    search_similar_facts
+                )
 
-            st.session_state["diagnosis_ready"] = True
+                with st.spinner(
+                    "Understanding your problem and searching "
+                    "the knowledge base..."
+                ):
 
-            st.session_state["diagnosis_result"] = None
+                    candidates = search_similar_facts(
+                        problem,
+                        ASSERTIONS,
+                        top_k=8,
+                        min_score=0.50
+                    )
 
-            st.session_state["selected_facts_input"] = []
+                st.session_state["problem_text"] = problem
+                st.session_state["semantic_candidates"] = candidates
+
+                st.session_state["confirmed_facts"] = []
+                st.session_state["diagnosis_result"] = None
+
+                st.session_state["semantic_candidate_selection"] = []
+                st.session_state["selected_facts_input"] = []
+
+                st.session_state["diagnosis_ready"] = True
+
+            except Exception as error:
+
+                st.error("Semantic analysis could not be completed.")
+
+                st.code(str(error))
 
         else:
 
@@ -453,221 +495,319 @@ elif page == "🩺 Troubleshooting":
                 "Please describe your mobile problem first."
             )
 
-    # DISPLAY PROBLEM ANALYSIS
+    # --------------------------------------------------
+    # SEMANTIC ANALYSIS RESULTS
+    # --------------------------------------------------
 
     if st.session_state["diagnosis_ready"]:
 
-        matched_facts = st.session_state["matched_facts"]
+        candidates = st.session_state["semantic_candidates"]
 
         st.divider()
 
         st.header("🧠 Problem Analysis")
 
-        if not matched_facts:
+        st.write("**Your Problem:**")
+        st.info(st.session_state["problem_text"])
+
+        if not candidates:
 
             st.warning(
-                "No matching fact was identified. "
-                "Try describing your issue using more specific words."
+                "No sufficiently similar facts were found. "
+                "Try describing your problem differently "
+                "or provide more details."
             )
 
         else:
 
             st.success(
-                f"{len(matched_facts)} relevant fact(s) identified."
+                f"{len(candidates)} possible matching facts found."
             )
-
-            st.subheader("Identified Facts")
-
-            for fact in matched_facts:
-
-                st.write(
-                    "✓ " + get_fact_description(fact)
-                )
-
-            followup_facts = get_followup_facts(
-                matched_facts
-            )
-
-            st.divider()
-
-            st.header("📋 Additional Information")
 
             st.write(
-                "Select any additional statements that are "
-                "also true for your phone."
+                "The following facts are suggestions from the "
+                "Semantic NLP engine. They are NOT confirmed yet."
             )
 
-            followup_labels = {
-                fact: get_fact_description(fact)
-                for fact in followup_facts
-            }
+            candidate_labels = {}
 
-            with st.form("followup_form"):
+            for item in candidates:
 
-                selected_facts = st.multiselect(
-                    "Select applicable statements:",
-                    options=followup_facts,
-                    format_func=lambda fact: followup_labels.get(
+                fact = item["fact"]
+
+                description = item["description"]
+
+                score = item["score"]
+
+                candidate_labels[fact] = (
+                    f"{description} "
+                    f"(Similarity: {score:.3f})"
+                )
+
+            # --------------------------------------------------
+            # FACT VERIFICATION
+            # --------------------------------------------------
+
+            st.subheader("✅ Verify Your Mobile Problem")
+
+            st.write(
+                "Select only those statements that are actually "
+                "true for your phone."
+            )
+
+            with st.form("fact_verification_form"):
+
+                selected_candidates = st.multiselect(
+                    "Which statements correctly describe your problem?",
+                    options=[
+                        item["fact"]
+                        for item in candidates
+                    ],
+                    format_func=lambda fact: candidate_labels.get(
                         fact,
                         fact.replace("_", " ").title()
                     ),
-                    placeholder="Choose applicable statements...",
-                    key="selected_facts_input"
+                    placeholder="Select the statements that are true...",
+                    key="semantic_candidate_selection"
                 )
 
-                diagnose = st.form_submit_button(
-                    "🩺 Run Expert Diagnosis",
+                verify_button = st.form_submit_button(
+                    "✔ Confirm Selected Facts",
                     type="primary",
                     use_container_width=True
                 )
 
-            if diagnose:
+            if verify_button:
 
-                all_facts = sorted(
-                    set(matched_facts + selected_facts)
+                st.session_state["confirmed_facts"] = (
+                    selected_candidates
                 )
 
-                forward_result = forward_chaining(
-                    all_facts,
-                    RULES
+                st.session_state["diagnosis_result"] = None
+
+            confirmed_facts = st.session_state["confirmed_facts"]
+
+            if confirmed_facts:
+
+                st.success(
+                    f"{len(confirmed_facts)} fact(s) confirmed by the user."
                 )
 
-                diagnosis_trace = forward_result["trace"]
+                st.subheader("Confirmed Facts")
 
-                shown_conclusions = []
+                for fact in confirmed_facts:
 
-                for step in diagnosis_trace:
+                    st.write(
+                        "✓ " + get_fact_description(fact)
+                    )
 
-                    conclusion = step["conclusion"]
+                # --------------------------------------------------
+                # ADDITIONAL INFORMATION
+                # --------------------------------------------------
 
-                    if conclusion not in shown_conclusions:
-                        shown_conclusions.append(conclusion)
+                followup_facts = get_followup_facts(
+                    confirmed_facts
+                )
 
-                verified_count = 0
+                followup_facts = [
+                    fact
+                    for fact in followup_facts
+                    if fact not in confirmed_facts
+                ]
 
-                for conclusion in shown_conclusions:
+                st.divider()
 
-                    backward_result = backward_chaining(
-                        conclusion,
+                st.header("📋 Additional Information")
+
+                st.write(
+                    "You may select additional statements that "
+                    "are also true for your phone."
+                )
+
+                followup_labels = {
+                    fact: get_fact_description(fact)
+                    for fact in followup_facts
+                }
+
+                with st.form("followup_form"):
+
+                    selected_facts = st.multiselect(
+                        "Select applicable statements:",
+                        options=followup_facts,
+                        format_func=lambda fact: followup_labels.get(
+                            fact,
+                            fact.replace("_", " ").title()
+                        ),
+                        placeholder="Choose applicable statements...",
+                        key="selected_facts_input"
+                    )
+
+                    diagnose = st.form_submit_button(
+                        "🩺 Run Expert Diagnosis",
+                        type="primary",
+                        use_container_width=True
+                    )
+
+                # --------------------------------------------------
+                # FORWARD AND BACKWARD CHAINING
+                # --------------------------------------------------
+
+                if diagnose:
+
+                    all_facts = sorted(
+                        set(confirmed_facts + selected_facts)
+                    )
+
+                    forward_result = forward_chaining(
                         all_facts,
                         RULES
                     )
 
-                    if backward_result["success"]:
-                        verified_count += 1
+                    diagnosis_trace = forward_result["trace"]
 
-                st.session_state["diagnosis_result"] = {
-                    "trace": diagnosis_trace,
-                    "conclusions": shown_conclusions,
-                    "verified": verified_count,
-                    "total": len(shown_conclusions)
-                }
+                    shown_conclusions = []
 
-            # DISPLAY SAVED DIAGNOSIS
-
-            result = st.session_state["diagnosis_result"]
-
-            if result is not None:
-
-                st.divider()
-
-                st.header("🩺 Diagnosis Results")
-
-                if result["trace"]:
-
-                    st.success(
-                        "The expert system identified possible "
-                        "causes and recommended solutions."
-                    )
-
-                    st.subheader(
-                        "Detected Problems and Solutions"
-                    )
-
-                    for step in result["trace"]:
+                    for step in diagnosis_trace:
 
                         conclusion = step["conclusion"]
 
-                        st.markdown(
-                            "### 🔴 "
-                            + conclusion.replace(
-                                "_", " "
-                            ).title()
+                        if conclusion not in shown_conclusions:
+
+                            shown_conclusions.append(conclusion)
+
+                    verified_count = 0
+
+                    for conclusion in shown_conclusions:
+
+                        backward_result = backward_chaining(
+                            conclusion,
+                            all_facts,
+                            RULES
                         )
 
-                        st.write("**Recommended Solution:**")
+                        if backward_result["success"]:
 
-                        st.info(step["solution"])
+                            verified_count += 1
 
-                        st.caption(
-                            f"Applied Rule: {step['rule_id']}"
-                        )
+                    st.session_state["diagnosis_result"] = {
+                        "trace": diagnosis_trace,
+                        "conclusions": shown_conclusions,
+                        "verified": verified_count,
+                        "total": len(shown_conclusions)
+                    }
+
+                # --------------------------------------------------
+                # DISPLAY DIAGNOSIS
+                # --------------------------------------------------
+
+                result = st.session_state["diagnosis_result"]
+
+                if result is not None:
 
                     st.divider()
 
-                    st.subheader("🔎 Diagnosis Verification")
+                    st.header("🩺 Diagnosis Results")
 
-                    st.metric(
-                        "Backward Chaining Verification",
-                        f"{result['verified']}/{result['total']}"
-                    )
-
-                    if result["verified"] == result["total"]:
+                    if result["trace"]:
 
                         st.success(
-                            "All diagnosis conclusions were "
-                            "verified by Backward Chaining."
+                            "The expert system identified possible "
+                            "causes using the confirmed facts."
                         )
+
+                        st.subheader(
+                            "Detected Problems and Solutions"
+                        )
+
+                        for step in result["trace"]:
+
+                            conclusion = step["conclusion"]
+
+                            st.markdown(
+                                "### 🔴 "
+                                + conclusion.replace(
+                                    "_", " "
+                                ).title()
+                            )
+
+                            st.write("**Recommended Solution:**")
+
+                            st.info(step["solution"])
+
+                            st.caption(
+                                f"Applied Rule: {step['rule_id']}"
+                            )
+
+                        st.divider()
+
+                        st.subheader("🔎 Diagnosis Verification")
+
+                        st.metric(
+                            "Backward Chaining Verification",
+                            f"{result['verified']}/{result['total']}"
+                        )
+
+                        if result["verified"] == result["total"]:
+
+                            st.success(
+                                "All diagnosis conclusions were "
+                                "verified by Backward Chaining."
+                            )
+
+                        else:
+
+                            st.warning(
+                                "Some conclusions could not be verified."
+                            )
+
+                        with st.expander(
+                            "📖 View Expert System Explanation Trace"
+                        ):
+
+                            for step in result["trace"]:
+
+                                st.write(
+                                    f"**Rule ID:** {step['rule_id']}"
+                                )
+
+                                st.write(
+                                    "**Conditions:**",
+                                    ", ".join(step["conditions"])
+                                )
+
+                                st.write(
+                                    "**Conclusion:**",
+                                    step["conclusion"]
+                                )
+
+                                st.write(
+                                    "**Solution:**",
+                                    step["solution"]
+                                )
+
+                                st.divider()
 
                     else:
 
                         st.warning(
-                            "Some conclusions could not be verified."
+                            "No diagnosis rule was activated using "
+                            "the confirmed facts. Try providing "
+                            "additional information."
                         )
 
-                    with st.expander(
-                        "📖 View Expert System Explanation Trace"
-                    ):
+            else:
 
-                        for step in result["trace"]:
+                st.info(
+                    "Please confirm at least one matching fact "
+                    "before continuing to the expert diagnosis."
+                )
 
-                            st.write(
-                                f"**Rule ID:** {step['rule_id']}"
-                            )
-
-                            st.write(
-                                "**Conditions:**",
-                                ", ".join(step["conditions"])
-                            )
-
-                            st.write(
-                                "**Conclusion:**",
-                                step["conclusion"]
-                            )
-
-                            st.write(
-                                "**Solution:**",
-                                step["solution"]
-                            )
-
-                            st.divider()
-
-                else:
-
-                    st.warning(
-                        "No diagnosis rule was activated. "
-                        "Try selecting additional applicable "
-                        "statements or describing the problem "
-                        "in more detail."
-                    )
-
-                st.caption(
-                    "MobileCare AI provides rule-based suggestions. "
-                    "For hardware damage or serious safety issues, "
-                    "consult a qualified mobile technician."
+        st.caption(
+            "Similarity scores measure semantic closeness, not "
+            "diagnosis confidence. MobileCare AI provides "
+            "rule-based suggestions and does not replace "
+            "professional mobile repair services."
         )
-                
-
 
 
 
