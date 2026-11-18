@@ -11,6 +11,7 @@ NEGATION_WORDS = {
     "not", "no", "never", "without", "cannot", "cant", "wont",
     "isnt", "arent", "doesnt", "dont", "didnt", "wasnt", "werent",
 }
+CONTRAST_WORDS = {"but", "however", "although", "though", "except"}
 
 CONTRACTIONS = {
     "can't": "can not",
@@ -170,6 +171,9 @@ def _is_negated(user_words, positions, keyword):
     # A preceding negation changes polarity unless it is itself part of
     # the matched keyword (e.g. 'not charging' describes a charging fault).
     prefix = user_words[max(0, start - 3):start]
+    for index, word in enumerate(prefix):
+        if word in CONTRAST_WORDS:
+            prefix = prefix[index + 1:]
     if any(word in NEGATION_WORDS for word in prefix):
         return True
 
@@ -185,6 +189,10 @@ def _is_negated(user_words, positions, keyword):
 
     # Also handle 'overheating is not happening' and similar constructions.
     suffix = user_words[end + 1:min(len(user_words), end + 4)]
+    for index, word in enumerate(suffix):
+        if word in CONTRAST_WORDS:
+            suffix = suffix[:index]
+            break
     if "not" in suffix or "never" in suffix:
         return True
 
