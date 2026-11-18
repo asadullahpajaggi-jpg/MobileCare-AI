@@ -116,6 +116,8 @@ def _normalize_word(word):
 def normalize_tokens(text):
     """Tokenize text and normalize common inflected word forms."""
     expanded = _expand_contractions(text)
+    # Treat common Wi-Fi spellings (Wi-Fi, Wi Fi, wifi) consistently.
+    expanded = re.sub(r"\\bwi[\\s-]?fi\\b", "wifi", expanded)
     words = re.findall(r"[a-z0-9]+", expanded)
     normalized = [_normalize_word(word) for word in words]
     return normalized
@@ -169,6 +171,16 @@ def _is_negated(user_words, positions, keyword):
     # the matched keyword (e.g. 'not charging' describes a charging fault).
     prefix = user_words[max(0, start - 3):start]
     if any(word in NEGATION_WORDS for word in prefix):
+        return True
+
+    # Negation can occur between matched words, e.g. 'phone is not overheating'.
+    gaps = []
+    for left, right in zip(positions, positions[1:]):
+        gaps.extend(user_words[left + 1:right])
+    if (
+        any(word in NEGATION_WORDS for word in gaps)
+        and not keyword_words.intersection({"not", "no", "without"})
+    ):
         return True
 
     # Also handle 'overheating is not happening' and similar constructions.
