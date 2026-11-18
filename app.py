@@ -293,6 +293,7 @@ elif page == "🩺 Troubleshooting":
 
         st.session_state["semantic_candidates"] = []
         st.session_state["confirmed_facts"] = []
+        st.session_state["followup_answers"] = {}
 
         st.session_state["problem_input"] = ""
         st.session_state["semantic_candidate_selection"] = []
@@ -393,6 +394,7 @@ elif page == "🩺 Troubleshooting":
                 st.session_state["negated_facts"] = sorted(negated_facts)
 
                 st.session_state["confirmed_facts"] = []
+                st.session_state["followup_answers"] = {}
                 st.session_state["diagnosis_result"] = None
 
                 st.session_state["semantic_candidate_selection"] = []
@@ -510,8 +512,9 @@ elif page == "🩺 Troubleshooting":
             if verify_button:
 
                 st.session_state["confirmed_facts"] = (
-                    selected_candidates
+                    list(selected_candidates)
                 )
+                st.session_state["followup_answers"] = {}
 
                 st.session_state["diagnosis_result"] = None
 
@@ -532,91 +535,130 @@ elif page == "🩺 Troubleshooting":
                     )
 
                 # --------------------------------------------------
-                # ADDITIONAL INFORMATION
+                # INTELLIGENT ONE-QUESTION-AT-A-TIME FOLLOW-UP
                 # --------------------------------------------------
 
-                followup_facts = get_followup_facts(
-                    confirmed_facts
+                from engine.followup_engine import select_next_question
+
+                st.divider()
+                st.header("📋 Intelligent Follow-up")
+
+                st.write(
+                    "I will ask one relevant question at a time. "
+                    "Your answer helps narrow down the possible cause."
                 )
 
-                followup_facts = [
-                    fact
-                    for fact in followup_facts
-                    if fact not in confirmed_facts
-                ]
+                followup_answers = st.session_state.setdefault(
+                    "followup_answers", {}
+                )
+                followup_limit = 5
+                answered_count = len(followup_answers)
+
+                question = None
+                if answered_count < followup_limit:
+                    question = select_next_question(
+                        confirmed_facts=confirmed_facts,
+                        answered_facts=followup_answers,
+                        rules=RULES,
+                        assertions=ASSERTIONS,
+                        excluded_facts=st.session_state.get(
+                            "negated_facts", []
+                        ),
+                    )
+
+                if question:
+                    st.subheader("One quick question")
+                    st.write("**" + question["description"] + "?**")
+
+                    answer = st.radio(
+                        "Choose your answer:",
+                        ["Yes", "No", "Not sure"],
+                        horizontal=True,
+                        key="followup_answer_" + question["fact"],
+                    )
+
+                    if st.button(
+                        "Submit Answer",
+                        key="submit_followup_" + question["fact"],
+                        type="primary",
+                        use_container_width=True,
+                    ):
+                        followup_answers[question["fact"]] = (
+                            answer.lower().replace(" ", "_")
+                        )
+
+                        if answer == "Yes":
+                            if question["fact"] not in confirmed_facts:
+                                confirmed_facts.append(question["fact"])
+                            st.session_state["confirmed_facts"] = (
+                                confirmed_facts
+                            )
+
+                        st.session_state["followup_answers"] = (
+                            followup_answers
+                        )
+                        st.session_state["diagnosis_result"] = None
+                        st.rerun()
+
+                    st.caption(
+                        f"Follow-up question {answered_count + 1} "
+                        f"of {followup_limit}"
+                    )
+
+                elif answered_count >= followup_limit:
+                    st.info(
+                        "The follow-up question limit has been reached. "
+                        "You can run the diagnosis with the information "
+                        "confirmed so far."
+                    )
+                else:
+                    st.info(
+                        "No further relevant questions are available "
+                        "from the current rules. You can run the diagnosis."
+                    )
+
+                if followup_answers:
+                    with st.expander("View your follow-up answers"):
+                        for fact, answer in followup_answers.items():
+                            st.write(
+                                f"**{get_fact_description(fact)}** — "
+                                f"{answer.replace('_', ' ').title()}"
+                            )
 
                 st.divider()
 
-                st.header("📋 Additional Information")
-
-                st.write(
-                    "You may select additional statements that "
-                    "are also true for your phone."
-                )
-
-                followup_labels = {
-                    fact: get_fact_description(fact)
-                    for fact in followup_facts
-                }
-
-                with st.form("followup_form"):
-
-                    selected_facts = st.multiselect(
-                        "Select applicable statements:",
-                        options=followup_facts,
-                        format_func=lambda fact: followup_labels.get(
-                            fact,
-                            fact.replace("_", " ").title()
-                        ),
-                        placeholder="Choose applicable statements...",
-                        key="selected_facts_input"
-                    )
-
-                    diagnose = st.form_submit_button(
-                        "🩺 Run Expert Diagnosis",
-                        type="primary",
-                        use_container_width=True
-                    )
-
-                # --------------------------------------------------
-                # FORWARD AND BACKWARD CHAINING
-                # --------------------------------------------------
-
-                if diagnose:
-
-                    all_facts = sorted(
-                        set(confirmed_facts + selected_facts)
-                    )
+                if st.button(
+                    "🩺 Run Expert Diagnosis",
+                    key="run_expert_diagnosis",
+                    type="primary",
+                    use_container_width=True,
+                ):
+                    # Only user-confirmed positive facts enter inference.
+                    # "No" and "Not sure" remain recorded as non-positive answers.
+                    all_facts = sorted(set(
+                        st.session_state["confirmed_facts"]
+                    ))
 
                     forward_result = forward_chaining(
                         all_facts,
                         RULES
                     )
-
                     diagnosis_trace = forward_result["trace"]
 
                     shown_conclusions = []
-
                     for step in diagnosis_trace:
-
                         conclusion = step["conclusion"]
-
                         if conclusion not in shown_conclusions:
-
                             shown_conclusions.append(conclusion)
 
                     verified_count = 0
-
                     for conclusion in shown_conclusions:
-
                         backward_result = backward_chaining(
                             conclusion,
                             all_facts,
                             RULES
                         )
-
                         if backward_result["success"]:
-
                             verified_count += 1
 
                     st.session_state["diagnosis_result"] = {
