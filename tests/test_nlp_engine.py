@@ -63,6 +63,12 @@ class NLPExtractionTests(unittest.TestCase):
         facts = extract_facts("The battery drains very fast", ASSERTIONS)
         self.assertIn("battery_drains_fast", facts)
 
+    def test_contrast_clause_does_not_inherit_previous_negation(self):
+        problem = "My phone is not overheating but the battery drains fast"
+        facts = extract_facts(problem, ASSERTIONS)
+        self.assertNotIn("phone_overheating", facts)
+        self.assertIn("battery_drains_fast", facts)
+
     def test_contraction_for_not_charging_is_detected(self):
         facts = extract_facts("My phone won't charge", ASSERTIONS)
         self.assertIn("phone_not_charging", facts)
