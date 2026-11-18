@@ -39,7 +39,7 @@ FACT_ALIASES = {
     "phone_overheating": [
         "phone gets hot", "phone is getting hot",
         "mobile gets hot", "device is overheating",
-        "phone heats up", "mobile heats up",
+        "phone heats up", "mobile heats up", "overheating",
     ],
     "wifi_not_working": [
         "wi fi not working", "wifi will not connect",
@@ -221,3 +221,39 @@ def extract_facts(problem, assertions):
                 break
 
     return sorted(matched)
+
+
+
+def extract_negated_facts(problem, assertions):
+    """Return facts explicitly mentioned with negative polarity."""
+    if not isinstance(problem, str) or not problem.strip():
+        return []
+
+    user_words = normalize_tokens(problem)
+    negated = set()
+    positive = set()
+
+    for assertion in assertions:
+        if not isinstance(assertion, dict):
+            continue
+        fact_name = assertion.get("fact")
+        if not isinstance(fact_name, str) or not fact_name.strip():
+            continue
+
+        keywords = list(assertion.get("keywords") or [])
+        keywords.append(fact_name.replace("_", " "))
+        keywords.extend(FACT_ALIASES.get(fact_name, []))
+
+        for keyword in keywords:
+            if not isinstance(keyword, str) or not keyword.strip():
+                continue
+            positions = _phrase_positions(user_words, keyword)
+            if positions is None:
+                continue
+            if _is_negated(user_words, positions, keyword):
+                negated.add(fact_name)
+            else:
+                positive.add(fact_name)
+                break
+
+    return sorted(negated - positive)
