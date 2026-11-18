@@ -117,7 +117,7 @@ def normalize_tokens(text):
     """Tokenize text and normalize common inflected word forms."""
     expanded = _expand_contractions(text)
     # Treat common Wi-Fi spellings (Wi-Fi, Wi Fi, wifi) consistently.
-    expanded = re.sub(r"\\bwi[\\s-]?fi\\b", "wifi", expanded)
+    expanded = re.sub(r"\bwi[\s-]?fi\b", "wifi", expanded)
     words = re.findall(r"[a-z0-9]+", expanded)
     normalized = [_normalize_word(word) for word in words]
     return normalized
