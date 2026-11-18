@@ -1,5 +1,4 @@
 
-import re
 import streamlit as st
 
 from knowledge_base.rules import RULES
@@ -11,6 +10,7 @@ from engine.inference_engine import (
 )
 
 from engine.rule_tester import run_rule_tests
+from engine.nlp_engine import extract_facts, extract_negated_facts
 
 
 # ==================================================
@@ -118,136 +118,8 @@ def get_fact_description(fact):
 
 
 # ==================================================
-# NATURAL LANGUAGE PROCESSING
+# FOLLOW-UP FACT SELECTION
 # ==================================================
-
-def normalize_tokens(text):
-
-    words = re.findall(r"[a-z0-9]+", text.lower())
-    normalized = []
-
-    for word in words:
-
-        if word.endswith("ies") and len(word) > 4:
-            word = word[:-3] + "y"
-
-        elif word.endswith("ing") and len(word) > 5:
-            word = word[:-3]
-
-        elif word.endswith("ed") and len(word) > 4:
-            word = word[:-2]
-
-        elif word.endswith("es") and len(word) > 4:
-            word = word[:-2]
-
-        elif word.endswith("s") and len(word) > 3:
-            word = word[:-1]
-
-        normalized.append(word)
-
-    return normalized
-
-
-def phrase_matches(user_words, keyword):
-
-    phrase_words = normalize_tokens(keyword)
-
-    if len(phrase_words) < 2:
-        return False
-
-    negations = {"not", "no", "never", "without"}
-
-    for start in range(len(user_words)):
-
-        positions = []
-
-        for word in phrase_words:
-
-            found = None
-
-            for index in range(
-                start,
-                min(start + 6, len(user_words))
-            ):
-
-                if (
-                    index not in positions
-                    and user_words[index] == word
-                ):
-                    found = index
-                    break
-
-            if found is None:
-                break
-
-            positions.append(found)
-
-        if len(positions) != len(phrase_words):
-            continue
-
-        if (
-            max(positions) - min(positions)
-            > len(phrase_words) + 2
-        ):
-            continue
-
-        nearby_words = user_words[
-            max(0, min(positions) - 2):
-            max(positions) + 1
-        ]
-
-        if (
-            negations.intersection(nearby_words)
-            and not negations.intersection(phrase_words)
-        ):
-            continue
-
-        return True
-
-    return False
-
-
-def extract_facts(problem):
-
-    user_words = normalize_tokens(problem)
-    matched_facts = []
-
-    extra_keywords = {
-        "phone_overheating": [
-            "getting hot",
-            "gets hot",
-            "becomes hot",
-            "heating up",
-            "phone is hot",
-            "mobile is hot",
-            "overheating"
-        ]
-    }
-
-    for assertion in ASSERTIONS:
-
-        fact_name = assertion["fact"]
-
-        keywords = assertion.get("keywords", [])
-
-        keywords = keywords + [
-            fact_name.replace("_", " ")
-        ]
-
-        keywords += extra_keywords.get(
-            fact_name,
-            []
-        )
-
-        for keyword in keywords:
-
-            if phrase_matches(user_words, keyword):
-
-                matched_facts.append(fact_name)
-                break
-
-    return sorted(set(matched_facts))
-
 
 def get_followup_facts(matched_facts):
 
@@ -456,24 +328,69 @@ elif page == "🩺 Troubleshooting":
 
             try:
 
-                from engine.semantic_matcher import (
-                    search_similar_facts
+                # Direct NLP matches are grounded in assertion keywords.
+                # Semantic matches remain suggestions and are never treated as proof.
+                explicit_facts = extract_facts(problem, ASSERTIONS)
+                negated_facts = set(
+                    extract_negated_facts(problem, ASSERTIONS)
                 )
 
-                with st.spinner(
-                    "Understanding your problem and searching "
-                    "the knowledge base..."
-                ):
+                candidates = []
 
-                    candidates = search_similar_facts(
-                        problem,
-                        ASSERTIONS,
-                        top_k=8,
-                        min_score=0.50
+                try:
+                    from engine.semantic_matcher import search_similar_facts
+
+                    with st.spinner(
+                        "Understanding your problem and searching "
+                        "the knowledge base..."
+                    ):
+                        candidates = search_similar_facts(
+                            problem,
+                            ASSERTIONS,
+                            top_k=8,
+                            min_score=0.50
+                        )
+                except Exception as semantic_error:
+                    if not explicit_facts:
+                        raise
+                    st.warning(
+                        "Direct keyword analysis worked, but semantic "
+                        "suggestions are temporarily unavailable."
                     )
+
+                # Never show a semantically suggested fact that the user
+                # explicitly negated in the problem description.
+                candidates = [
+                    item for item in candidates
+                    if item.get("fact") not in negated_facts
+                ]
+
+                candidate_facts = {
+                    item.get("fact") for item in candidates
+                }
+
+                # Put direct matches first and label them separately.
+                for fact in reversed(explicit_facts):
+                    if fact not in candidate_facts:
+                        assertion = FACT_LOOKUP.get(fact, {})
+                        candidates.insert(0, {
+                            "fact": fact,
+                            "description": assertion.get(
+                                "description",
+                                fact.replace("_", " ").title()
+                            ),
+                            "score": 1.0,
+                            "exact_match": True
+                        })
+                    else:
+                        for item in candidates:
+                            if item.get("fact") == fact:
+                                item["exact_match"] = True
+                                break
 
                 st.session_state["problem_text"] = problem
                 st.session_state["semantic_candidates"] = candidates
+                st.session_state["negated_facts"] = sorted(negated_facts)
 
                 st.session_state["confirmed_facts"] = []
                 st.session_state["diagnosis_result"] = None
@@ -485,8 +402,7 @@ elif page == "🩺 Troubleshooting":
 
             except Exception as error:
 
-                st.error("Semantic analysis could not be completed.")
-
+                st.error("Problem analysis could not be completed.")
                 st.code(str(error))
 
         else:
@@ -509,6 +425,16 @@ elif page == "🩺 Troubleshooting":
 
         st.write("**Your Problem:**")
         st.info(st.session_state["problem_text"])
+
+        ignored_negations = st.session_state.get("negated_facts", [])
+        if ignored_negations:
+            st.caption(
+                "Not counted because your description negated them: "
+                + ", ".join(
+                    get_fact_description(fact)
+                    for fact in ignored_negations
+                )
+            )
 
         if not candidates:
 
@@ -539,10 +465,14 @@ elif page == "🩺 Troubleshooting":
 
                 score = item["score"]
 
-                candidate_labels[fact] = (
-                    f"{description} "
-                    f"(Similarity: {score:.3f})"
-                )
+                if item.get("exact_match"):
+                    candidate_labels[fact] = (
+                        f"{description} (Direct phrase match)"
+                    )
+                else:
+                    candidate_labels[fact] = (
+                        f"{description} (Similarity: {score:.3f})"
+                    )
 
             # --------------------------------------------------
             # FACT VERIFICATION
