@@ -207,10 +207,10 @@ if page == "🏠 Home":
     col1, col2, col3 = st.columns(3)
 
     with col1:
-        st.metric("Knowledge Base Rules", "100")
+        st.metric("Knowledge Base Rules", len(RULES))
 
     with col2:
-        st.metric("Assertions / Facts", "300")
+        st.metric("Assertions / Facts", len(ASSERTIONS))
 
     with col3:
         st.metric("Inference Methods", "2")
@@ -587,7 +587,7 @@ elif page == "ℹ️ About Project":
 
     st.write("**Streamlit:** Web application interface.")
 
-    st.write("**Knowledge Base:** 100 IF-THEN rules and 300 facts.")
+    st.write(f"**Knowledge Base:** {len(RULES)} IF-THEN rules and {len(ASSERTIONS)} facts.")
 
     st.write(
         "**Inference Engine:** Forward Chaining and "
