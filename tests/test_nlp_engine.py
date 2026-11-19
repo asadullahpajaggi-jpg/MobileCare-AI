@@ -115,5 +115,16 @@ class NLPExtractionTests(unittest.TestCase):
         self.assertIn("phone_wifi_restarted", facts)
         self.assertIn("mobile_data_works", facts)
 
+    def test_intermitent_charging_context_from_full_problem(self):
+        from knowledge_base.assertions import ASSERTIONS as FULL_ASSERTIONS
+        problem = ("My phone is charging very slowly. Sometimes it stops charging even when the cable is connected. " 
+                   "I tried a different charger but the problem is still there. The phone is not overheating, " 
+                   "and the battery drains faster than usual.")
+        facts = extract_facts(problem, FULL_ASSERTIONS)
+        self.assertIn("charging_slow", facts)
+        self.assertIn("phone_charging_disconnects", facts)
+        self.assertIn("battery_drains_fast", facts)
+        self.assertNotIn("phone_overheating", facts)
+
 if __name__ == "__main__":
     unittest.main()
