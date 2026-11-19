@@ -47,6 +47,19 @@ FACT_ALIASES = {
         "wifi won't connect", "cannot connect to wifi",
         "can't connect to wifi", "wifi is not connecting",
     ],
+    "other_devices_wifi_working": [
+        "other devices are working fine on the same wifi",
+        "other devices working on same wifi",
+        "other devices have internet",
+        "other devices can access internet",
+    ],
+    "phone_wifi_restarted": [
+        "restarted my phone", "phone was restarted",
+        "restart phone did not help", "restarted phone but problem remains",
+    ],
+    "mobile_data_works": [
+        "mobile data works normally", "mobile data is working",
+    ],
     "wifi_connected_no_internet": [
         "wifi connected but no internet",
         "connected to wifi no internet",
