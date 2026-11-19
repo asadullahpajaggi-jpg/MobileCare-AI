@@ -295,7 +295,6 @@ elif page == "🩺 Troubleshooting":
         st.session_state["confirmed_facts"] = []
         st.session_state["negated_facts"] = []
         st.session_state["followup_answers"] = {}
-        st.session_state["followup_answers"] = {}
 
         st.session_state["problem_input"] = ""
         st.session_state["semantic_candidate_selection"] = []
@@ -393,7 +392,7 @@ elif page == "🩺 Troubleshooting":
 
             st.divider()
             st.header("📋 Expert System Follow-up")
-            st.write("Answer one relevant question at a time to help narrow down the cause.")
+            st.write("Answer one relevant question at a time. Each answer helps the expert system rule out or support possible causes.")
 
             followup_answers = st.session_state.setdefault("followup_answers", {})
             followup_limit = 5
