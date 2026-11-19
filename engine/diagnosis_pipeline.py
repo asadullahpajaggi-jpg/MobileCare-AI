@@ -4,8 +4,9 @@ from engine.diagnosis_engine import summarize_diagnosis
 from engine.decision_engine import rank_diagnoses, decision_summary
 from engine.evidence_decision import assess_evidence
 from engine.contradiction_engine import detect_contradictions, remove_conflicted_facts
+from engine.partial_candidates import find_partial_rule_candidates
 
-def run_diagnosis(facts, rules):
+def run_diagnosis(facts, rules, blocked_facts=None):
     observed = sorted(set(facts or []))
     conflicts = detect_contradictions(observed)
     reasoning_facts = remove_conflicted_facts(observed, conflicts)
@@ -17,10 +18,7 @@ def run_diagnosis(facts, rules):
     evidence_rows = [{**entries_by_conclusion.get(row["conclusion"], {}), **row} for row in ranked]
     adequacy = assess_evidence(evidence_rows)
     summary = decision_summary(ranked)
-    verified = [{"conclusion": row["conclusion"], "success": backward_chaining(row["conclusion"], reasoning_facts, rules)["success"],
-                 "trace": backward_chaining(row["conclusion"], reasoning_facts, rules)["trace"]} for row in ranked]
-    return {"observed_facts": observed, "reasoning_facts": reasoning_facts, "contradictions": conflicts,
-            "trace": trace, "conclusions": [row["conclusion"] for row in ranked],
-            "evidence_report": evidence, "ranked": ranked, "summary": summary,
-            "evidence_status": adequacy, "verified": sum(item["success"] for item in verified),
-            "total": len(verified), "verification": verified}
+    verified = [{"conclusion": row["conclusion"], "success": backward_chaining(row["conclusion"], reasoning_facts, rules)["success"], "trace": backward_chaining(row["conclusion"], reasoning_facts, rules)["trace"]} for row in ranked]
+    from knowledge_base.assertions import ASSERTIONS
+    partial_candidates = find_partial_rule_candidates(reasoning_facts, rules, ASSERTIONS, blocked_facts=blocked_facts)
+    return {"observed_facts": observed, "reasoning_facts": reasoning_facts, "partial_candidates": partial_candidates, "contradictions": conflicts, "trace": trace, "conclusions": [row["conclusion"] for row in ranked], "evidence_report": evidence, "ranked": ranked, "summary": summary, "evidence_status": adequacy, "verified": sum(item["success"] for item in verified), "total": len(verified), "verification": verified}
