@@ -471,7 +471,20 @@ elif page == "🩺 Troubleshooting":
                     st.subheader("Possible Causes and Solutions")
                     from engine.diagnosis_engine import summarize_diagnosis
                     evidence_report = summarize_diagnosis(result["trace"], st.session_state["confirmed_facts"])
-                    for entry in evidence_report["entries"]:
+                    from engine.decision_engine import rank_diagnoses, decision_summary
+                    ranked = rank_diagnoses(result["trace"], st.session_state["confirmed_facts"])
+                    summary = decision_summary(ranked)
+                    st.write(summary["message"])
+                    if summary["top"]:
+                        st.subheader("Best evidence match")
+                        st.markdown("### " + summary["top"]["conclusion"].replace("_", " ").title())
+                        st.caption("Priority is based on evidence coverage, not a probability or certainty score.")
+                    if summary["alternatives"]:
+                        with st.expander("Other matched possibilities", expanded=True):
+                            for alternative in summary["alternatives"]:
+                                st.write(f"**{alternative['rank']}. {alternative['conclusion'].replace('_', ' ').title()}** — {alternative['evidence_label']}")
+                    entries_by_conclusion = {entry["conclusion"]: entry for entry in evidence_report["entries"]}
+                    for entry in ranked:
                         st.markdown("### 🔎 " + entry["conclusion"].replace("_", " ").title())
                         st.write("**Evidence breakdown:**")
                         for condition in entry["confirmed_conditions"]:
