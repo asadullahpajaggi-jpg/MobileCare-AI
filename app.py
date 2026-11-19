@@ -474,6 +474,20 @@ elif page == "🩺 Troubleshooting":
                     from engine.decision_engine import rank_diagnoses, decision_summary
                     ranked = rank_diagnoses(result["trace"], st.session_state["confirmed_facts"])
                     summary = decision_summary(ranked)
+                    from engine.evidence_decision import assess_evidence
+                    evidence_rows = []
+                    for ranked_entry in ranked:
+                        source = entries_by_conclusion.get(ranked_entry["conclusion"], {})
+                        evidence_rows.append({**source, **ranked_entry})
+                    evidence_status = assess_evidence(evidence_rows)
+                    st.subheader("Evidence Adequacy")
+                    st.write(evidence_status["message"])
+                    if evidence_status["status"] == "insufficient":
+                        st.warning("Evidence is incomplete. These are partial matches, not established diagnoses.")
+                    elif evidence_status["status"] == "competing":
+                        st.warning("Several complete rule matches remain. The system cannot reliably choose one.")
+                    else:
+                        st.success("At least one rule has all required conditions established.")
                     st.write(summary["message"])
                     if summary["top"]:
                         st.subheader("Best evidence match")
