@@ -484,7 +484,8 @@ elif page == "🩺 Troubleshooting":
                             for alternative in summary["alternatives"]:
                                 st.write(f"**{alternative['rank']}. {alternative['conclusion'].replace('_', ' ').title()}** — {alternative['evidence_label']}")
                     entries_by_conclusion = {entry["conclusion"]: entry for entry in evidence_report["entries"]}
-                    for entry in ranked:
+                    for ranked_entry in ranked:
+                        entry = {**entries_by_conclusion.get(ranked_entry["conclusion"], {}), **ranked_entry}
                         st.markdown("### 🔎 " + entry["conclusion"].replace("_", " ").title())
                         st.write("**Evidence breakdown:**")
                         for condition in entry["confirmed_conditions"]:
