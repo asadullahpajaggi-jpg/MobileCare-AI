@@ -392,7 +392,7 @@ elif page == "🩺 Troubleshooting":
 
             st.divider()
             st.header("📋 Expert System Follow-up")
-            st.write("Answer one relevant question at a time. Each answer helps the expert system rule out or support possible causes.")
+            st.write("The system chooses questions to help separate competing explanations. Yes supports a condition; No and Not sure prevent rules that require that condition from being pursued.")
 
             followup_answers = st.session_state.setdefault("followup_answers", {})
             followup_limit = 5
@@ -408,7 +408,7 @@ elif page == "🩺 Troubleshooting":
 
             if question:
                 st.subheader("One quick question")
-                st.write("**" + question["description"] + "?**")
+                st.write("**Does this apply to your phone?**")\n                st.info(question["description"])\n                st.caption("This question helps distinguish between possible causes.")
                 answer = st.radio(
                     "Your answer:",
                     ["Yes", "No", "Not sure"],
