@@ -482,7 +482,7 @@ elif page == "🩺 Troubleshooting":
                         evidence_rows.append({**source, **ranked_entry})
                     evidence_status = assess_evidence(evidence_rows)
                     st.subheader("Evidence Adequacy")
-                    st.write(evidence_status["message"])
+                    st.write(evidence_status["message"])\n                    st.info(evidence_status["next_step"])\n                    if evidence_status.get("evidence_basis"):\n                        st.caption("Evidence basis: " + evidence_status["evidence_basis"])
                     if evidence_status["status"] == "insufficient":
                         st.warning("Evidence is incomplete. These are partial matches, not established diagnoses.")
                     elif evidence_status["status"] == "competing":
