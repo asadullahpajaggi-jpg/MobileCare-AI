@@ -337,7 +337,7 @@ elif page == "🩺 Troubleshooting":
                 st.session_state["semantic_candidates"] = []
                 st.session_state["negated_facts"] = sorted(negated_facts)
 
-                st.session_state["confirmed_facts"] = []
+                st.session_state["confirmed_facts"] = list(explicit_facts)
                 st.session_state["followup_answers"] = {}
                 st.session_state["diagnosis_result"] = None
 
