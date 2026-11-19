@@ -216,9 +216,10 @@ def audit_knowledge_base(rules, assertions):
 
 
 def validate_knowledge_base():
-    """Load repository data and return a backward-compatible validation report."""
+    """Validate the actual runtime knowledge-base lists used by the app."""
     try:
-        rules = load_list(BASE_DIR / "knowledge_base" / "rules.py", "RULES")
+        from knowledge_base.rules import RULES
+        rules = RULES
     except Exception as error:
         return {
             "checks": [("Rules file syntax and structure", False, str(error))],
@@ -228,9 +229,8 @@ def validate_knowledge_base():
         }
 
     try:
-        assertions = load_list(
-            BASE_DIR / "knowledge_base" / "assertions.py", "ASSERTIONS"
-        )
+        from knowledge_base.assertions import ASSERTIONS
+        assertions = ASSERTIONS
     except Exception as error:
         return {
             "checks": [
