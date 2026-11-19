@@ -7,6 +7,8 @@ def summarize_diagnosis(trace, confirmed_facts):
                if isinstance(step, dict) and step.get("conclusion")}
     entries = []
     seen = set()
+    intermediate = {condition for step in trace or [] if isinstance(step, dict) for condition in (step.get('conditions') or [])}
+    intermediate.intersection_update(derived)
     for step in trace or []:
         if not isinstance(step, dict):
             continue
