@@ -85,7 +85,9 @@ class FollowUpEngineTests(unittest.TestCase):
             {"phone_old": "no"},
             RULES, ASSERTIONS
         )
-        self.assertEqual(question["fact"], "many_apps_running")\n\n    def test_does_not_create_questions_without_confirmed_symptoms(self):
+        self.assertEqual(question["fact"], "many_apps_running")
+
+    def test_does_not_create_questions_without_confirmed_symptoms(self):
         question = select_next_question(
             [], {}, RULES, ASSERTIONS
         )
