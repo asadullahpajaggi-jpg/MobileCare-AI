@@ -456,6 +456,12 @@ elif page == "🩺 Troubleshooting":
             if result is not None:
                 st.divider()
                 st.header("🩺 Diagnosis Results")
+                if result.get("contradictions"):
+                    st.warning("Conflicting observations detected. The system excluded these facts from reasoning rather than choosing either side.")
+                    for conflict in result["contradictions"]:
+                        st.write("Conflict: " + " / ".join(get_fact_description(f) for f in conflict["facts"]))
+                if not result.get("reasoning_facts") and result.get("contradictions"):
+                    st.info("Please clarify the conflicting observations and start a new diagnosis.")
                 if result["trace"]:
                     st.info("Possible causes are rule-based and not guaranteed hardware diagnoses.")
                     st.subheader("Possible Causes and Solutions")
