@@ -105,5 +105,15 @@ class NLPExtractionTests(unittest.TestCase):
         self.assertEqual(extract_negated_facts("", ASSERTIONS), [])
 
 
+    def test_contextual_wifi_facts_extracted_from_full_problem(self):
+        from knowledge_base.assertions import ASSERTIONS as FULL_ASSERTIONS
+        problem = ("My phone connects to Wi-Fi but the internet does not work. Other devices are working fine on the same Wi-Fi network. " 
+                   "I restarted my phone but the problem remains. Mobile data works normally.")
+        facts = extract_facts(problem, FULL_ASSERTIONS)
+        self.assertIn("wifi_connected_no_internet", facts)
+        self.assertIn("other_devices_wifi_working", facts)
+        self.assertIn("phone_wifi_restarted", facts)
+        self.assertIn("mobile_data_works", facts)
+
 if __name__ == "__main__":
     unittest.main()
