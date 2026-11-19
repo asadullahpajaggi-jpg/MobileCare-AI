@@ -603,4 +603,275 @@ RULES = [
         "conclusion": "professional_diagnosis_required",
         "solution": "Back up important data and contact an authorized mobile repair service."
     }
+,
+    {
+      "id": 101,
+      "conditions": [
+        "battery_drains_fast",
+        "battery_not_holding_charge"
+      ],
+      "conclusion": "battery_capacity_degraded",
+      "solution": "Check battery health and consider qualified battery replacement if capacity is degraded."
+    },
+    {
+      "id": 102,
+      "conditions": [
+        "battery_drains_fast",
+        "battery_percentage_jumping"
+      ],
+      "conclusion": "battery_reading_unstable",
+      "solution": "Restart the phone and observe battery readings; seek battery inspection if repeated."
+    },
+    {
+      "id": 103,
+      "conditions": [
+        "phone_not_turning_on",
+        "phone_shutdown_at_high_battery"
+      ],
+      "conclusion": "unexpected_power_shutdown",
+      "solution": "Charge with a compatible charger and seek battery or power-system inspection if shutdowns continue."
+    },
+    {
+      "id": 104,
+      "conditions": [
+        "phone_not_charging",
+        "charging_disconnects"
+      ],
+      "conclusion": "intermittent_charging_connection",
+      "solution": "Check cable and adapter using known-good compatible accessories; avoid manipulating a damaged port."
+    },
+    {
+      "id": 105,
+      "conditions": [
+        "phone_not_charging",
+        "charging_port_loose"
+      ],
+      "conclusion": "loose_charging_port_possible",
+      "solution": "Avoid forcing the connector and arrange charging-port inspection."
+    },
+    {
+      "id": 106,
+      "conditions": [
+        "wifi_not_working",
+        "wifi_password_rejected"
+      ],
+      "conclusion": "wifi_authentication_problem",
+      "solution": "Confirm the password and router security settings; forget and reconnect if appropriate."
+    },
+    {
+      "id": 107,
+      "conditions": [
+        "wifi_not_working",
+        "wifi_connected_no_internet"
+      ],
+      "conclusion": "wifi_internet_service_problem",
+      "solution": "Check whether other devices have internet and restart the router if appropriate."
+    },
+    {
+      "id": 108,
+      "conditions": [
+        "wifi_connected_no_internet",
+        "vpn_enabled"
+      ],
+      "conclusion": "vpn_connection_interference",
+      "solution": "Temporarily disconnect the VPN and test; restore it afterward if needed."
+    },
+    {
+      "id": 109,
+      "conditions": [
+        "mobile_data_not_working",
+        "mobile_data_roaming_disabled"
+      ],
+      "conclusion": "roaming_data_setting",
+      "solution": "If roaming is expected and safe for your plan, review roaming settings and possible charges."
+    },
+    {
+      "id": 110,
+      "conditions": [
+        "mobile_data_not_working",
+        "network_mode_incompatible"
+      ],
+      "conclusion": "network_mode_mismatch",
+      "solution": "Review preferred network mode and local carrier support."
+    },
+    {
+      "id": 111,
+      "conditions": [
+        "apps_crashing",
+        "apps_crash_after_update"
+      ],
+      "conclusion": "app_update_regression_possible",
+      "solution": "Check for a newer app update; report the issue to the app developer if it persists."
+    },
+    {
+      "id": 112,
+      "conditions": [
+        "apps_crashing",
+        "app_force_stop"
+      ],
+      "conclusion": "app_stopped_by_system_or_user",
+      "solution": "Reopen the app and restart the phone if needed."
+    },
+    {
+      "id": 113,
+      "conditions": [
+        "app_not_opening",
+        "app_login_failed"
+      ],
+      "conclusion": "application_login_problem",
+      "solution": "Check credentials, connectivity and the service status; avoid repeated attempts if locked."
+    },
+    {
+      "id": 114,
+      "conditions": [
+        "app_login_failed",
+        "account_locked"
+      ],
+      "conclusion": "account_lockout",
+      "solution": "Use the app's official account recovery process."
+    },
+    {
+      "id": 115,
+      "conditions": [
+        "notifications_not_received",
+        "notification_permission_denied"
+      ],
+      "conclusion": "notifications_permission_blocked",
+      "solution": "Allow notification permission for the relevant app."
+    },
+    {
+      "id": 116,
+      "conditions": [
+        "notifications_not_received",
+        "notification_channel_muted"
+      ],
+      "conclusion": "notification_channel_silenced",
+      "solution": "Review the affected notification category or channel settings."
+    },
+    {
+      "id": 117,
+      "conditions": [
+        "phone_slow",
+        "phone_accessibility_zoom_on"
+      ],
+      "conclusion": "display_accessibility_setting",
+      "solution": "Review accessibility zoom settings if they were enabled unintentionally."
+    },
+    {
+      "id": 118,
+      "conditions": [
+        "touchscreen_not_working",
+        "screen_touch_delay"
+      ],
+      "conclusion": "touch_response_issue",
+      "solution": "Remove gloves and test the screen clean and dry; seek service if delay persists."
+    },
+    {
+      "id": 119,
+      "conditions": [
+        "phone_slow",
+        "phone_memory_low"
+      ],
+      "conclusion": "memory_pressure_possible",
+      "solution": "Close unused apps and restart; check whether performance improves."
+    },
+    {
+      "id": 120,
+      "conditions": [
+        "phone_problem_persists",
+        "phone_safe_mode"
+      ],
+      "conclusion": "safe_mode_diagnostic_state",
+      "solution": "If Safe Mode was entered unintentionally, restart normally; use it as a diagnostic state, not a diagnosis."
+    },
+    {
+      "id": 121,
+      "conditions": [
+        "phone_wet",
+        "phone_water_warning"
+      ],
+      "conclusion": "liquid_warning_safety",
+      "solution": "Do not charge the phone. Power it off if safe and seek professional inspection."
+    },
+    {
+      "id": 122,
+      "conditions": [
+        "battery_swelling",
+        "back_cover_lifting"
+      ],
+      "conclusion": "battery_swelling_safety",
+      "solution": "Stop using and charging the device. Do not press it or attempt to puncture it; arrange professional handling."
+    },
+    {
+      "id": 123,
+      "conditions": [
+        "phone_overheating",
+        "phone_smoke_or_burning_smell"
+      ],
+      "conclusion": "thermal_emergency",
+      "solution": "Stop using and charging it, move away if unsafe, and seek emergency assistance if fire or smoke presents danger."
+    },
+    {
+      "id": 124,
+      "conditions": [
+        "phone_lost_or_stolen",
+        "phone_security_warning"
+      ],
+      "conclusion": "lost_device_security",
+      "solution": "Use the official device-finding service to secure or locate it and contact your carrier as needed."
+    },
+    {
+      "id": 125,
+      "conditions": [
+        "screen_lock_unknown",
+        "backup_not_available"
+      ],
+      "conclusion": "locked_device_data_caution",
+      "solution": "Use official recovery options; avoid resets that may erase data unless you understand the consequences."
+    },
+    {
+      "id": 126,
+      "conditions": [
+        "apps_crashing",
+        "phone_storage_permission_denied"
+      ],
+      "conclusion": "media_permission_issue",
+      "solution": "Review the app's media or storage permissions and grant only what is necessary."
+    },
+    {
+      "id": 127,
+      "conditions": [
+        "microphone_not_working",
+        "microphone_sound_low"
+      ],
+      "conclusion": "microphone_low_input",
+      "solution": "Check microphone openings and app permissions; test in another app to compare."
+    },
+    {
+      "id": 128,
+      "conditions": [
+        "speaker_no_sound",
+        "speaker_sound_low"
+      ],
+      "conclusion": "speaker_output_low",
+      "solution": "Check volume and audio routing, and inspect openings for visible debris."
+    },
+    {
+      "id": 129,
+      "conditions": [
+        "phone_clock_wrong",
+        "automatic_time_disabled"
+      ],
+      "conclusion": "time_configuration_problem",
+      "solution": "Enable automatic date and time and automatic time zone if available."
+    },
+    {
+      "id": 130,
+      "conditions": [
+        "phone_not_charging",
+        "phone_overheating"
+      ],
+      "conclusion": "charging_temperature_safety",
+      "solution": "Disconnect power if the phone is unusually hot and let it cool in a safe place."
+    }
 ]
