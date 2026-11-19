@@ -629,7 +629,7 @@ ASSERTIONS = [
         "fact": "battery_swelling",
         "description": "Battery appears swollen",
         "category": "Battery Safety",
-        "keywords": ["swollen battery", "battery bulging"]
+        "keywords": ["swollen battery", "battery bulging", "battery swelling"]
     },
     {
         "id": 91,
@@ -930,7 +930,7 @@ ASSERTIONS = [
         "fact": "phone_clock_wrong",
         "description": "Phone displays an incorrect date or time.",
         "category": "system",
-        "keywords": ["wrong phone time", "incorrect clock", "wrong date and time"]
+        "keywords": ["wrong phone time", "incorrect clock", "wrong date and time", "incorrect date phone"]
     },
     {
         "id": 134,
@@ -1077,7 +1077,7 @@ ASSERTIONS = [
         "fact": "battery_percentage_jumping",
         "description": "Battery percentage changes unexpectedly.",
         "category": "battery",
-        "keywords": ["battery percentage jumping", "battery percentage changing", "incorrect battery level"]
+        "keywords": ["battery percentage jumping", "battery percentage changing", "incorrect battery level", "battery percentage jumps", "battery drops suddenly"]
     },
     {
         "id": 155,
@@ -1224,7 +1224,7 @@ ASSERTIONS = [
         "fact": "network_mode_incompatible",
         "description": "Selected network mode may not be supported in the current area.",
         "category": "network",
-        "keywords": ["network mode problem", "4g not working", "preferred network type issue"]
+        "keywords": ["network mode problem", "4g not working", "preferred network type issue", "4g not available"]
     },
     {
         "id": 176,
@@ -1469,7 +1469,7 @@ ASSERTIONS = [
         "fact": "charging_port_loose",
         "description": "Charging cable connection feels loose in the phone port.",
         "category": "charging",
-        "keywords": ["loose charging port", "charger connection loose", "cable moves in port"]
+        "keywords": ["loose charging port", "charger connection loose", "cable moves in port", "charger loose"]
     },
     {
         "id": 211,
@@ -1868,7 +1868,7 @@ ASSERTIONS = [
         "fact": "screen_touch_delay",
         "description": "Touchscreen responds with a noticeable delay.",
         "category": "display",
-        "keywords": ["touch delay", "slow touchscreen response", "delayed touch response"]
+        "keywords": ["touch delay", "slow touchscreen response", "delayed touch response", "touch delayed", "screen responds slowly"]
     },
     {
         "id": 268,
@@ -2112,17 +2112,7 @@ ASSERTIONS = [
         "battery cannot hold charge"
       ]
     },
-    {
-      "id": 302,
-      "fact": "battery_percentage_jumping",
-      "description": "Battery percentage changes suddenly",
-      "category": "Battery",
-      "keywords": [
-        "battery percentage jumps",
-        "battery drops suddenly"
-      ]
-    },
-    {
+        {
       "id": 303,
       "fact": "phone_shutdown_at_high_battery",
       "description": "Phone shuts down while battery still shows charge",
@@ -2142,17 +2132,7 @@ ASSERTIONS = [
         "charging intermittent"
       ]
     },
-    {
-      "id": 305,
-      "fact": "charging_port_loose",
-      "description": "Charging connector feels loose in the port",
-      "category": "Charging",
-      "keywords": [
-        "loose charging port",
-        "charger loose"
-      ]
-    },
-    {
+        {
       "id": 306,
       "fact": "wifi_password_rejected",
       "description": "Wi-Fi rejects the correct password",
@@ -2162,17 +2142,7 @@ ASSERTIONS = [
         "correct wifi password not accepted"
       ]
     },
-    {
-      "id": 307,
-      "fact": "wifi_connected_no_internet",
-      "description": "Wi-Fi connected but internet unavailable",
-      "category": "Network",
-      "keywords": [
-        "wifi connected no internet",
-        "connected without internet"
-      ]
-    },
-    {
+        {
       "id": 308,
       "fact": "vpn_enabled",
       "description": "VPN is enabled",
@@ -2192,17 +2162,7 @@ ASSERTIONS = [
         "data roaming disabled"
       ]
     },
-    {
-      "id": 310,
-      "fact": "network_mode_incompatible",
-      "description": "Selected network mode may not be supported in area",
-      "category": "Network",
-      "keywords": [
-        "network mode problem",
-        "4g not available"
-      ]
-    },
-    {
+        {
       "id": 311,
       "fact": "apps_crash_after_update",
       "description": "App began crashing after an update",
@@ -2272,17 +2232,7 @@ ASSERTIONS = [
         "magnification turned on"
       ]
     },
-    {
-      "id": 318,
-      "fact": "screen_touch_delay",
-      "description": "Touch response is delayed",
-      "category": "Display",
-      "keywords": [
-        "touch delayed",
-        "screen responds slowly"
-      ]
-    },
-    {
+        {
       "id": 319,
       "fact": "phone_memory_low",
       "description": "Available RAM is low",
@@ -2312,17 +2262,7 @@ ASSERTIONS = [
         "liquid detected warning"
       ]
     },
-    {
-      "id": 322,
-      "fact": "battery_swelling",
-      "description": "Battery appears swollen",
-      "category": "Safety",
-      "keywords": [
-        "swollen battery",
-        "battery swelling"
-      ]
-    },
-    {
+        {
       "id": 323,
       "fact": "phone_smoke_or_burning_smell",
       "description": "Phone emits smoke or burning smell",
@@ -2392,25 +2332,7 @@ ASSERTIONS = [
         "phone audio quiet"
       ]
     },
-    {
-      "id": 330,
-      "fact": "phone_clock_wrong",
-      "description": "Phone date or time is incorrect",
-      "category": "Device",
-      "keywords": [
-        "wrong phone time",
-        "incorrect date phone"
-      ]
-    }
-    ,
-    {
-        "id": 331,
-        "fact": "other_devices_wifi_working",
-        "description": "Other devices can access the internet on the same Wi-Fi.",
-        "category": "network",
-        "keywords": ["other devices working on wifi", "other devices have internet", "other devices can access internet", "other devices working fine on same wifi"]
-    },
-    {
+        {
         "id": 332,
         "fact": "phone_wifi_restarted",
         "description": "Phone was restarted to try to fix Wi-Fi.",
