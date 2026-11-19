@@ -455,76 +455,36 @@ elif page == "🩺 Troubleshooting":
             result = st.session_state.get("diagnosis_result")
             if result is not None:
                 st.divider()
-                st.header("🩺 Diagnosis Results")
-                if result.get("contradictions"):
-                    st.warning("Conflicting observations detected. The system excluded these facts from reasoning rather than choosing either side.")
-                    for conflict in result["contradictions"]:
-                        st.write("Conflict: " + " / ".join(get_fact_description(f) for f in conflict["facts"]))
-                if not result.get("reasoning_facts") and result.get("contradictions"):
-                    st.info("Please clarify the conflicting observations and start a new diagnosis.")
-                if result["trace"]:
-                    st.info("Possible causes are rule-based and not guaranteed hardware diagnoses.")
-                    st.subheader("Possible Causes and Solutions")
-                    from engine.diagnosis_engine import summarize_diagnosis
-                    evidence_report = summarize_diagnosis(result["trace"], st.session_state["confirmed_facts"])
-                    from engine.decision_engine import rank_diagnoses, decision_summary
-                    ranked = rank_diagnoses(result["trace"], st.session_state["confirmed_facts"])
-                    summary = decision_summary(ranked)
-                    from engine.evidence_decision import assess_evidence
-                    entries_by_conclusion = {entry["conclusion"]: entry for entry in evidence_report["entries"]}
-                    evidence_rows = []
-                    for ranked_entry in ranked:
-                        source = entries_by_conclusion.get(ranked_entry["conclusion"], {})
-                        evidence_rows.append({**source, **ranked_entry})
-                    evidence_status = assess_evidence(evidence_rows)
-                    st.subheader("Evidence Adequacy")
-                    st.write(evidence_status["message"])\n                    st.info(evidence_status["next_step"])\n                    if evidence_status.get("evidence_basis"):\n                        st.caption("Evidence basis: " + evidence_status["evidence_basis"])
-                    if evidence_status["status"] == "insufficient":
-                        st.warning("Evidence is incomplete. These are partial matches, not established diagnoses.")
-                    elif evidence_status["status"] == "competing":
-                        st.warning("Several complete rule matches remain. The system cannot reliably choose one.")
-                    else:
-                        st.success("At least one rule has all required conditions established.")
-                    st.write(summary["message"])
-                    if summary["top"]:
-                        st.subheader("Best evidence match")
-                        st.markdown("### " + summary["top"]["conclusion"].replace("_", " ").title())
-                        st.caption("Priority is based on evidence coverage, not a probability or certainty score.")
-                    if summary["alternatives"]:
-                        with st.expander("Other matched possibilities", expanded=True):
-                            for alternative in summary["alternatives"]:
-                                st.write(f"**{alternative['rank']}. {alternative['conclusion'].replace('_', ' ').title()}** — {alternative['evidence_label']}")
-                    entries_by_conclusion = {entry["conclusion"]: entry for entry in evidence_report["entries"]}
-                    for ranked_entry in ranked:
-                        entry = {**entries_by_conclusion.get(ranked_entry["conclusion"], {}), **ranked_entry}
-                        st.markdown("### 🔎 " + entry["conclusion"].replace("_", " ").title())
-                        st.write("**Evidence breakdown:**")
-                        for condition in entry["confirmed_conditions"]:
-                            st.write("🟢 Directly confirmed: " + get_fact_description(condition))
-                        for condition in entry["derived_conditions"]:
-                            st.write("🔵 Inferred by another rule: " + get_fact_description(condition))
-                        for condition in entry["missing_conditions"]:
-                            st.write("🟠 Not established: " + get_fact_description(condition))
-                        st.write("**Recommended Solution:**")
-                        st.info(entry["solution"])
-                        st.caption("Rule ID: " + str(entry["rule_id"]))
-                    st.divider()
-                    st.subheader("Inference Verification")
-                    st.metric("Backward Chaining", f"{result['verified']}/{result['total']}")
-                    with st.expander("View inference trace"):
+                st.header("🩺 Your Troubleshooting Report")
+                from engine.natural_language_report import build_user_report
+                descriptions = {item["fact"]: item.get("description", item["fact"].replace("_", " ").title()) for item in ASSERTIONS}
+                user_report = build_user_report(result, descriptions)
+                st.write(user_report["opening"])
+                if user_report["conflicts"]:
+                    st.warning("I found details that don't agree:")
+                    for conflict in user_report["conflicts"]:
+                        st.write("• " + conflict)
+                for index, cause in enumerate(user_report["causes"], 1):
+                    st.subheader(f"{index}. {cause['title']}")
+                    st.caption(cause["strength"])
+                    st.write(cause["explanation"])
+                    if cause["confirmed"]:
+                        st.write("**Symptoms that match:** " + "; ".join(cause["confirmed"]))
+                    if cause["inferred"]:
+                        st.write("**Additional indications:** " + "; ".join(cause["inferred"]))
+                    if cause["missing"]:
+                        st.write("**Still needs checking:** " + "; ".join(cause["missing"]))
+                    st.markdown("**What you can try:**")
+                    st.info(cause["solution"])
+                st.write(user_report["closing"])
+                with st.expander("Technical details (project demonstration)"):
+                    st.write("Inference method: Forward Chaining and Backward Chaining.")
+                    st.write(f"Backward verification: {result.get('verified', 0)} of {result.get('total', 0)} candidate(s).")
+                    if result.get("trace"):
+                        st.write("Rule trace:")
                         for step in result["trace"]:
-                            st.write("**Rule ID:**", step["rule_id"])
-                            st.write("**Required facts:**", ", ".join(
-                                get_fact_description(fact) for fact in step["conditions"]
-                            ))
-                            st.write("**Possible cause:**", step["conclusion"])
-                            st.write("**Solution:**", step["solution"])
-                            st.divider()
-                else:
-                    st.warning(
-                        "No complete rule matched the information gathered so far. "
-                        "The expert system cannot conclude a cause yet."
-                    )
+                            st.write(f"Rule {step.get('rule_id')}: {step.get('conclusion', '').replace('_', ' ').title()}")
+                            st.caption("Conditions: " + ", ".join(descriptions.get(f, f.replace("_", " ").title()) for f in step.get("conditions", [])))
 
         st.caption(
             "Similarity scores measure semantic closeness, not "
