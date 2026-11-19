@@ -414,338 +414,139 @@ elif page == "🩺 Troubleshooting":
             )
 
     # --------------------------------------------------
-    # SEMANTIC ANALYSIS RESULTS
+    # AUTOMATIC FACT UNDERSTANDING + CONVERSATIONAL FOLLOW-UP
     # --------------------------------------------------
 
     if st.session_state["diagnosis_ready"]:
 
-        candidates = st.session_state["semantic_candidates"]
-
         st.divider()
-
-        st.header("🧠 Problem Analysis")
-
+        st.header("🧠 Intelligent Problem Analysis")
         st.write("**Your Problem:**")
         st.info(st.session_state["problem_text"])
 
-        ignored_negations = st.session_state.get("negated_facts", [])
-        if ignored_negations:
-            st.caption(
-                "Not counted because your description negated them: "
-                + ", ".join(
-                    get_fact_description(fact)
-                    for fact in ignored_negations
-                )
-            )
+        confirmed_facts = st.session_state.get("confirmed_facts", [])
+        negated = st.session_state.get("negated_facts", [])
 
-        if not candidates:
+        if negated:
+            st.caption("Ignored negated statements: " + ", ".join(
+                get_fact_description(fact) for fact in negated
+            ))
 
+        if not confirmed_facts:
             st.warning(
-                "No sufficiently similar facts were found. "
-                "Try describing your problem differently "
-                "or provide more details."
+                "I could not confidently identify a direct symptom from your description. "
+                "Please describe the problem with more details (what happens, when it happens, "
+                "and what you notice). The system will not guess a diagnosis."
             )
-
         else:
+            st.success("The system understood these symptoms automatically:")
+            for fact in confirmed_facts:
+                st.write("• " + get_fact_description(fact))
 
-            st.success(
-                f"{len(candidates)} possible matching facts found."
-            )
+            from engine.followup_engine import select_next_question
 
-            st.write(
-                "The following facts are suggestions from the "
-                "Semantic NLP engine. They are NOT confirmed yet."
-            )
+            st.divider()
+            st.header("📋 Expert System Follow-up")
+            st.write("Answer one relevant question at a time to help narrow down the cause.")
 
-            candidate_labels = {}
-
-            for item in candidates:
-
-                fact = item["fact"]
-
-                description = item["description"]
-
-                score = item["score"]
-
-                if item.get("exact_match"):
-                    candidate_labels[fact] = (
-                        f"{description} (Direct phrase match)"
-                    )
-                else:
-                    candidate_labels[fact] = (
-                        f"{description} (Similarity: {score:.3f})"
-                    )
-
-            # --------------------------------------------------
-            # FACT VERIFICATION
-            # --------------------------------------------------
-
-            st.subheader("✅ Verify Your Mobile Problem")
-
-            st.write(
-                "Select only those statements that are actually "
-                "true for your phone."
-            )
-
-            with st.form("fact_verification_form"):
-
-                selected_candidates = st.multiselect(
-                    "Which statements correctly describe your problem?",
-                    options=[
-                        item["fact"]
-                        for item in candidates
-                    ],
-                    format_func=lambda fact: candidate_labels.get(
-                        fact,
-                        fact.replace("_", " ").title()
-                    ),
-                    placeholder="Select the statements that are true...",
-                    key="semantic_candidate_selection"
+            followup_answers = st.session_state.setdefault("followup_answers", {})
+            followup_limit = 5
+            question = None
+            if len(followup_answers) < followup_limit:
+                question = select_next_question(
+                    confirmed_facts=confirmed_facts,
+                    answered_facts=followup_answers,
+                    rules=RULES,
+                    assertions=ASSERTIONS,
+                    excluded_facts=negated,
                 )
 
-                verify_button = st.form_submit_button(
-                    "✔ Confirm Selected Facts",
-                    type="primary",
-                    use_container_width=True
+            if question:
+                st.subheader("One quick question")
+                st.write("**" + question["description"] + "?**")
+                answer = st.radio(
+                    "Your answer:",
+                    ["Yes", "No", "Not sure"],
+                    horizontal=True,
+                    key="followup_answer_" + question["fact"],
                 )
-
-            if verify_button:
-
-                st.session_state["confirmed_facts"] = (
-                    list(selected_candidates)
-                )
-                st.session_state["followup_answers"] = {}
-
-                st.session_state["diagnosis_result"] = None
-
-            confirmed_facts = st.session_state["confirmed_facts"]
-
-            if confirmed_facts:
-
-                st.success(
-                    f"{len(confirmed_facts)} fact(s) confirmed by the user."
-                )
-
-                st.subheader("Confirmed Facts")
-
-                for fact in confirmed_facts:
-
-                    st.write(
-                        "✓ " + get_fact_description(fact)
-                    )
-
-                # --------------------------------------------------
-                # INTELLIGENT ONE-QUESTION-AT-A-TIME FOLLOW-UP
-                # --------------------------------------------------
-
-                from engine.followup_engine import select_next_question
-
-                st.divider()
-                st.header("📋 Intelligent Follow-up")
-
-                st.write(
-                    "I will ask one relevant question at a time. "
-                    "Your answer helps narrow down the possible cause."
-                )
-
-                followup_answers = st.session_state.setdefault(
-                    "followup_answers", {}
-                )
-                followup_limit = 5
-                answered_count = len(followup_answers)
-
-                question = None
-                if answered_count < followup_limit:
-                    question = select_next_question(
-                        confirmed_facts=confirmed_facts,
-                        answered_facts=followup_answers,
-                        rules=RULES,
-                        assertions=ASSERTIONS,
-                        excluded_facts=st.session_state.get(
-                            "negated_facts", []
-                        ),
-                    )
-
-                if question:
-                    st.subheader("One quick question")
-                    st.write("**" + question["description"] + "?**")
-
-                    answer = st.radio(
-                        "Choose your answer:",
-                        ["Yes", "No", "Not sure"],
-                        horizontal=True,
-                        key="followup_answer_" + question["fact"],
-                    )
-
-                    if st.button(
-                        "Submit Answer",
-                        key="submit_followup_" + question["fact"],
-                        type="primary",
-                        use_container_width=True,
-                    ):
-                        followup_answers[question["fact"]] = (
-                            answer.lower().replace(" ", "_")
-                        )
-
-                        if answer == "Yes":
-                            if question["fact"] not in confirmed_facts:
-                                confirmed_facts.append(question["fact"])
-                            st.session_state["confirmed_facts"] = (
-                                confirmed_facts
-                            )
-
-                        st.session_state["followup_answers"] = (
-                            followup_answers
-                        )
-                        st.session_state["diagnosis_result"] = None
-                        st.rerun()
-
-                    st.caption(
-                        f"Follow-up question {answered_count + 1} "
-                        f"of {followup_limit}"
-                    )
-
-                elif answered_count >= followup_limit:
-                    st.info(
-                        "The follow-up question limit has been reached. "
-                        "You can run the diagnosis with the information "
-                        "confirmed so far."
-                    )
-                else:
-                    st.info(
-                        "No further relevant questions are available "
-                        "from the current rules. You can run the diagnosis."
-                    )
-
-                if followup_answers:
-                    with st.expander("View your follow-up answers"):
-                        for fact, answer in followup_answers.items():
-                            st.write(
-                                f"**{get_fact_description(fact)}** — "
-                                f"{answer.replace('_', ' ').title()}"
-                            )
-
-                st.divider()
-
                 if st.button(
-                    "🩺 Run Expert Diagnosis",
-                    key="run_expert_diagnosis",
+                    "Submit Answer",
+                    key="submit_followup_" + question["fact"],
                     type="primary",
                     use_container_width=True,
                 ):
-                    # Only user-confirmed positive facts enter inference.
-                    # "No" and "Not sure" remain recorded as non-positive answers.
-                    all_facts = sorted(set(
-                        st.session_state["confirmed_facts"]
-                    ))
+                    followup_answers[question["fact"]] = answer.lower().replace(" ", "_")
+                    if answer == "Yes" and question["fact"] not in confirmed_facts:
+                        confirmed_facts.append(question["fact"])
+                        st.session_state["confirmed_facts"] = confirmed_facts
+                    st.session_state["followup_answers"] = followup_answers
+                    st.session_state["diagnosis_result"] = None
+                    st.rerun()
+                st.caption(f"Follow-up question {len(followup_answers) + 1} of {followup_limit}")
+            elif len(followup_answers) >= followup_limit:
+                st.info("The follow-up limit has been reached.")
+            else:
+                st.info("No more relevant questions are available from the current rules.")
 
-                    forward_result = forward_chaining(
-                        all_facts,
-                        RULES
-                    )
-                    diagnosis_trace = forward_result["trace"]
+            if followup_answers:
+                with st.expander("Review follow-up answers"):
+                    for fact, answer in followup_answers.items():
+                        st.write(f"**{get_fact_description(fact)}** — {answer.replace('_', ' ').title()}")
 
-                    shown_conclusions = []
-                    for step in diagnosis_trace:
-                        conclusion = step["conclusion"]
-                        if conclusion not in shown_conclusions:
-                            shown_conclusions.append(conclusion)
+            st.divider()
+            if st.button(
+                "🩺 Run Expert Diagnosis",
+                key="run_expert_diagnosis",
+                type="primary",
+                use_container_width=True,
+            ):
+                all_facts = sorted(set(st.session_state["confirmed_facts"]))
+                forward_result = forward_chaining(all_facts, RULES)
+                trace = forward_result["trace"]
+                conclusions = list(dict.fromkeys(step["conclusion"] for step in trace))
+                verified = sum(
+                    1 for goal in conclusions
+                    if backward_chaining(goal, all_facts, RULES)["success"]
+                )
+                st.session_state["diagnosis_result"] = {
+                    "trace": trace,
+                    "conclusions": conclusions,
+                    "verified": verified,
+                    "total": len(conclusions),
+                }
 
-                    verified_count = 0
-                    for conclusion in shown_conclusions:
-                        backward_result = backward_chaining(
-                            conclusion,
-                            all_facts,
-                            RULES
-                        )
-                        if backward_result["success"]:
-                            verified_count += 1
-
-                    st.session_state["diagnosis_result"] = {
-                        "trace": diagnosis_trace,
-                        "conclusions": shown_conclusions,
-                        "verified": verified_count,
-                        "total": len(shown_conclusions)
-                    }
-
-                # --------------------------------------------------
-                # DISPLAY DIAGNOSIS
-
-                result = st.session_state["diagnosis_result"]
-
-                if result is not None:
+            result = st.session_state.get("diagnosis_result")
+            if result is not None:
+                st.divider()
+                st.header("🩺 Diagnosis Results")
+                if result["trace"]:
+                    st.info("Possible causes are rule-based and not guaranteed hardware diagnoses.")
+                    st.subheader("Possible Causes and Solutions")
+                    for step in result["trace"]:
+                        st.markdown("### 🔎 " + step["conclusion"].replace("_", " ").title())
+                        st.write("**Evidence required:**")
+                        for condition in step["conditions"]:
+                            st.write("✓ " + get_fact_description(condition))
+                        st.write("**Recommended Solution:**")
+                        st.info(step["solution"])
+                        st.caption("Rule ID: " + str(step["rule_id"]))
                     st.divider()
-                    st.header("🩺 Diagnosis Results")
-
-                    if result["trace"]:
-                        st.info(
-                            "These are rule-based possible causes, not a "
-                            "guaranteed hardware diagnosis. Each result below "
-                            "shows the evidence and rule used."
-                        )
-                        st.subheader("Possible Causes and Solutions")
-
+                    st.subheader("Inference Verification")
+                    st.metric("Backward Chaining", f"{result['verified']}/{result['total']}")
+                    with st.expander("View inference trace"):
                         for step in result["trace"]:
-                            st.markdown(
-                                "### 🔎 " + step["conclusion"].replace(
-                                    "_", " "
-                                ).title()
-                            )
-                            st.write("**Evidence required by this rule:**")
-                            for condition in step["conditions"]:
-                                st.write(
-                                    "✓ " + get_fact_description(condition)
-                                )
-                            st.write("**Recommended Solution:**")
-                            st.info(step["solution"])
-                            st.caption("Rule ID: " + str(step["rule_id"]))
-
-                        st.divider()
-                        st.subheader("🔎 Inference Verification")
-                        st.metric(
-                            "Backward Chaining",
-                            f"{result['verified']}/{result['total']}"
-                        )
-                        if result["verified"] == result["total"]:
-                            st.success(
-                                "Every displayed possible cause was "
-                                "successfully proven from the confirmed facts "
-                                "using the rule base."
-                            )
-                        else:
-                            st.warning(
-                                "One or more possible causes could not "
-                                "be verified. Treat those results cautiously."
-                            )
-
-                        with st.expander("📖 View Inference Trace"):
-                            for step in result["trace"]:
-                                st.write("**Rule ID:**", step["rule_id"])
-                                st.write(
-                                    "**Required facts:**",
-                                    ", ".join(
-                                        get_fact_description(fact)
-                                        for fact in step["conditions"]
-                                    )
-                                )
-                                st.write(
-                                    "**Possible cause:**",
-                                    step["conclusion"]
-                                )
-                                st.write("**Solution:**", step["solution"])
-                                st.divider()
-                    else:
-                        st.warning(
-                            "No complete diagnosis rule matched the "
-                            "confirmed information. The system cannot "
-                            "confirm a cause yet. Add more details or "
-                            "answer available follow-up questions."
-                        )
-
+                            st.write("**Rule ID:**", step["rule_id"])
+                            st.write("**Required facts:**", ", ".join(
+                                get_fact_description(fact) for fact in step["conditions"]
+                            ))
+                            st.write("**Possible cause:**", step["conclusion"])
+                            st.write("**Solution:**", step["solution"])
+                            st.divider()
                 else:
-                    st.info(
-                        "Please confirm at least one matching fact "
-                        "before continuing to the expert diagnosis."
+                    st.warning(
+                        "No complete rule matched the information gathered so far. "
+                        "The expert system cannot conclude a cause yet."
                     )
 
         st.caption(
