@@ -475,6 +475,7 @@ elif page == "🩺 Troubleshooting":
                     ranked = rank_diagnoses(result["trace"], st.session_state["confirmed_facts"])
                     summary = decision_summary(ranked)
                     from engine.evidence_decision import assess_evidence
+                    entries_by_conclusion = {entry["conclusion"]: entry for entry in evidence_report["entries"]}
                     evidence_rows = []
                     for ranked_entry in ranked:
                         source = entries_by_conclusion.get(ranked_entry["conclusion"], {})
