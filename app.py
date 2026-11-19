@@ -441,17 +441,11 @@ elif page == "🩺 Troubleshooting":
                         st.write("• " + conflict)
                 for index, cause in enumerate(user_report["causes"], 1):
                     st.markdown("**" + str(index) + ". " + cause["title"] + "**")
-                    if cause["confirmed"]:
-                        st.caption("Matches: " + "; ".join(cause["confirmed"]))
-                    if cause["missing"]:
-                        st.caption("Needs checking: " + "; ".join(cause["missing"]))
                     st.markdown("**Try:** " + cause["solution"])
                 if not user_report["causes"] and result.get("partial_candidates"):
                     st.write("Possible areas to check (not confirmed diagnoses):")
                     for candidate in result["partial_candidates"]:
                         st.markdown("**" + str(candidate["conclusion"]).replace("_", " ").title() + "**")
-                        st.caption("Matches: " + "; ".join(candidate["matched"]))
-                        st.caption("Still needed: " + "; ".join(candidate["missing"]))
                         st.markdown("**Try:** " + candidate["solution"])
                 st.caption(user_report["closing"])
                 with st.expander("Technical details (project demonstration)"):
@@ -1015,13 +1009,10 @@ elif page == "🛠️ Developer Dashboard":
                     test_report["failed"]
                 )
 
-            if (
-                test_report["passed"] == test_report["total"]
-                and test_report["total"] == 100
-            ):
+            if test_report["passed"] == test_report["total"]:
 
                 st.success(
-                    "All 100 rules passed Forward and "
+                    f"All {test_report['total']} rules passed Forward and "
                     "Backward Chaining tests."
                 )
 
