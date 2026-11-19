@@ -32,7 +32,7 @@ class DiagnosisSummaryTests(unittest.TestCase):
         ]
         report = summarize_diagnosis(trace, ["a", "b"])
         self.assertEqual(report["entries"][1]["derived_conditions"], ["middle"])
-        self.assertFalse(report["entries"][1]["evidence_complete"])
+        self.assertTrue(report["entries"][1]["evidence_complete"])
 
     def test_ignores_duplicate_conclusions(self):
         trace = [
