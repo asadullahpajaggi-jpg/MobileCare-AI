@@ -2346,4 +2346,17 @@ ASSERTIONS = [
         "category": "network",
         "keywords": ["mobile data works normally", "mobile data is working", "mobile data works"]
     }
+    ,
+    {
+        "id": 331,
+        "fact": "other_devices_wifi_working",
+        "description": "Other devices can access the internet on the same Wi-Fi.",
+        "category": "network",
+        "keywords": [
+            "other devices working on wifi",
+            "other devices have internet",
+            "other devices can access internet",
+            "other devices working fine on same wifi"
+        ]
+    }
 ]
