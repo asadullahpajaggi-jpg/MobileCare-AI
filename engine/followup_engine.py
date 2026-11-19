@@ -1,12 +1,10 @@
-"""Adaptive follow-up selection for MobileCare AI.
+"""Adaptive follow-up selection that prioritizes diagnostic value over raw rule count.
 
-Select missing conditions that best distinguish the currently relevant rules.
-Answers of No/Not sure and facts explicitly negated in the initial description
-exclude rules that depend on those facts.
+Questions are selected from the currently active rules, grouped by distinct
+conclusions so duplicated rules for one cause cannot dominate the score.
+Answered No/Not sure and explicitly negated facts block dependent rules.
 """
-
 def select_next_question(confirmed_facts, answered_facts, rules, assertions, excluded_facts=None):
-    """Choose a question by rule coverage and how well it separates candidates."""
     known = {f for f in (confirmed_facts or []) if isinstance(f, str) and f.strip()}
     answers = answered_facts or {}
     blocked = {f for f, answer in answers.items() if answer in ("no", "not_sure")}
@@ -19,7 +17,7 @@ def select_next_question(confirmed_facts, answered_facts, rules, assertions, exc
         if not isinstance(rule, dict):
             continue
         conditions = set(rule.get("conditions") or [])
-        if conditions.intersection(blocked | excluded):
+        if not conditions or conditions.intersection(blocked | excluded):
             continue
         if conditions.intersection(known):
             active_rules.append(rule)
@@ -27,33 +25,48 @@ def select_next_question(confirmed_facts, answered_facts, rules, assertions, exc
     if not active_rules:
         return None
 
-    # Score candidate questions by how many active rules support Yes versus
-    # remain alternatives if the answer is No. A balanced split is preferred.
-    scores, rule_ids = {}, {}
+    # Group by diagnosis. Repeated rules for the same conclusion are not
+    # treated as independent competing diagnoses.
+    diagnosis_conditions = {}
+    diagnosis_rule_ids = {}
     for rule in active_rules:
-        conditions = set(rule.get("conditions") or [])
-        for fact in conditions - known - set(answers) - excluded:
-            if fact not in descriptions:
-                continue
-            scores.setdefault(fact, {"yes": 0, "coverage": 0})
-            scores[fact]["yes"] += 1
-            scores[fact]["coverage"] += 1
-            rule_ids.setdefault(fact, []).append(rule.get("id"))
+        conclusion = rule.get("conclusion")
+        if not conclusion:
+            continue
+        diagnosis_conditions.setdefault(conclusion, []).append(set(rule.get("conditions") or []))
+        diagnosis_rule_ids.setdefault(conclusion, []).append(rule.get("id"))
 
-    if not scores:
+    candidates = {}
+    for conclusion, condition_sets in diagnosis_conditions.items():
+        for conditions in condition_sets:
+            for fact in conditions - known - set(answers) - excluded:
+                if fact not in descriptions:
+                    continue
+                entry = candidates.setdefault(fact, {"yes_diagnoses": set(), "rule_ids": set(), "coverage": 0})
+                entry["yes_diagnoses"].add(conclusion)
+                entry["coverage"] += 1
+                entry["rule_ids"].update(rid for rid in diagnosis_rule_ids.get(conclusion, []) if isinstance(rid, int))
+
+    if not candidates:
         return None
 
+    total_diagnoses = len(diagnosis_conditions)
     def score(fact):
-        data = scores[fact]
-        data["no"] = max(0, len(active_rules) - data["yes"])
-        balance = min(data["yes"], data["no"])
-        return (-balance, -data["coverage"], order.get(fact, 10**9), fact)
+        entry = candidates[fact]
+        yes = len(entry["yes_diagnoses"])
+        no = max(0, total_diagnoses - yes)
+        # A question affecting multiple distinct causes and splitting the
+        # diagnosis set is useful. Coverage is a tie-breaker, not the main score.
+        balance = min(yes, no)
+        return (-balance, -yes, -entry["coverage"], order.get(fact, 10**9), fact)
 
-    chosen = sorted(scores, key=score)[0]
+    chosen = sorted(candidates, key=score)[0]
+    entry = candidates[chosen]
     return {
         "fact": chosen,
         "description": descriptions[chosen] or chosen.replace("_", " ").title(),
-        "relevance_score": scores[chosen]["coverage"],
-        "discrimination_score": min(scores[chosen]["yes"], scores[chosen]["no"]),
-        "rule_ids": sorted(rid for rid in rule_ids[chosen] if isinstance(rid, int)),
+        "relevance_score": entry["coverage"],
+        "discrimination_score": min(len(entry["yes_diagnoses"]), max(0, total_diagnoses-len(entry["yes_diagnoses"]))),
+        "diagnosis_count": total_diagnoses,
+        "rule_ids": sorted(entry["rule_ids"]),
     }
