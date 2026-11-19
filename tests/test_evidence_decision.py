@@ -1,23 +1,31 @@
 import unittest
 from engine.evidence_decision import assess_evidence
 
-class EvidenceAdequacyTests(unittest.TestCase):
-    def test_incomplete_conditions_not_presented_as_supported(self):
-        row={"conditions":["a","b"],"confirmed_conditions":["a"],"derived_conditions":[],"missing_conditions":["b"],"rank_score":3}
-        result=assess_evidence([row])
+class EvidenceDecisionTests(unittest.TestCase):
+    def row(self, direct=None, derived=None, missing=None, score=1):
+        return {"conditions":["a","b"],"confirmed_conditions":direct or [],"derived_conditions":derived or [],"missing_conditions":missing or [],"rank_score":score,"conclusion":"cause"}
+
+    def test_incomplete_evidence(self):
+        result=assess_evidence([self.row(direct=["a"],missing=["b"])])
         self.assertEqual(result["status"],"insufficient")
-        self.assertEqual(result["supported"],[])
+        self.assertIn("Do not present partial",result["next_step"])
 
-    def test_complete_evidence_supported(self):
-        row={"conditions":["a","b"],"confirmed_conditions":["a"],"derived_conditions":["b"],"missing_conditions":[],"rank_score":4}
-        self.assertEqual(assess_evidence([row])["status"],"supported")
+    def test_multiple_complete_causes_remain_competing(self):
+        result=assess_evidence([self.row(direct=["a","b"],score=5),self.row(direct=["a","b"],score=1)])
+        self.assertEqual(result["status"],"competing")
 
-    def test_tied_complete_causes_flagged(self):
-        rows=[{"conditions":["a"],"confirmed_conditions":["a"],"derived_conditions":[],"missing_conditions":[],"rank_score":3},{"conditions":["b"],"confirmed_conditions":["b"],"derived_conditions":[],"missing_conditions":[],"rank_score":3}]
-        self.assertEqual(assess_evidence(rows)["status"],"competing")
+    def test_single_complete_direct_evidence(self):
+        result=assess_evidence([self.row(direct=["a","b"])])
+        self.assertEqual(result["status"],"supported")
+        self.assertIn("professional",result["next_step"])
 
-    def test_empty_input_is_insufficient(self):
+    def test_complete_inferred_evidence_disclosed(self):
+        result=assess_evidence([self.row(derived=["a","b"])])
+        self.assertEqual(result["status"],"supported")
+        self.assertEqual(result["evidence_basis"],"Includes inferred facts")
+
+    def test_empty_rows(self):
         self.assertEqual(assess_evidence([])["status"],"insufficient")
 
-if __name__ == "__main__":
+if __name__=="__main__":
     unittest.main()
