@@ -12,7 +12,7 @@ def summarize_diagnosis(trace, confirmed_facts):
             continue
         conclusion = step.get("conclusion")
         conditions = step.get("conditions") or []
-        if not conclusion or conclusion in seen:
+        if not conclusion or conclusion in seen or conclusion in intermediate:
             continue
         seen.add(conclusion)
         direct_conditions = [condition for condition in conditions if condition in direct]
