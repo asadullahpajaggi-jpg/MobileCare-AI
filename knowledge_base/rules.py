@@ -797,7 +797,7 @@ RULES = [
       "id": 122,
       "conditions": [
         "battery_swelling",
-        "back_cover_lifting"
+        "phone_overheating"
       ],
       "conclusion": "battery_swelling_safety",
       "solution": "Stop using and charging the device. Do not press it or attempt to puncture it; arrange professional handling."
@@ -860,7 +860,7 @@ RULES = [
       "id": 129,
       "conditions": [
         "phone_clock_wrong",
-        "automatic_time_disabled"
+        "software_update_pending"
       ],
       "conclusion": "time_configuration_problem",
       "solution": "Enable automatic date and time and automatic time zone if available."
