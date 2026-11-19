@@ -2402,4 +2402,26 @@ ASSERTIONS = [
         "incorrect date phone"
       ]
     }
+    ,
+    {
+        "id": 331,
+        "fact": "other_devices_wifi_working",
+        "description": "Other devices can access the internet on the same Wi-Fi.",
+        "category": "network",
+        "keywords": ["other devices working on wifi", "other devices have internet", "other devices can access internet", "other devices working fine on same wifi"]
+    },
+    {
+        "id": 332,
+        "fact": "phone_wifi_restarted",
+        "description": "Phone was restarted to try to fix Wi-Fi.",
+        "category": "network",
+        "keywords": ["restarted my phone", "phone was restarted", "restart phone did not help", "restarted phone but problem remains"]
+    },
+    {
+        "id": 333,
+        "fact": "mobile_data_works",
+        "description": "Mobile data works normally.",
+        "category": "network",
+        "keywords": ["mobile data works normally", "mobile data is working", "mobile data works"]
+    }
 ]
