@@ -2,11 +2,11 @@
 def rank_diagnoses(trace, confirmed_facts):
     direct=set(confirmed_facts or [])
     derived={s.get("conclusion") for s in trace or [] if isinstance(s,dict) and s.get("conclusion")}
-    rows=[]; seen=set()
+    rows=[]; seen=set()\n    intermediate={condition for step in trace or [] if isinstance(step,dict) for condition in (step.get("conditions") or [])}\n    intermediate.intersection_update(derived)
     for step in trace or []:
         if not isinstance(step,dict): continue
         conclusion=step.get("conclusion")
-        if not conclusion or conclusion in seen: continue
+        if not conclusion or conclusion in seen or conclusion in intermediate: continue
         seen.add(conclusion); cond=list(step.get("conditions") or [])
         direct_n=sum(f in direct for f in cond)
         derived_n=sum(f in derived and f not in direct for f in cond)
