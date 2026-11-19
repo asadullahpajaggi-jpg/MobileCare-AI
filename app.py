@@ -408,7 +408,9 @@ elif page == "🩺 Troubleshooting":
 
             if question:
                 st.subheader("One quick question")
-                st.write("**Does this apply to your phone?**")\n                st.info(question["description"])\n                st.caption("This question helps distinguish between possible causes.")
+                st.write("**Does this apply to your phone?**")
+                st.info(question["description"])
+                st.caption("This question helps distinguish between possible causes.")
                 answer = st.radio(
                     "Your answer:",
                     ["Yes", "No", "Not sure"],
