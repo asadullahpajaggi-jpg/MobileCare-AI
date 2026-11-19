@@ -957,6 +957,23 @@ elif page == "🛠️ Developer Dashboard":
 
     
 
+    # RULE QUALITY AUDIT
+
+    with st.expander("🧭 Rule Quality Audit", expanded=True):
+        from engine.rule_audit import audit_rules
+        audit_report = audit_rules(RULES, ASSERTIONS)
+        col_a, col_b, col_c = st.columns(3)
+        col_a.metric("Rules audited", audit_report["rule_count"])
+        col_b.metric("Structural findings", audit_report["errors"])
+        col_c.metric("Manual review flags", audit_report["reviews"])
+        if not audit_report["findings"]:
+            st.success("No findings from this automated audit.")
+        else:
+            for finding in audit_report["findings"]:
+                if finding["severity"] == "error": st.error(f"{finding['kind']}: {finding['detail']}")
+                else: st.warning(f"{finding['kind']}: {finding['detail']}")
+        st.caption("Automated flags are screening aids, not proof of correctness. Safety findings require expert review.")
+
     # AUTOMATIC 100 RULE TESTING
 
     with st.expander(
