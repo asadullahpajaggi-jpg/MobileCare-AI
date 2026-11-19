@@ -2101,4 +2101,305 @@ ASSERTIONS = [
         "category": "general",
         "keywords": ["professional repair", "technician required", "mobile repair recommended"]
 }
+,
+    {
+      "id": 301,
+      "fact": "battery_not_holding_charge",
+      "description": "Battery charge drops or battery cannot hold charge",
+      "category": "Battery",
+      "keywords": [
+        "battery not holding charge",
+        "battery cannot hold charge"
+      ]
+    },
+    {
+      "id": 302,
+      "fact": "battery_percentage_jumping",
+      "description": "Battery percentage changes suddenly",
+      "category": "Battery",
+      "keywords": [
+        "battery percentage jumps",
+        "battery drops suddenly"
+      ]
+    },
+    {
+      "id": 303,
+      "fact": "phone_shutdown_at_high_battery",
+      "description": "Phone shuts down while battery still shows charge",
+      "category": "Battery",
+      "keywords": [
+        "shutdown with battery left",
+        "turns off at 30 percent"
+      ]
+    },
+    {
+      "id": 304,
+      "fact": "charging_disconnects",
+      "description": "Charging connection repeatedly disconnects",
+      "category": "Charging",
+      "keywords": [
+        "charging keeps disconnecting",
+        "charging intermittent"
+      ]
+    },
+    {
+      "id": 305,
+      "fact": "charging_port_loose",
+      "description": "Charging connector feels loose in the port",
+      "category": "Charging",
+      "keywords": [
+        "loose charging port",
+        "charger loose"
+      ]
+    },
+    {
+      "id": 306,
+      "fact": "wifi_password_rejected",
+      "description": "Wi-Fi rejects the correct password",
+      "category": "Network",
+      "keywords": [
+        "wifi password rejected",
+        "correct wifi password not accepted"
+      ]
+    },
+    {
+      "id": 307,
+      "fact": "wifi_connected_no_internet",
+      "description": "Wi-Fi connected but internet unavailable",
+      "category": "Network",
+      "keywords": [
+        "wifi connected no internet",
+        "connected without internet"
+      ]
+    },
+    {
+      "id": 308,
+      "fact": "vpn_enabled",
+      "description": "VPN is enabled",
+      "category": "Network",
+      "keywords": [
+        "vpn enabled",
+        "using vpn"
+      ]
+    },
+    {
+      "id": 309,
+      "fact": "mobile_data_roaming_disabled",
+      "description": "Data roaming is disabled",
+      "category": "Network",
+      "keywords": [
+        "roaming data off",
+        "data roaming disabled"
+      ]
+    },
+    {
+      "id": 310,
+      "fact": "network_mode_incompatible",
+      "description": "Selected network mode may not be supported in area",
+      "category": "Network",
+      "keywords": [
+        "network mode problem",
+        "4g not available"
+      ]
+    },
+    {
+      "id": 311,
+      "fact": "apps_crash_after_update",
+      "description": "App began crashing after an update",
+      "category": "Applications",
+      "keywords": [
+        "app crashing after update",
+        "crashes since update"
+      ]
+    },
+    {
+      "id": 312,
+      "fact": "app_force_stop",
+      "description": "App was force-stopped",
+      "category": "Applications",
+      "keywords": [
+        "force stop app",
+        "app force stopped"
+      ]
+    },
+    {
+      "id": 313,
+      "fact": "app_login_failed",
+      "description": "App login fails",
+      "category": "Applications",
+      "keywords": [
+        "cannot log in app",
+        "app login failed"
+      ]
+    },
+    {
+      "id": 314,
+      "fact": "account_locked",
+      "description": "Account may be locked",
+      "category": "Applications",
+      "keywords": [
+        "account locked",
+        "account disabled"
+      ]
+    },
+    {
+      "id": 315,
+      "fact": "notification_permission_denied",
+      "description": "Notification permission is denied",
+      "category": "Notifications",
+      "keywords": [
+        "notification permission denied",
+        "notifications blocked"
+      ]
+    },
+    {
+      "id": 316,
+      "fact": "notification_channel_muted",
+      "description": "Notification channel is muted",
+      "category": "Notifications",
+      "keywords": [
+        "notification channel muted",
+        "specific notifications silent"
+      ]
+    },
+    {
+      "id": 317,
+      "fact": "phone_accessibility_zoom_on",
+      "description": "Screen magnification or zoom is enabled",
+      "category": "Display",
+      "keywords": [
+        "screen zoom enabled",
+        "magnification turned on"
+      ]
+    },
+    {
+      "id": 318,
+      "fact": "screen_touch_delay",
+      "description": "Touch response is delayed",
+      "category": "Display",
+      "keywords": [
+        "touch delayed",
+        "screen responds slowly"
+      ]
+    },
+    {
+      "id": 319,
+      "fact": "phone_memory_low",
+      "description": "Available RAM is low",
+      "category": "Performance",
+      "keywords": [
+        "low ram",
+        "memory low"
+      ]
+    },
+    {
+      "id": 320,
+      "fact": "phone_safe_mode",
+      "description": "Phone is currently in Safe Mode",
+      "category": "Performance",
+      "keywords": [
+        "safe mode enabled",
+        "phone in safe mode"
+      ]
+    },
+    {
+      "id": 321,
+      "fact": "phone_water_warning",
+      "description": "Phone shows moisture or liquid warning",
+      "category": "Safety",
+      "keywords": [
+        "moisture warning",
+        "liquid detected warning"
+      ]
+    },
+    {
+      "id": 322,
+      "fact": "battery_swelling",
+      "description": "Battery appears swollen",
+      "category": "Safety",
+      "keywords": [
+        "swollen battery",
+        "battery swelling"
+      ]
+    },
+    {
+      "id": 323,
+      "fact": "phone_smoke_or_burning_smell",
+      "description": "Phone emits smoke or burning smell",
+      "category": "Safety",
+      "keywords": [
+        "smoke from phone",
+        "burning smell phone"
+      ]
+    },
+    {
+      "id": 324,
+      "fact": "phone_lost_or_stolen",
+      "description": "Phone is lost or stolen",
+      "category": "Security",
+      "keywords": [
+        "lost phone",
+        "stolen phone"
+      ]
+    },
+    {
+      "id": 325,
+      "fact": "screen_lock_unknown",
+      "description": "User cannot access screen lock",
+      "category": "Security",
+      "keywords": [
+        "forgot screen lock",
+        "cannot unlock phone"
+      ]
+    },
+    {
+      "id": 326,
+      "fact": "backup_not_available",
+      "description": "Important data backup is unavailable",
+      "category": "Data",
+      "keywords": [
+        "no backup",
+        "backup unavailable"
+      ]
+    },
+    {
+      "id": 327,
+      "fact": "phone_storage_permission_denied",
+      "description": "App lacks storage/media access permission",
+      "category": "Applications",
+      "keywords": [
+        "storage permission denied",
+        "media permission blocked"
+      ]
+    },
+    {
+      "id": 328,
+      "fact": "microphone_sound_low",
+      "description": "Microphone sound is unusually low",
+      "category": "Audio",
+      "keywords": [
+        "mic sound low",
+        "microphone very quiet"
+      ]
+    },
+    {
+      "id": 329,
+      "fact": "speaker_sound_low",
+      "description": "Speaker sound is unusually low",
+      "category": "Audio",
+      "keywords": [
+        "speaker sound low",
+        "phone audio quiet"
+      ]
+    },
+    {
+      "id": 330,
+      "fact": "phone_clock_wrong",
+      "description": "Phone date or time is incorrect",
+      "category": "Device",
+      "keywords": [
+        "wrong phone time",
+        "incorrect date phone"
+      ]
+    }
 ]
