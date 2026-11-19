@@ -292,7 +292,7 @@ elif page == "🩺 Troubleshooting":
         st.session_state["problem_text"] = ""
 
         st.session_state["semantic_candidates"] = []
-        st.session_state["confirmed_facts"] = list(explicit_facts)
+        st.session_state["confirmed_facts"] = []
         st.session_state["followup_answers"] = {}
 
         st.session_state["problem_input"] = ""
