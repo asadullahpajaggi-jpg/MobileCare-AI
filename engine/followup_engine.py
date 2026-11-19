@@ -27,18 +27,16 @@ def select_next_question(confirmed_facts, answered_facts, rules, assertions, exc
     if not active_rules:
         return None
 
-    # Each question partitions relevant rules into rules supported if Yes and
-    # rules eliminated if No. Prefer questions with broad coverage and balanced
-    # partitions, while retaining stable assertion-order tie breaking.
+    # Score candidate questions by how many active rules support Yes versus
+    # remain alternatives if the answer is No. A balanced split is preferred.
     scores, rule_ids = {}, {}
     for rule in active_rules:
         conditions = set(rule.get("conditions") or [])
         for fact in conditions - known - set(answers) - excluded:
             if fact not in descriptions:
                 continue
-            scores.setdefault(fact, {"yes": 0, "no": 0, "coverage": 0})
+            scores.setdefault(fact, {"yes": 0, "coverage": 0})
             scores[fact]["yes"] += 1
-            scores[fact]["no"] += 1
             scores[fact]["coverage"] += 1
             rule_ids.setdefault(fact, []).append(rule.get("id"))
 
@@ -47,7 +45,7 @@ def select_next_question(confirmed_facts, answered_facts, rules, assertions, exc
 
     def score(fact):
         data = scores[fact]
-        # Balanced partitions gain priority, with coverage as the tie-breaker.
+        data["no"] = max(0, len(active_rules) - data["yes"])
         balance = min(data["yes"], data["no"])
         return (-balance, -data["coverage"], order.get(fact, 10**9), fact)
 
