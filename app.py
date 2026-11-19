@@ -447,20 +447,10 @@ elif page == "🩺 Troubleshooting":
                 use_container_width=True,
                 disabled=bool(question),
             ):
+                from engine.diagnosis_pipeline import run_diagnosis
                 all_facts = sorted(set(st.session_state["confirmed_facts"]))
-                forward_result = forward_chaining(all_facts, RULES)
-                trace = forward_result["trace"]
-                conclusions = list(dict.fromkeys(step["conclusion"] for step in trace))
-                verified = sum(
-                    1 for goal in conclusions
-                    if backward_chaining(goal, all_facts, RULES)["success"]
-                )
-                st.session_state["diagnosis_result"] = {
-                    "trace": trace,
-                    "conclusions": conclusions,
-                    "verified": verified,
-                    "total": len(conclusions),
-                }
+                pipeline_report = run_diagnosis(all_facts, RULES)
+                st.session_state["diagnosis_result"] = pipeline_report
 
             result = st.session_state.get("diagnosis_result")
             if result is not None:
