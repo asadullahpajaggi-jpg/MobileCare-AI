@@ -670,109 +670,83 @@ elif page == "🩺 Troubleshooting":
 
                 # --------------------------------------------------
                 # DISPLAY DIAGNOSIS
-                # --------------------------------------------------
 
                 result = st.session_state["diagnosis_result"]
 
                 if result is not None:
-
                     st.divider()
-
                     st.header("🩺 Diagnosis Results")
 
                     if result["trace"]:
-
-                        st.success(
-                            "The expert system identified possible "
-                            "causes using the confirmed facts."
+                        st.info(
+                            "These are rule-based possible causes, not a "
+                            "guaranteed hardware diagnosis. Each result below "
+                            "shows the evidence and rule used."
                         )
-
-                        st.subheader(
-                            "Detected Problems and Solutions"
-                        )
+                        st.subheader("Possible Causes and Solutions")
 
                         for step in result["trace"]:
-
-                            conclusion = step["conclusion"]
-
                             st.markdown(
-                                "### 🔴 "
-                                + conclusion.replace(
+                                "### 🔎 " + step["conclusion"].replace(
                                     "_", " "
                                 ).title()
                             )
-
+                            st.write("**Evidence required by this rule:**")
+                            for condition in step["conditions"]:
+                                st.write(
+                                    "✓ " + get_fact_description(condition)
+                                )
                             st.write("**Recommended Solution:**")
-
                             st.info(step["solution"])
-
-                            st.caption(
-                                f"Applied Rule: {step['rule_id']}"
-                            )
+                            st.caption("Rule ID: " + str(step["rule_id"]))
 
                         st.divider()
-
-                        st.subheader("🔎 Diagnosis Verification")
-
+                        st.subheader("🔎 Inference Verification")
                         st.metric(
-                            "Backward Chaining Verification",
+                            "Backward Chaining",
                             f"{result['verified']}/{result['total']}"
                         )
-
                         if result["verified"] == result["total"]:
-
                             st.success(
-                                "All diagnosis conclusions were "
-                                "verified by Backward Chaining."
+                                "Every displayed possible cause was "
+                                "successfully proven from the confirmed facts "
+                                "using the rule base."
                             )
-
                         else:
-
                             st.warning(
-                                "Some conclusions could not be verified."
+                                "One or more possible causes could not "
+                                "be verified. Treat those results cautiously."
                             )
 
-                        with st.expander(
-                            "📖 View Expert System Explanation Trace"
-                        ):
-
+                        with st.expander("📖 View Inference Trace"):
                             for step in result["trace"]:
-
+                                st.write("**Rule ID:**", step["rule_id"])
                                 st.write(
-                                    f"**Rule ID:** {step['rule_id']}"
+                                    "**Required facts:**",
+                                    ", ".join(
+                                        get_fact_description(fact)
+                                        for fact in step["conditions"]
+                                    )
                                 )
-
                                 st.write(
-                                    "**Conditions:**",
-                                    ", ".join(step["conditions"])
-                                )
-
-                                st.write(
-                                    "**Conclusion:**",
+                                    "**Possible cause:**",
                                     step["conclusion"]
                                 )
-
-                                st.write(
-                                    "**Solution:**",
-                                    step["solution"]
-                                )
-
+                                st.write("**Solution:**", step["solution"])
                                 st.divider()
-
                     else:
-
                         st.warning(
-                            "No diagnosis rule was activated using "
-                            "the confirmed facts. Try providing "
-                            "additional information."
+                            "No complete diagnosis rule matched the "
+                            "confirmed information. The system cannot "
+                            "confirm a cause yet. Add more details or "
+                            "answer available follow-up questions."
                         )
 
-            else:
-
-                st.info(
-                    "Please confirm at least one matching fact "
-                    "before continuing to the expert diagnosis."
-                )
+                else:
+                    st.info(
+                        "Please confirm at least one matching fact "
+                        "before continuing to the expert diagnosis."
+                    )
 
         st.caption(
             "Similarity scores measure semantic closeness, not "
@@ -780,9 +754,6 @@ elif page == "🩺 Troubleshooting":
             "rule-based suggestions and does not replace "
             "professional mobile repair services."
         )
-
-
-
 
 
 # ==================================================
