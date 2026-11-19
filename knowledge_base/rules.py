@@ -988,3 +988,16 @@ RULES.extend([
         "solution": "Check volume and routing, and have the speaker cleaned if needed."
     }
 ])
+
+
+# Stage 23: Expanded slow/intermittent charging diagnosis coverage
+RULES.extend([
+    {"id": 145, "conditions": ["charging_slow", "phone_charging_disconnects"], "conclusion": "unstable_slow_charging", "solution": "Check the cable and adapter connections. If charging repeatedly stops, inspect the cable and port; do not force the connector."},
+    {"id": 146, "conditions": ["phone_charging_disconnects", "charging_cable_damaged"], "conclusion": "intermittent_cable_fault", "solution": "Replace the damaged or unreliable cable with a compatible one."},
+    {"id": 147, "conditions": ["phone_charging_disconnects", "charging_port_dirty"], "conclusion": "intermittent_port_contact", "solution": "Inspect the port for visible debris. Do not insert metal objects; seek safe cleaning or inspection."},
+    {"id": 148, "conditions": ["charging_slow", "battery_drains_fast"], "conclusion": "charging_and_battery_performance_issue", "solution": "Check battery usage and charging behavior. If battery life and charging are both poor, arrange battery health inspection."},
+    {"id": 149, "conditions": ["phone_charging_disconnects", "charger_damaged"], "conclusion": "intermittent_adapter_fault", "solution": "Try a known-good compatible adapter and inspect the adapter for damage."},
+    {"id": 150, "conditions": ["charging_slow", "charging_port_dirty"], "conclusion": "slow_charging_port_contact", "solution": "Inspect the charging port for debris or damage and arrange safe cleaning if needed."},
+    {"id": 151, "conditions": ["charging_slow", "charging_cable_damaged"], "conclusion": "slow_charging_cable_fault", "solution": "Try a compatible cable known to work and replace the damaged cable."},
+    {"id": 152, "conditions": ["charging_slow", "phone_charging_disconnects", "battery_drains_fast"], "conclusion": "multiple_charging_battery_symptoms", "solution": "Because charging and battery behavior are both affected, check the cable and port first, then arrange battery and charging hardware inspection if it persists."}
+])
