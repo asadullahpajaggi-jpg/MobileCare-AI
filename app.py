@@ -329,65 +329,9 @@ elif page == "🩺 Troubleshooting":
 
             try:
 
-                # Direct NLP matches are grounded in assertion keywords.
-                # Semantic matches remain suggestions and are never treated as proof.
+                # Extract explicit symptoms automatically; no manual fact-selection UI.
                 explicit_facts = extract_facts(problem, ASSERTIONS)
-                negated_facts = set(
-                    extract_negated_facts(problem, ASSERTIONS)
-                )
-
-                candidates = []
-
-                try:
-                    from engine.semantic_matcher import search_similar_facts
-
-                    with st.spinner(
-                        "Understanding your problem and searching "
-                        "the knowledge base..."
-                    ):
-                        candidates = search_similar_facts(
-                            problem,
-                            ASSERTIONS,
-                            top_k=8,
-                            min_score=0.50
-                        )
-                except Exception as semantic_error:
-                    if not explicit_facts:
-                        raise
-                    st.warning(
-                        "Direct keyword analysis worked, but semantic "
-                        "suggestions are temporarily unavailable."
-                    )
-
-                # Never show a semantically suggested fact that the user
-                # explicitly negated in the problem description.
-                candidates = [
-                    item for item in candidates
-                    if item.get("fact") not in negated_facts
-                ]
-
-                candidate_facts = {
-                    item.get("fact") for item in candidates
-                }
-
-                # Put direct matches first and label them separately.
-                for fact in reversed(explicit_facts):
-                    if fact not in candidate_facts:
-                        assertion = FACT_LOOKUP.get(fact, {})
-                        candidates.insert(0, {
-                            "fact": fact,
-                            "description": assertion.get(
-                                "description",
-                                fact.replace("_", " ").title()
-                            ),
-                            "score": 1.0,
-                            "exact_match": True
-                        })
-                    else:
-                        for item in candidates:
-                            if item.get("fact") == fact:
-                                item["exact_match"] = True
-                                break
+                negated_facts = set(extract_negated_facts(problem, ASSERTIONS))
 
                 st.session_state["problem_text"] = problem
                 st.session_state["semantic_candidates"] = candidates
