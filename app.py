@@ -469,14 +469,20 @@ elif page == "🩺 Troubleshooting":
                 if result["trace"]:
                     st.info("Possible causes are rule-based and not guaranteed hardware diagnoses.")
                     st.subheader("Possible Causes and Solutions")
-                    for step in result["trace"]:
-                        st.markdown("### 🔎 " + step["conclusion"].replace("_", " ").title())
-                        st.write("**Evidence required:**")
-                        for condition in step["conditions"]:
-                            st.write("✓ " + get_fact_description(condition))
+                    from engine.diagnosis_engine import summarize_diagnosis
+                    evidence_report = summarize_diagnosis(result["trace"], st.session_state["confirmed_facts"])
+                    for entry in evidence_report["entries"]:
+                        st.markdown("### 🔎 " + entry["conclusion"].replace("_", " ").title())
+                        st.write("**Evidence breakdown:**")
+                        for condition in entry["confirmed_conditions"]:
+                            st.write("🟢 Directly confirmed: " + get_fact_description(condition))
+                        for condition in entry["derived_conditions"]:
+                            st.write("🔵 Inferred by another rule: " + get_fact_description(condition))
+                        for condition in entry["missing_conditions"]:
+                            st.write("🟠 Not established: " + get_fact_description(condition))
                         st.write("**Recommended Solution:**")
-                        st.info(step["solution"])
-                        st.caption("Rule ID: " + str(step["rule_id"]))
+                        st.info(entry["solution"])
+                        st.caption("Rule ID: " + str(entry["rule_id"]))
                     st.divider()
                     st.subheader("Inference Verification")
                     st.metric("Backward Chaining", f"{result['verified']}/{result['total']}")
