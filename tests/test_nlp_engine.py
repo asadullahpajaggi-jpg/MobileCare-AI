@@ -80,6 +80,22 @@ class NLPExtractionTests(unittest.TestCase):
         )
         self.assertIn("wifi_connected_no_internet", facts)
 
+    def test_wifi_connects_but_internet_does_not_work(self):
+        problem = "My phone connects to Wi-Fi but the internet does not work."
+        facts = extract_facts(problem, ASSERTIONS)
+        self.assertIn("wifi_connected_no_internet", facts)
+
+    def test_wifi_internet_failure_variants(self):
+        cases = [
+            "Wi-Fi connects but no internet",
+            "Connected to Wi-Fi but internet does not work",
+            "Wi-Fi connection without internet",
+            "My Wi-Fi is connected but internet is unavailable",
+        ]
+        for problem in cases:
+            with self.subTest(problem=problem):
+                self.assertIn("wifi_connected_no_internet", extract_facts(problem, ASSERTIONS))
+
     def test_no_signal_is_detected_as_a_symptom(self):
         facts = extract_facts("There is no network signal", ASSERTIONS)
         self.assertIn("no_network_signal", facts)
