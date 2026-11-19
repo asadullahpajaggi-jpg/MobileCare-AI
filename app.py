@@ -292,7 +292,9 @@ elif page == "🩺 Troubleshooting":
         st.session_state["problem_text"] = ""
 
         st.session_state["semantic_candidates"] = []
-        st.session_state["confirmed_facts"] = []\n        st.session_state["negated_facts"] = []\n        st.session_state["followup_answers"] = {}
+        st.session_state["confirmed_facts"] = []
+        st.session_state["negated_facts"] = []
+        st.session_state["followup_answers"] = {}
         st.session_state["followup_answers"] = {}
 
         st.session_state["problem_input"] = ""
@@ -443,7 +445,8 @@ elif page == "🩺 Troubleshooting":
                 "🩺 Run Expert Diagnosis",
                 key="run_expert_diagnosis",
                 type="primary",
-                use_container_width=True,\n                disabled=bool(question),
+                use_container_width=True,
+                disabled=bool(question),
             ):
                 all_facts = sorted(set(st.session_state["confirmed_facts"]))
                 forward_result = forward_chaining(all_facts, RULES)
