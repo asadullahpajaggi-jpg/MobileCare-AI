@@ -875,3 +875,116 @@ RULES = [
       "solution": "Disconnect power if the phone is unusually hot and let it cool in a safe place."
     }
 ]
+
+
+# Stage 14: Multi-level dependency and intermediate reasoning rules
+RULES.extend([
+    {
+        "id": 131,
+        "conditions": [
+            "charger_power_insufficient",
+            "phone_used_during_charging"
+        ],
+        "conclusion": "charging_load_exceeds_supply",
+        "solution": "Reduce phone workload while charging and use a compatible charger."
+    },
+    {
+        "id": 132,
+        "conditions": [
+            "charging_load_exceeds_supply",
+            "phone_overheating"
+        ],
+        "conclusion": "charging_heat_and_load_combined",
+        "solution": "Stop intensive use during charging and allow the phone to cool."
+    },
+    {
+        "id": 133,
+        "conditions": [
+            "memory_pressure_possible",
+            "low_storage_performance_issue"
+        ],
+        "conclusion": "multiple_performance_constraints",
+        "solution": "Free storage and reduce background workload, then restart."
+    },
+    {
+        "id": 134,
+        "conditions": [
+            "weak_wifi_connection",
+            "wifi_internet_service_problem"
+        ],
+        "conclusion": "wifi_link_and_service_issue",
+        "solution": "Test another device and move closer to the router to isolate the issue."
+    },
+    {
+        "id": 135,
+        "conditions": [
+            "application_login_problem",
+            "account_lockout"
+        ],
+        "conclusion": "login_recovery_required",
+        "solution": "Use official account recovery and avoid repeated login attempts."
+    },
+    {
+        "id": 136,
+        "conditions": [
+            "battery_capacity_degraded",
+            "battery_reading_unstable"
+        ],
+        "conclusion": "battery_health_concerns_combined",
+        "solution": "Back up data and arrange professional battery inspection."
+    },
+    {
+        "id": 137,
+        "conditions": [
+            "intermittent_charging_connection",
+            "loose_charging_port_possible"
+        ],
+        "conclusion": "charging_connection_instability",
+        "solution": "Stop forcing the connector and have the port inspected."
+    },
+    {
+        "id": 138,
+        "conditions": [
+            "notifications_permission_blocked",
+            "notification_channel_silenced"
+        ],
+        "conclusion": "notification_configuration_blocked",
+        "solution": "Review both app permission and notification channel settings."
+    },
+    {
+        "id": 139,
+        "conditions": [
+            "possible_app_conflict",
+            "app_update_regression_possible"
+        ],
+        "conclusion": "app_compatibility_issue_possible",
+        "solution": "Check app updates and test in Safe Mode where appropriate."
+    },
+    {
+        "id": 140,
+        "conditions": [
+            "possible_liquid_damage",
+            "liquid_warning_safety"
+        ],
+        "conclusion": "liquid_exposure_high_concern",
+        "solution": "Do not charge the device; seek qualified inspection."
+    },
+    {
+        "id": 141,
+        "conditions": [
+            "gaming_overloads_device",
+            "sunlight_causes_overheating"
+        ],
+        "conclusion": "multiple_heat_sources",
+        "solution": "Stop intensive use and remove the phone from direct sunlight."
+    },
+    {
+        "id": 142,
+        "conditions": [
+            "speaker_obstruction",
+            "speaker_output_low"
+        ],
+        "conclusion": "speaker_output_obstruction_possible",
+        "solution": "Check volume and routing, and have the speaker cleaned if needed."
+    }
+])
