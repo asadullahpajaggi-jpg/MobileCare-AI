@@ -79,7 +79,13 @@ class FollowUpEngineTests(unittest.TestCase):
         )
         self.assertIsNone(question)
 
-    def test_does_not_continue_rule_when_required_fact_is_denied(self):\n        question = select_next_question(\n            ["battery_drains_fast"],\n            {"phone_old": "no"},\n            RULES, ASSERTIONS\n        )\n        self.assertEqual(question["fact"], "many_apps_running")\n\n    def test_does_not_create_questions_without_confirmed_symptoms(self):
+    def test_does_not_continue_rule_when_required_fact_is_denied(self):
+        question = select_next_question(
+            ["battery_drains_fast"],
+            {"phone_old": "no"},
+            RULES, ASSERTIONS
+        )
+        self.assertEqual(question["fact"], "many_apps_running")\n\n    def test_does_not_create_questions_without_confirmed_symptoms(self):
         question = select_next_question(
             [], {}, RULES, ASSERTIONS
         )
