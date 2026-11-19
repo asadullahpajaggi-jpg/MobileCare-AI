@@ -999,6 +999,28 @@ elif page == "🛠️ Developer Dashboard":
                 else: st.warning(f"{finding['kind']}: {finding['detail']}")
         st.caption("Automated flags are screening aids, not proof of correctness. Safety findings require expert review.")
 
+    
+    # DEEP REASONING GRAPH AUDIT
+    with st.expander("🧬 Reasoning Graph Reliability Audit", expanded=False):
+        from engine.reliability_audit import audit_reliability
+        reliability_report = audit_reliability(RULES, ASSERTIONS)
+        ra1, ra2, ra3, ra4 = st.columns(4)
+        ra1.metric("Conclusions", reliability_report["conclusion_count"])
+        ra2.metric("Intermediate", len(reliability_report["intermediate_conclusions"]))
+        ra3.metric("Terminal", len(reliability_report["terminal_conclusions"]))
+        ra4.metric("Structural flags", reliability_report["errors"])
+        if not reliability_report["findings"]:
+            st.success("No structural issues detected by this graph audit.")
+        else:
+            for finding in reliability_report["findings"]:
+                if finding["severity"] == "error": st.error(f"{finding['kind']}: {finding['detail']}")
+                else: st.warning(f"{finding['kind']}: {finding['detail']}")
+        with st.expander("Intermediate conclusions list"):
+            st.write(reliability_report["intermediate_conclusions"])
+        with st.expander("Terminal conclusion list"):
+            st.write(reliability_report["terminal_conclusions"])
+        st.caption("Graph screening is structural only; it does not prove a rule or repair recommendation is medically or technically correct.")
+
     # AUTOMATIC 100 RULE TESTING
 
     with st.expander(
