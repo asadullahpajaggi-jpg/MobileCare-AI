@@ -1021,6 +1021,25 @@ elif page == "🛠️ Developer Dashboard":
             st.write(reliability_report["terminal_conclusions"])
         st.caption("Graph screening is structural only; it does not prove a rule or repair recommendation is medically or technically correct.")
 
+    
+    # DIAGNOSTIC SCENARIO REGRESSION SUITE
+    with st.expander("🧪 Diagnostic Scenario & False-Positive Testing", expanded=False):
+        st.write("Regression scenarios check complete evidence, missing evidence, contradictory inputs, and safety-relevant rules.")
+        from engine.scenario_testing import run_scenario_suite
+        if st.button("Run Diagnostic Scenarios", key="run_diagnostic_scenarios"):
+            scenario_report = run_scenario_suite(RULES)
+            s1, s2, s3 = st.columns(3)
+            s1.metric("Scenarios", scenario_report["total"])
+            s2.metric("Passed", scenario_report["passed"])
+            s3.metric("Failed", scenario_report["failed"])
+            if scenario_report["failed"] == 0: st.success("All scenario expectations passed.")
+            else: st.warning("Regression failures detected. Inspect the cases before trusting the related rules.")
+            for case in scenario_report["results"]:
+                if case["passed"]: st.success(f"{case['label']}: PASS")
+                else: st.error(f"{case['label']}: FAIL")
+                st.caption(f"Expected {case['expectation']} for {case['expected']}; conclusion matched: {case['matched']}")
+                if case["contradictions"]: st.warning("Contradictions detected and passed into the pipeline safeguards.")
+
     # AUTOMATIC 100 RULE TESTING
 
     with st.expander(
