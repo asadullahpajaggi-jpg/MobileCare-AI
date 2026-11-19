@@ -273,13 +273,7 @@ elif page == "🩺 Troubleshooting":
 
     st.title("🩺 Mobile Troubleshooting")
 
-    st.write(
-        "Describe your Android mobile problem in your own words. "
-        "The AI system will find relevant facts and verify them "
-        "before running the expert diagnosis."
-    )
 
-    st.divider()
 
     # --------------------------------------------------
     # NEW DIAGNOSIS / RESET
@@ -364,18 +358,12 @@ elif page == "🩺 Troubleshooting":
 
     if st.session_state["diagnosis_ready"]:
 
-        st.divider()
-        st.header("🧠 Intelligent Problem Analysis")
-        st.write("**Your Problem:**")
-        st.info(st.session_state["problem_text"])
+
 
         confirmed_facts = st.session_state.get("confirmed_facts", [])
         negated = st.session_state.get("negated_facts", [])
 
-        if negated:
-            st.caption("Ignored negated statements: " + ", ".join(
-                get_fact_description(fact) for fact in negated
-            ))
+
 
         if not confirmed_facts:
             st.warning(
@@ -384,15 +372,7 @@ elif page == "🩺 Troubleshooting":
                 "and what you notice). The system will not guess a diagnosis."
             )
         else:
-            st.success("The system understood these symptoms automatically:")
-            for fact in confirmed_facts:
-                st.write("• " + get_fact_description(fact))
-
             from engine.followup_engine import select_next_question
-
-            st.divider()
-            st.header("📋 Expert System Follow-up")
-            st.write("The system chooses questions to help separate competing explanations. Yes supports a condition; No and Not sure prevent rules that require that condition from being pursued.")
 
             followup_answers = st.session_state.setdefault("followup_answers", {})
             followup_limit = 5
@@ -407,10 +387,7 @@ elif page == "🩺 Troubleshooting":
                 )
 
             if question:
-                st.subheader("One quick question")
-                st.write("**Does this apply to your phone?**")
-                st.info(question["description"])
-                st.caption("This question helps distinguish between possible causes.")
+                st.subheader(question["description"])
                 answer = st.radio(
                     "Your answer:",
                     ["Yes", "No", "Not sure"],
@@ -436,14 +413,8 @@ elif page == "🩺 Troubleshooting":
             else:
                 st.info("No more relevant questions are available from the current rules.")
 
-            if followup_answers:
-                with st.expander("Review follow-up answers"):
-                    for fact, answer in followup_answers.items():
-                        st.write(f"**{get_fact_description(fact)}** — {answer.replace('_', ' ').title()}")
-
-            st.divider()
             if st.button(
-                "🩺 Run Expert Diagnosis",
+                "🩺 Show Diagnosis",
                 key="run_expert_diagnosis",
                 type="primary",
                 use_container_width=True,
@@ -456,29 +427,23 @@ elif page == "🩺 Troubleshooting":
 
             result = st.session_state.get("diagnosis_result")
             if result is not None:
-                st.divider()
-                st.header("🩺 Your Troubleshooting Report")
                 from engine.natural_language_report import build_user_report
                 descriptions = {item["fact"]: item.get("description", item["fact"].replace("_", " ").title()) for item in ASSERTIONS}
                 user_report = build_user_report(result, descriptions)
+                st.subheader("🩺 Diagnosis")
                 st.write(user_report["opening"])
                 if user_report["conflicts"]:
-                    st.warning("I found details that don't agree:")
+                    st.warning("Please clarify:")
                     for conflict in user_report["conflicts"]:
                         st.write("• " + conflict)
                 for index, cause in enumerate(user_report["causes"], 1):
-                    st.subheader(f"{index}. {cause['title']}")
-                    st.caption(cause["strength"])
-                    st.write(cause["explanation"])
+                    st.markdown("**" + str(index) + ". " + cause["title"] + "**")
                     if cause["confirmed"]:
-                        st.write("**Symptoms that match:** " + "; ".join(cause["confirmed"]))
-                    if cause["inferred"]:
-                        st.write("**Additional indications:** " + "; ".join(cause["inferred"]))
+                        st.caption("Matches: " + "; ".join(cause["confirmed"]))
                     if cause["missing"]:
-                        st.write("**Still needs checking:** " + "; ".join(cause["missing"]))
-                    st.markdown("**What you can try:**")
-                    st.info(cause["solution"])
-                st.write(user_report["closing"])
+                        st.caption("Needs checking: " + "; ".join(cause["missing"]))
+                    st.markdown("**Try:** " + cause["solution"])
+                st.caption(user_report["closing"])
                 with st.expander("Technical details (project demonstration)"):
                     st.write("Inference method: Forward Chaining and Backward Chaining.")
                     st.write(f"Backward verification: {result.get('verified', 0)} of {result.get('total', 0)} candidate(s).")
@@ -488,12 +453,8 @@ elif page == "🩺 Troubleshooting":
                             st.write(f"Rule {step.get('rule_id')}: {step.get('conclusion', '').replace('_', ' ').title()}")
                             st.caption("Conditions: " + ", ".join(descriptions.get(f, f.replace("_", " ").title()) for f in step.get("conditions", [])))
 
-        st.caption(
-            "Similarity scores measure semantic closeness, not "
-            "diagnosis confidence. MobileCare AI provides "
-            "rule-based suggestions and does not replace "
-            "professional mobile repair services."
-        )
+        if st.session_state.get("diagnosis_result") is not None:
+            st.caption("Suggestions are not a confirmed repair diagnosis.")
 
 
 # ==================================================
