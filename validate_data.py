@@ -85,9 +85,18 @@ def audit_knowledge_base(rules, assertions):
         else f"Duplicates: {duplicate_fact_names}"
     ))
 
+    # A rule condition may refer either to a directly stored assertion
+    # or to an intermediate conclusion produced by another rule.
     known_facts = {
         name for name in fact_names if isinstance(name, str) and name
     }
+    known_facts.update(
+        rule.get("conclusion")
+        for rule in rules
+        if isinstance(rule, dict)
+        and isinstance(rule.get("conclusion"), str)
+        and rule.get("conclusion").strip()
+    )
     condition_sets = {}
 
     for index, rule in enumerate(rules):
