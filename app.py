@@ -422,7 +422,10 @@ elif page == "🩺 Troubleshooting":
             ):
                 from engine.diagnosis_pipeline import run_diagnosis
                 all_facts = sorted(set(st.session_state["confirmed_facts"]))
-                pipeline_report = run_diagnosis(all_facts, RULES)
+                answers = st.session_state.get("followup_answers", {})
+                blocked = {fact for fact, answer in answers.items() if answer in ("no", "not_sure")}
+                blocked.update(st.session_state.get("negated_facts", []))
+                pipeline_report = run_diagnosis(all_facts, RULES, blocked_facts=blocked)
                 st.session_state["diagnosis_result"] = pipeline_report
 
             result = st.session_state.get("diagnosis_result")
@@ -443,6 +446,13 @@ elif page == "🩺 Troubleshooting":
                     if cause["missing"]:
                         st.caption("Needs checking: " + "; ".join(cause["missing"]))
                     st.markdown("**Try:** " + cause["solution"])
+                if not user_report["causes"] and result.get("partial_candidates"):
+                    st.write("Possible areas to check (not confirmed diagnoses):")
+                    for candidate in result["partial_candidates"]:
+                        st.markdown("**" + str(candidate["conclusion"]).replace("_", " ").title() + "**")
+                        st.caption("Matches: " + "; ".join(candidate["matched"]))
+                        st.caption("Still needed: " + "; ".join(candidate["missing"]))
+                        st.markdown("**Try:** " + candidate["solution"])
                 st.caption(user_report["closing"])
                 with st.expander("Technical details (project demonstration)"):
                     st.write("Inference method: Forward Chaining and Backward Chaining.")
