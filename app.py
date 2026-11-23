@@ -36,6 +36,31 @@ st.markdown("""
     color: #E8F1FA;
 }
 
+/* Sidebar contrast fix for light-mode browsers */
+[data-testid="stSidebar"] {
+    background-color: #102034 !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdown"],
+[data-testid="stSidebar"] [data-testid="stMarkdown"] p,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] [data-testid="stWidgetLabel"],
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"],
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] p,
+[data-testid="stSidebar"] [data-testid="stRadio"] label,
+[data-testid="stSidebar"] [data-testid="stRadio"] p,
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] div {
+    color: #E8F1FA !important;
+}
+
+[data-testid="stSidebar"] hr {
+    border-color: #31516E !important;
+}
+
 .block-container {
     max-width: 1100px;
     padding-top: 2rem;
