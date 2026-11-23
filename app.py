@@ -970,7 +970,7 @@ elif page == "🛠️ Developer Dashboard":
     # AUTOMATIC 100 RULE TESTING
 
     with st.expander(
-        "🔬 Automatic 100 Rules Testing"
+        "🔬 Automatic Rule Testing"
     ):
 
         st.write(
