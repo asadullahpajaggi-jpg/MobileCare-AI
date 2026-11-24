@@ -27,9 +27,9 @@ CASES = [
     ("Incoming calls not received, but call forwarding enabled.", ["incoming_calls_not_received", "call_forwarding_enabled"], "call_forwarding_setting_issue"),
     ("Phone not charging, but charging keeps stopping.", ["phone_not_charging", "phone_charging_disconnects"], "intermittent_charging_connection"),
     ("Phone heating, but charger getting hot.", ["phone_overheating", "charger_overheating"], "charging_adapter_heat_safety"),
-    ("Backup not completed and cloud backup disabled.", ["phone_backup_not_completed", "cloud_backup_disabled"], "cloud_backup_disabled_issue"),
-    ("Backup not completed and backup storage full.", ["phone_backup_not_completed", "backup_storage_insufficient"], "backup_storage_issue"),
-    ("Proximity sensor not working and proximity sensor blocked.", ["proximity_sensor_not_working", "proximity_sensor_blocked"], "proximity_sensor_obstruction"),
+    ("Backup not completed, but cloud backup disabled.", ["phone_backup_not_completed", "cloud_backup_disabled"], "cloud_backup_disabled_issue"),
+    ("Backup not completed, but backup space insufficient.", ["phone_backup_not_completed", "backup_storage_insufficient"], "backup_storage_issue"),
+    ("Proximity sensor not working, but proximity sensor blocked.", ["proximity_sensor_not_working", "proximity_sensor_blocked"], "proximity_sensor_obstruction"),
 ]
 
 
