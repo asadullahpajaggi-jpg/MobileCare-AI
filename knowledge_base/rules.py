@@ -1001,3 +1001,135 @@ RULES.extend([
     {"id": 151, "conditions": ["charging_slow", "charging_cable_damaged"], "conclusion": "slow_charging_cable_fault", "solution": "Try a compatible cable known to work and replace the damaged cable."},
     {"id": 152, "conditions": ["charging_slow", "phone_charging_disconnects", "battery_drains_fast"], "conclusion": "multiple_charging_battery_symptoms", "solution": "Because charging and battery behavior are both affected, check the cable and port first, then arrange battery and charging hardware inspection if it persists."}
 ])
+
+
+# Stage 30: Conservative coverage expansion for previously unused facts.
+# Each rule requires a primary symptom plus a specific supporting fact.
+RULES.extend([
+    {
+        "id": 153,
+        "conditions": ["battery_drains_fast", "phone_battery_not_holding_charge"],
+        "conclusion": "battery_health_issue_possible",
+        "solution": "Review battery usage and charging behavior. If the battery still loses charge unusually quickly, arrange a professional battery health check."
+    },
+    {
+        "id": 154,
+        "conditions": ["phone_not_turning_on", "phone_power_button_unresponsive"],
+        "conclusion": "power_button_fault",
+        "solution": "Check for a case obstructing the button. Do not force it; arrange technician inspection if it remains unresponsive."
+    },
+    {
+        "id": 155,
+        "conditions": ["phone_slow", "phone_internal_storage_low"],
+        "conclusion": "low_storage_performance_issue",
+        "solution": "Review storage usage and back up important files before removing anything."
+    },
+    {
+        "id": 156,
+        "conditions": ["phone_slow", "phone_ram_usage_high"],
+        "conclusion": "memory_overload",
+        "solution": "Close unused apps and restart the phone. Check whether performance improves."
+    },
+    {
+        "id": 157,
+        "conditions": ["apps_crashing", "app_freezing"],
+        "conclusion": "app_stability_issue_possible",
+        "solution": "Update the affected app, restart it, and check whether the problem continues. Back up important app data before reinstalling."
+    },
+    {
+        "id": 158,
+        "conditions": ["camera_not_working", "camera_permission_disabled"],
+        "conclusion": "camera_permission_problem",
+        "solution": "Review camera permission for the affected app and allow access only if you trust the app."
+    },
+    {
+        "id": 159,
+        "conditions": ["phone_camera_blurry", "camera_focus_not_working"],
+        "conclusion": "camera_focus_issue",
+        "solution": "Clean the camera lens gently with a microfiber cloth and test focus in good lighting. Seek service if focus still fails."
+    },
+    {
+        "id": 160,
+        "conditions": ["mobile_data_not_working", "mobile_data_apn_incorrect"],
+        "conclusion": "mobile_data_apn_issue",
+        "solution": "Ask your mobile network provider for the correct APN settings before changing or resetting them."
+    },
+    {
+        "id": 161,
+        "conditions": ["wifi_not_working", "wifi_password_incorrect"],
+        "conclusion": "wifi_authentication_problem",
+        "solution": "Confirm the current Wi-Fi password with the network owner, then reconnect."
+    },
+    {
+        "id": 162,
+        "conditions": ["wifi_not_working", "wifi_saved_network_issue"],
+        "conclusion": "saved_wifi_configuration_problem",
+        "solution": "Forget only the affected Wi-Fi network and reconnect using its current password."
+    },
+    {
+        "id": 163,
+        "conditions": ["bluetooth_not_working", "bluetooth_pairing_code_mismatch"],
+        "conclusion": "bluetooth_pairing_problem",
+        "solution": "Confirm the pairing code shown on both devices and retry pairing."
+    },
+    {
+        "id": 164,
+        "conditions": ["bluetooth_not_working", "bluetooth_visibility_disabled"],
+        "conclusion": "bluetooth_visibility_problem",
+        "solution": "Make the phone discoverable during pairing, then turn visibility off again if your device provides that option."
+    },
+    {
+        "id": 165,
+        "conditions": ["gps_not_working", "gps_accuracy_low"],
+        "conclusion": "gps_accuracy_problem",
+        "solution": "Move to an open area, enable the appropriate location accuracy setting, and test again."
+    },
+    {
+        "id": 166,
+        "conditions": ["usb_connection_not_working", "usb_port_dirty"],
+        "conclusion": "usb_port_contact_problem",
+        "solution": "Disconnect the cable. Do not insert metal objects or liquid into the port; arrange safe cleaning if debris is present."
+    },
+    {
+        "id": 167,
+        "conditions": ["touchscreen_not_working", "ghost_touch_detected"],
+        "conclusion": "ghost_touch_issue",
+        "solution": "Keep the screen dry, remove any damaged screen protector, and restart the phone. Seek service if touches continue without contact."
+    },
+    {
+        "id": 168,
+        "conditions": ["incoming_calls_not_received", "call_forwarding_enabled"],
+        "conclusion": "call_forwarding_setting_issue",
+        "solution": "Review call-forwarding settings with your carrier or phone settings and disable forwarding only if you did not intend to use it."
+    },
+    {
+        "id": 169,
+        "conditions": ["phone_not_charging", "phone_charging_disconnects"],
+        "conclusion": "intermittent_charging_connection",
+        "solution": "Test with a compatible known-good cable and adapter. Do not force or wiggle a damaged connector; arrange port inspection if disconnections continue."
+    },
+    {
+        "id": 170,
+        "conditions": ["phone_overheating", "charger_overheating"],
+        "conclusion": "charging_adapter_heat_safety",
+        "solution": "Stop charging if the adapter or phone becomes unusually hot. Unplug safely, let equipment cool, and stop using damaged accessories."
+    },
+    {
+        "id": 171,
+        "conditions": ["phone_backup_not_completed", "cloud_backup_disabled"],
+        "conclusion": "cloud_backup_disabled_issue",
+        "solution": "Review the cloud backup setting and account selection, then start a backup when connected to a trusted network."
+    },
+    {
+        "id": 172,
+        "conditions": ["phone_backup_not_completed", "backup_storage_insufficient"],
+        "conclusion": "backup_storage_issue",
+        "solution": "Check the cloud account's storage usage and available space before retrying the backup."
+    },
+    {
+        "id": 173,
+        "conditions": ["proximity_sensor_not_working", "proximity_sensor_blocked"],
+        "conclusion": "proximity_sensor_obstruction",
+        "solution": "Clean the area around the proximity sensor and remove any case or protector covering it. Seek service if it still does not respond."
+    }
+])
