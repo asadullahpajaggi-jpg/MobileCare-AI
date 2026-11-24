@@ -214,6 +214,14 @@ if "diagnosis_result" not in st.session_state:
 
 
 # ==================================================
+# NAVIGATION CALLBACK
+# ==================================================
+
+def go_to_troubleshooting():
+    st.session_state["navigation"] = "🩺 Troubleshooting"
+
+
+# ==================================================
 # SIDEBAR NAVIGATION
 # ==================================================
 
@@ -300,9 +308,12 @@ if page == "🏠 Home":
 
     st.divider()
 
-    st.info(
-        "Select Troubleshooting from the sidebar to diagnose "
-        "your Android mobile problem."
+    st.button(
+        "🚀 Enter MobileCare AI",
+        key="enter_troubleshooting",
+        type="primary",
+        use_container_width=True,
+        on_click=go_to_troubleshooting,
     )
 
 
