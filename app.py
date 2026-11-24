@@ -395,40 +395,59 @@ elif page == "🩺 Troubleshooting":
 
             try:
 
-                # First use precise phrase matching, then semantic retrieval
-                # to find possible meanings expressed with different wording.
+                # Understand clear descriptions automatically. Ask for confirmation
+                # only when the input is too short or semantic confidence is weak.
                 explicit_facts = extract_facts(problem, ASSERTIONS)
                 negated_facts = set(extract_negated_facts(problem, ASSERTIONS))
                 semantic_candidates = []
+                confirmed_facts = list(explicit_facts)
                 semantic_error = False
+                semantic_review_pending = False
 
-                try:
-                    from engine.semantic_matcher import search_similar_facts
+                # Exact phrase matches are already clear enough to proceed.
+                # Semantic retrieval is used as a fallback for different wording.
+                if not explicit_facts:
+                    try:
+                        from engine.semantic_matcher import search_similar_facts
 
-                    semantic_results = search_similar_facts(
-                        problem,
-                        ASSERTIONS,
-                        top_k=8,
-                        min_score=0.42,
-                    )
-                    semantic_candidates = [
-                        item["fact"]
-                        for item in semantic_results
-                        if item.get("fact")
-                        and item["fact"] not in explicit_facts
-                        and item["fact"] not in negated_facts
-                    ]
-                except Exception:
-                    # Keep exact NLP available if the embedding model cannot load.
-                    semantic_error = True
+                        semantic_results = search_similar_facts(
+                            problem,
+                            ASSERTIONS,
+                            top_k=8,
+                            min_score=0.42,
+                        )
+                        semantic_results = [
+                            item for item in semantic_results
+                            if item.get("fact")
+                            and item["fact"] not in negated_facts
+                        ]
+
+                        word_count = len(problem.strip().split())
+                        if (
+                            semantic_results
+                            and word_count >= 4
+                            and semantic_results[0].get("score", 0) >= 0.50
+                        ):
+                            # A reasonably complete sentence with a strong match
+                            # proceeds directly to the normal follow-up flow.
+                            confirmed_facts = [semantic_results[0]["fact"]]
+                        else:
+                            # Short, incomplete, or uncertain wording needs clarification.
+                            semantic_candidates = [
+                                item["fact"] for item in semantic_results
+                            ]
+                            semantic_review_pending = bool(semantic_candidates)
+                    except Exception:
+                        # Keep exact NLP available if the embedding model cannot load.
+                        semantic_error = True
 
                 st.session_state["problem_text"] = problem
                 st.session_state["semantic_candidates"] = semantic_candidates
-                st.session_state["semantic_review_pending"] = bool(semantic_candidates)
+                st.session_state["semantic_review_pending"] = semantic_review_pending
                 st.session_state["semantic_error"] = semantic_error
                 st.session_state["negated_facts"] = sorted(negated_facts)
 
-                st.session_state["confirmed_facts"] = list(explicit_facts)
+                st.session_state["confirmed_facts"] = confirmed_facts
                 st.session_state["followup_answers"] = {}
                 st.session_state["diagnosis_result"] = None
 
