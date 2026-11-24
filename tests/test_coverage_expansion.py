@@ -9,7 +9,7 @@ from knowledge_base.rules import RULES
 
 
 CASES = [
-    ("My battery drains quickly and the battery not holding charge.", ["battery_drains_fast", "phone_battery_not_holding_charge"], "battery_health_issue_possible"),
+    ("Battery drains quickly and short battery backup.", ["battery_drains_fast", "phone_battery_not_holding_charge"], "battery_health_issue_possible"),
     ("Phone not turning on; power key unresponsive.", ["phone_not_turning_on", "phone_power_button_unresponsive"], "power_button_fault"),
     ("Phone slow and low internal storage.", ["phone_slow", "phone_internal_storage_low"], "low_storage_performance_issue"),
     ("Phone slow and high RAM usage.", ["phone_slow", "phone_ram_usage_high"], "memory_overload"),
@@ -19,14 +19,14 @@ CASES = [
     ("Mobile data not working and wrong APN.", ["mobile_data_not_working", "mobile_data_apn_incorrect"], "mobile_data_apn_issue"),
     ("Wi-Fi not working and incorrect Wi-Fi password.", ["wifi_not_working", "wifi_password_incorrect"], "wifi_authentication_problem"),
     ("Wi-Fi not working and saved Wi-Fi problem.", ["wifi_not_working", "wifi_saved_network_issue"], "saved_wifi_configuration_problem"),
-    ("Bluetooth not working and pairing code incorrect.", ["bluetooth_not_working", "bluetooth_pairing_code_mismatch"], "bluetooth_pairing_problem"),
+    ("Bluetooth connection problem; pairing code incorrect.", ["bluetooth_not_working", "bluetooth_pairing_code_mismatch"], "bluetooth_pairing_problem"),
     ("Bluetooth not working and Bluetooth not discoverable.", ["bluetooth_not_working", "bluetooth_visibility_disabled"], "bluetooth_visibility_problem"),
     ("GPS not working and GPS inaccurate.", ["gps_not_working", "gps_accuracy_low"], "gps_accuracy_problem"),
     ("USB not working and USB port dirty.", ["usb_connection_not_working", "usb_port_dirty"], "usb_port_contact_problem"),
     ("Touchscreen not working and ghost touch.", ["touchscreen_not_working", "ghost_touch_detected"], "ghost_touch_issue"),
     ("Incoming calls not received and incoming calls going elsewhere.", ["incoming_calls_not_received", "call_forwarding_enabled"], "call_forwarding_setting_issue"),
     ("My phone is not charging and charging keeps stopping.", ["phone_not_charging", "phone_charging_disconnects"], "intermittent_charging_connection"),
-    ("Phone gets hot and charger getting hot.", ["phone_overheating", "charger_overheating"], "charging_adapter_heat_safety"),
+    ("Phone heating and charger getting hot.", ["phone_overheating", "charger_overheating"], "charging_adapter_heat_safety"),
     ("Backup not completed and cloud backup disabled.", ["phone_backup_not_completed", "cloud_backup_disabled"], "cloud_backup_disabled_issue"),
     ("Backup not completed and backup storage full.", ["phone_backup_not_completed", "backup_storage_insufficient"], "backup_storage_issue"),
     ("Proximity sensor not working and proximity sensor blocked.", ["proximity_sensor_not_working", "proximity_sensor_blocked"], "proximity_sensor_obstruction"),
