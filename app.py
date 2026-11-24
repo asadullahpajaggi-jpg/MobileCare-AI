@@ -31,14 +31,44 @@ st.set_page_config(
 
 st.markdown("""
 <style>
-.stApp {
-    background-color: #081321;
-    color: #E8F1FA;
+/* Theme colors: preserve the existing design while adapting to Streamlit mode. */
+:root {
+    --app-bg: #081321;
+    --app-text: #E8F1FA;
+    --heading-text: #F1F7FF;
+    --muted-text: #C5D3E3;
+    --sidebar-bg: #102034;
+    --sidebar-text: #E8F1FA;
+    --surface-bg: #10263B;
+    --field-bg: #102034;
+    --field-text: #FFFFFF;
+    --border-color: #31516E;
+    --soft-border: #23435E;
+    --divider-color: #243B53;
 }
 
-/* Sidebar contrast fix for light-mode browsers */
+html[data-theme="light"] {
+    --app-bg: #F7F9FC;
+    --app-text: #243447;
+    --heading-text: #102A43;
+    --muted-text: #526579;
+    --sidebar-bg: #EAF0F6;
+    --sidebar-text: #243447;
+    --surface-bg: #FFFFFF;
+    --field-bg: #FFFFFF;
+    --field-text: #243447;
+    --border-color: #C5D1DE;
+    --soft-border: #D5DEE8;
+    --divider-color: #D5DEE8;
+}
+
+.stApp {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+}
+
 [data-testid="stSidebar"] {
-    background-color: #102034 !important;
+    background-color: var(--sidebar-bg) !important;
 }
 
 [data-testid="stSidebar"] [data-testid="stMarkdown"],
@@ -54,11 +84,11 @@ st.markdown("""
 [data-testid="stSidebar"] h3,
 [data-testid="stSidebar"] span,
 [data-testid="stSidebar"] div {
-    color: #E8F1FA !important;
+    color: var(--sidebar-text) !important;
 }
 
 [data-testid="stSidebar"] hr {
-    border-color: #31516E !important;
+    border-color: var(--border-color) !important;
 }
 
 .block-container {
@@ -68,11 +98,11 @@ st.markdown("""
 }
 
 h1, h2, h3 {
-    color: #F1F7FF !important;
+    color: var(--heading-text) !important;
 }
 
 p, label {
-    color: #C5D3E3;
+    color: var(--muted-text);
 }
 
 .stButton > button,
@@ -92,15 +122,16 @@ p, label {
 }
 
 .stTextArea textarea {
-    background: #102034;
-    color: white;
-    border: 1px solid #31516E;
+    background: var(--field-bg);
+    color: var(--field-text);
+    border: 1px solid var(--border-color);
     border-radius: 10px;
 }
 
 div[data-testid="stMetric"] {
-    background: #10263B;
-    border: 1px solid #23435E;
+    background: var(--surface-bg);
+    color: var(--app-text);
+    border: 1px solid var(--soft-border);
     padding: 14px;
     border-radius: 12px;
 }
@@ -110,7 +141,7 @@ div[data-testid="stAlert"] {
 }
 
 hr {
-    border-color: #243B53;
+    border-color: var(--divider-color);
 }
 
 @media (max-width: 640px) {
