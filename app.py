@@ -336,6 +336,8 @@ elif page == "🩺 Troubleshooting":
     st.session_state.setdefault("diagnosis_result", None)
     st.session_state.setdefault("problem_text", "")
     st.session_state.setdefault("semantic_candidates", [])
+    st.session_state.setdefault("semantic_review_pending", False)
+    st.session_state.setdefault("semantic_error", False)
     st.session_state.setdefault("confirmed_facts", [])
 
     st.title("🩺 Mobile Troubleshooting")
@@ -353,6 +355,8 @@ elif page == "🩺 Troubleshooting":
         st.session_state["problem_text"] = ""
 
         st.session_state["semantic_candidates"] = []
+        st.session_state["semantic_review_pending"] = False
+        st.session_state["semantic_error"] = False
         st.session_state["confirmed_facts"] = []
         st.session_state["negated_facts"] = []
         st.session_state["followup_answers"] = {}
@@ -391,12 +395,37 @@ elif page == "🩺 Troubleshooting":
 
             try:
 
-                # Extract explicit symptoms automatically; no manual fact-selection UI.
+                # First use precise phrase matching, then semantic retrieval
+                # to find possible meanings expressed with different wording.
                 explicit_facts = extract_facts(problem, ASSERTIONS)
                 negated_facts = set(extract_negated_facts(problem, ASSERTIONS))
+                semantic_candidates = []
+                semantic_error = False
+
+                try:
+                    from engine.semantic_matcher import search_similar_facts
+
+                    semantic_results = search_similar_facts(
+                        problem,
+                        ASSERTIONS,
+                        top_k=8,
+                        min_score=0.42,
+                    )
+                    semantic_candidates = [
+                        item["fact"]
+                        for item in semantic_results
+                        if item.get("fact")
+                        and item["fact"] not in explicit_facts
+                        and item["fact"] not in negated_facts
+                    ]
+                except Exception:
+                    # Keep exact NLP available if the embedding model cannot load.
+                    semantic_error = True
 
                 st.session_state["problem_text"] = problem
-                st.session_state["semantic_candidates"] = []
+                st.session_state["semantic_candidates"] = semantic_candidates
+                st.session_state["semantic_review_pending"] = bool(semantic_candidates)
+                st.session_state["semantic_error"] = semantic_error
                 st.session_state["negated_facts"] = sorted(negated_facts)
 
                 st.session_state["confirmed_facts"] = list(explicit_facts)
@@ -425,7 +454,55 @@ elif page == "🩺 Troubleshooting":
 
     if st.session_state["diagnosis_ready"]:
 
+        # Semantic matches are suggestions only. The user confirms their meaning
+        # before any suggested fact can enter the inference engine.
+        if st.session_state.get("semantic_error"):
+            st.warning(
+                "Semantic language matching is currently unavailable. "
+                "The system will still use direct phrase matching."
+            )
 
+        if st.session_state.get("semantic_review_pending"):
+            fact_descriptions = {
+                item["fact"]: item.get("description", item["fact"].replace("_", " ").title())
+                for item in ASSERTIONS
+                if isinstance(item, dict) and item.get("fact")
+            }
+            st.subheader("Did we understand your description?")
+            st.write(
+                "I found these possible meanings in your words. "
+                "Select only the ones that correctly describe your problem."
+            )
+            selected_semantic_facts = st.multiselect(
+                "Possible meanings",
+                options=st.session_state.get("semantic_candidates", []),
+                format_func=lambda fact: fact_descriptions.get(
+                    fact, fact.replace("_", " ").title()
+                ),
+                key="semantic_candidate_selection",
+            )
+            confirm_col, skip_col = st.columns(2)
+            with confirm_col:
+                if st.button(
+                    "Confirm selected meanings",
+                    key="confirm_semantic_facts",
+                    type="primary",
+                    use_container_width=True,
+                ):
+                    current = set(st.session_state.get("confirmed_facts", []))
+                    current.update(selected_semantic_facts)
+                    st.session_state["confirmed_facts"] = sorted(current)
+                    st.session_state["semantic_review_pending"] = False
+                    st.rerun()
+            with skip_col:
+                if st.button(
+                    "None of these",
+                    key="skip_semantic_facts",
+                    use_container_width=True,
+                ):
+                    st.session_state["semantic_review_pending"] = False
+                    st.rerun()
+            st.stop()
 
         confirmed_facts = st.session_state.get("confirmed_facts", [])
         negated = st.session_state.get("negated_facts", [])
