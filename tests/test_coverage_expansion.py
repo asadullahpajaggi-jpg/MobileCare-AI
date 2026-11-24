@@ -15,7 +15,7 @@ CASES = [
     ("Phone slow and high RAM usage.", ["phone_slow", "phone_ram_usage_high"], "memory_overload"),
     ("Apps crashing and app freezing.", ["apps_crashing", "app_freezing"], "app_stability_issue_possible"),
     ("Camera not working, but camera access disabled.", ["camera_not_working", "camera_permission_disabled"], "camera_permission_problem"),
-    ("Blurry camera and autofocus not working.", ["phone_camera_blurry", "camera_focus_not_working"], "camera_focus_issue"),
+    ("Autofocus not working, but blurry camera.", ["phone_camera_blurry", "camera_focus_not_working"], "camera_focus_issue"),
     ("Mobile data not working, but wrong APN.", ["mobile_data_not_working", "mobile_data_apn_incorrect"], "mobile_data_apn_issue"),
     ("Wi-Fi not working, but incorrect Wi-Fi password.", ["wifi_not_working", "wifi_password_incorrect"], "wifi_authentication_problem"),
     ("Wi-Fi not working, but saved Wi-Fi problem.", ["wifi_not_working", "wifi_saved_network_issue"], "saved_wifi_configuration_problem"),
